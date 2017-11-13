@@ -45,60 +45,66 @@ public class Sprite extends ZRect {
 
 	private void collisionX(TileLayer lyr, int tileSize) {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
-		ArrayList<ZRect> range = getRangeX(tileSize);
+		ArrayList<ZRect> range = getRangeX(ts, tileSize);
 
-		range.forEach(t -> {
-			if(ts.get(Math.floorDiv((int) t.x, tileSize)).get(Math.floorDiv((int) t.y, tileSize)) != null) {
-				if (x <= t.x + t.w && x <= t.x) {
-					x = t.x + t.w;
-				} else if (x + w >= t.x && x + w <= t.x + t.w) {
-					x = t.x - w;
-				}
-			}
+		range.forEach(tile -> {
+			//TODO
 		});
 	}
 
-	private ArrayList<ZRect> getRangeX(int tileSize) {
+	private void collisionY(TileLayer lyr, int tileSize) {
+		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
+		ArrayList<ZRect> range = getRangeY(ts, tileSize);
+
+		range.forEach(tile -> {
+			//TODO
+		});
+	}
+
+	private ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
+		int sx = ts.size();
+		int sy = ts.get(0).size();
+
 		int x1 = Math.floorDiv((int) this.x, tileSize);
+		x1 = range(x1, sx);
 		int x2 = Math.floorDiv((int) (this.x + this.w), tileSize);
+		x2 = range(x2, sx);
+
 		int y1 = Math.floorDiv((int) this.y, tileSize);
+		y1 = range(y1, sy);
 		int y2 = Math.floorDiv((int) (this.y + this.h), tileSize);
+		y2 = range(y2, sy);
 
 		ArrayList<ZRect> range = new ArrayList<>();
-		for (int i = y1; i <= y2; i++) {
-			for(int j = x1; j <= x2; j++) {
-				range.add(new ZRect(j * tileSize, i * tileSize, (j + 1) * tileSize, (i + 1) * tileSize));
+		for (int y = y1; y <= y2; y++) {
+			range.add(new ZRect(x1, y, x1 + tileSize, y + tileSize));
+			if(x1 != x2) {
+				range.add(new ZRect(x2, y, x2 + tileSize, y + tileSize));
 			}
 		}
 
 		return range;
 	}
 
-	private void collisionY(TileLayer lyr, int tileSize) {
-		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
-		ArrayList<ZRect> range = getRangeY(tileSize);
+	private ArrayList<ZRect> getRangeY(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
+		int sx = ts.size();
+		int sy = ts.get(0).size();
 
-		range.forEach(t -> {
-			if(ts.get(Math.floorDiv((int) t.x, tileSize)).get(Math.floorDiv((int) t.y, tileSize)) != null) {
-				if (y <= t.y + t.h && y <= t.y) {
-					y = t.y + t.h;
-				} else if (y + h >= t.y && y + h <= t.y + t.h) {
-					y = t.y - h;
-				}
-			}
-		});
-	}
-
-	private ArrayList<ZRect> getRangeY(int tileSize) {
 		int x1 = Math.floorDiv((int) this.x, tileSize);
+		x1 = range(x1, sx);
 		int x2 = Math.floorDiv((int) (this.x + this.w), tileSize);
+		x2 = range(x2, sx);
+
 		int y1 = Math.floorDiv((int) this.y, tileSize);
+		y1 = range(y1, sy);
 		int y2 = Math.floorDiv((int) (this.y + this.h), tileSize);
+		y2 = range(y2, sy);
 
 		ArrayList<ZRect> range = new ArrayList<>();
-		for (int i = x1; i <= x2; i++) {
-			for(int j = y1; j <= y2; j++) {
-				range.add(new ZRect(i * tileSize, j * tileSize, (i + 1) * tileSize, (j + 1) * tileSize));
+		for (int x = x1; x <= x2; x++) {
+			range.add(new ZRect(x, y1, x + tileSize, y1 + tileSize));
+			if(y1 != y2) {
+				range.add(new ZRect(x, y2, x + tileSize, y2 + tileSize));
 			}
 		}
 
@@ -117,5 +123,9 @@ public class Sprite extends ZRect {
 
 	public void draw(Graphics2D g2d) {
 		animations.get(animation).draw(g2d, this);
+	}
+
+	private int range(int num, int max) {
+		return Math.max(Math.min(num, max), 0);
 	}
 }
