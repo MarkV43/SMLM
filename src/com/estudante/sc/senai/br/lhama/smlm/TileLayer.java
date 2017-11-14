@@ -52,8 +52,6 @@ public class TileLayer extends Layer {
 	}
 
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Color.BLUE);
-		g2d.fillRect(0,0, 1920, 1080);
 		if (visible) {
 			g2d.setComposite(ac);
 

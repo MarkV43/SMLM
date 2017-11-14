@@ -73,8 +73,8 @@ public class Level {
 
 	}
 
-	public void update() {
-		character.update((TileLayer) layers.get("Camada de Tiles 1"), tileSize);
+	public void update(Graphics2D g2d) {
+		character.update((TileLayer) layers.get("Camada de Tiles 1"), tileSize, g2d);
 	}
 
 	public void draw(Graphics2D g2d) {

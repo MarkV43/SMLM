@@ -21,7 +21,7 @@ public class DynamicScreen implements Screen {
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		level.update();
+		level.update(g2d);
 		level.draw(g2d);
 	}
 }

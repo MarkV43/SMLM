@@ -19,6 +19,12 @@ public class ZRect {
 		this.h = h;
 	}
 
+	public ZRect(double x, double y, double size) {
+		this.x = x;
+		this.y = y;
+		w = h = size;
+	}
+
 	public ZRect(double w, double h) {
 		x = 0;
 		y = 0;

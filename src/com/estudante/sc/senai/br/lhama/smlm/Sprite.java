@@ -27,38 +27,45 @@ public class Sprite extends ZRect {
 		speedY = sprite.speedY;
 	}
 
-	public void update(TileLayer lyr, int tileSize) {
+	public ArrayList<ZRect> update(TileLayer lyr, int tileSize, Graphics2D g2d) {
 		x += speedX;
 
-		collisionX(lyr, tileSize);
+		collisionX(lyr, tileSize, g2d);
 
 		speedY += Level.GRAVITY;
 
 		y += speedY;
 
-		System.out.println(y);
-
-		collisionY(lyr, tileSize);
+		collisionY(lyr, tileSize, g2d);
 
 		animations.get(animation).next();
 	}
 
-	private void collisionX(TileLayer lyr, int tileSize) {
+	private ArrayList<ZRect> collisionX(TileLayer lyr, int tileSize, Graphics2D g2d) {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
 		ArrayList<ZRect> range = getRangeX(ts, tileSize);
 
-		range.forEach(tile -> {
-			//TODO
+		range.forEach(t -> {
+
 		});
+		return range;
 	}
 
-	private void collisionY(TileLayer lyr, int tileSize) {
+	private ArrayList<ZRect> collisionY(TileLayer lyr, int tileSize, Graphics2D g2d) {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
 		ArrayList<ZRect> range = getRangeY(ts, tileSize);
 
-		range.forEach(tile -> {
-			//TODO
+		range.forEach(t -> {
+			if(intersects(t)) {
+				if (y < t.y && y + h > t.y) {
+					y = t.y - h;
+				} else {
+//					y = t.y + t.h;
+				}
+				speedY = 0;
+			}
 		});
+		return range;
 	}
 
 	private ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
@@ -77,9 +84,11 @@ public class Sprite extends ZRect {
 
 		ArrayList<ZRect> range = new ArrayList<>();
 		for (int y = y1; y <= y2; y++) {
-			range.add(new ZRect(x1, y, x1 + tileSize, y + tileSize));
-			if(x1 != x2) {
-				range.add(new ZRect(x2, y, x2 + tileSize, y + tileSize));
+			if(ts.get(y).get(x1) != null) {
+				range.add(new ZRect(x1 * tileSize, y * tileSize, tileSize));
+			}
+			if (x1 != x2 && ts.get(y).get(x2) != null) {
+				range.add(new ZRect(x2 * tileSize, y * tileSize, tileSize));
 			}
 		}
 
@@ -102,9 +111,11 @@ public class Sprite extends ZRect {
 
 		ArrayList<ZRect> range = new ArrayList<>();
 		for (int x = x1; x <= x2; x++) {
-			range.add(new ZRect(x, y1, x + tileSize, y1 + tileSize));
-			if(y1 != y2) {
-				range.add(new ZRect(x, y2, x + tileSize, y2 + tileSize));
+			if(ts.get(y1).get(x) != null) {
+				range.add(new ZRect(x * tileSize, y1 * tileSize, tileSize));
+			}
+			if (y1 != y2 && ts.get(y2).get(x) != null) {
+				range.add(new ZRect(x * tileSize, y2 * tileSize, tileSize));
 			}
 		}
 
@@ -126,6 +137,6 @@ public class Sprite extends ZRect {
 	}
 
 	private int range(int num, int max) {
-		return Math.max(Math.min(num, max), 0);
+		return Math.max(Math.min(num, max - 1), 0);
 	}
 }
