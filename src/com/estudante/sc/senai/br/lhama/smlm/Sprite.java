@@ -9,6 +9,7 @@ public class Sprite extends ZRect {
 	private String animation;
 	private double speedX;
 	private double speedY;
+	protected boolean onGround;
 
 	public Sprite(HashMap<String, String> paths, String defaultAnimation, double x, double y, double w, double h) {
 		super(x, y, w, h);
@@ -27,45 +28,45 @@ public class Sprite extends ZRect {
 		speedY = sprite.speedY;
 	}
 
-	public ArrayList<ZRect> update(TileLayer lyr, int tileSize, Graphics2D g2d) {
+	public void update(TileLayer lyr) {
+
 		x += speedX;
 
-		collisionX(lyr, tileSize, g2d);
+		collisionX(lyr);
 
 		speedY += Level.GRAVITY;
 
 		y += speedY;
 
-		collisionY(lyr, tileSize, g2d);
+		collisionY(lyr);
 
 		animations.get(animation).next();
+
 	}
 
-	private ArrayList<ZRect> collisionX(TileLayer lyr, int tileSize, Graphics2D g2d) {
+	private void collisionX(TileLayer lyr) {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
-		ArrayList<ZRect> range = getRangeX(ts, tileSize);
+		ArrayList<ZRect> range = getRangeX(ts, lyr.getTileSize());
 
 		range.forEach(t -> {
 
 		});
-		return range;
 	}
 
-	private ArrayList<ZRect> collisionY(TileLayer lyr, int tileSize, Graphics2D g2d) {
+	private void collisionY(TileLayer lyr) {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
-		ArrayList<ZRect> range = getRangeY(ts, tileSize);
+		ArrayList<ZRect> range = getRangeY(ts, lyr.getTileSize());
 
 		range.forEach(t -> {
 			if(intersects(t)) {
 				if (y < t.y && y + h > t.y) {
 					y = t.y - h;
 				} else {
-//					y = t.y + t.h;
+					y = t.y + t.h;
 				}
 				speedY = 0;
 			}
 		});
-		return range;
 	}
 
 	private ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
@@ -134,6 +135,9 @@ public class Sprite extends ZRect {
 
 	public void draw(Graphics2D g2d) {
 		animations.get(animation).draw(g2d, this);
+		if(SMLM.DEBUG_MODE) {
+			drawBorder(g2d, Color.RED);
+		}
 	}
 
 	private int range(int num, int max) {

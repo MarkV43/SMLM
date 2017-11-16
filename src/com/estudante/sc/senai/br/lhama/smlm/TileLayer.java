@@ -74,4 +74,8 @@ public class TileLayer extends Layer {
 	public ArrayList<ArrayList<ZTile>> getTiles() {
 		return tiles;
 	}
+
+	public int getTileSize() {
+		return tileSize;
+	}
 }

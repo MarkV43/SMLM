@@ -15,6 +15,14 @@ public class Character extends Sprite {
 		jumpSpeed = -Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpSpeed) / 30;
 	}
 
+	public void update(TileLayer lyr, ZMouse mouse) {
+		if(onGround) {
+
+		}
+
+		super.update(lyr);
+	}
+
 	public boolean up() {
 		return up;
 	}
