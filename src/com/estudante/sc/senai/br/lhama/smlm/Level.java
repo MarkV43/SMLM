@@ -31,8 +31,23 @@ public class Level {
 
 		HashMap<String, String> paths = new HashMap<>();
 		paths.put("idle", "characters/idle#3");
+		paths.put("fall", "characters/fall#3");
+		paths.put("jump", "characters/jump#3");
+		paths.put("walk", "characters/walk#3");
 
-		character = new Character(paths, "idle", 0, 0, 48, 96);
+		character = new Character(paths, spr -> {
+			if(spr.isOnGround()) {
+				if(Math.abs(spr.getSpeedX()) > 0) {
+					return "walk";
+				} else {
+					return "idle";
+				}
+			} else if(spr.getSpeedY() > 0) {
+				return "fall";
+			} else {
+				return "jump";
+			}
+		}, "idle", 0, 0, 48, 96);
 	}
 
 	private void importLevel(String levelName) throws ParserConfigurationException, IOException, SAXException {
@@ -73,7 +88,7 @@ public class Level {
 
 	}
 
-	public void update(Graphics2D g2d) {
+	public void update() {
 		character.update((TileLayer) layers.get("Camada de Tiles 1"));
 	}
 

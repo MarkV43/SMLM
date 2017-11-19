@@ -13,6 +13,20 @@ public class ZKeyboard {
 	public boolean ESCP;
 	public boolean TAB;
 
+	public ZKeyboard() {
+		W = false;
+		A = false;
+		S = false;
+		D = false;
+		B17 = false;
+		B28 = false;
+		B39 = false;
+		B40 = false;
+		SPACE = false;
+		ESCP = false;
+		TAB = false;
+	}
+
 	public ZKeyboard(ZKeyboard k) {
 		A = k. A;
 		S = k. S;

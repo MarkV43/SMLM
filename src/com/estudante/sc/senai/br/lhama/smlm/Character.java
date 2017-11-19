@@ -10,16 +10,15 @@ public class Character extends Sprite {
 	private boolean left;
 	private boolean right;
 
-	public Character(HashMap<String, String> paths, String defaultAnimation, double x, double y, double w, double h) {
-		super(paths, defaultAnimation, x, y, w, h);
+	public Character(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h) {
+		super(paths, aniChanger, defaultAnimation, x, y, w, h);
 		jumpSpeed = -Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpSpeed) / 30;
 	}
 
-	public void update(TileLayer lyr, ZMouse mouse) {
-		if(onGround) {
+	public void update(TileLayer lyr, ZKeyboard kb, ZMouse mouse) {
+		if(isOnGround()) {
 
 		}
-
 		super.update(lyr);
 	}
 

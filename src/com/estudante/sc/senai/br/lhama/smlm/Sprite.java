@@ -3,17 +3,20 @@ package com.estudante.sc.senai.br.lhama.smlm;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class Sprite extends ZRect {
 	private HashMap<String, ZStrip> animations;
 	private String animation;
 	private double speedX;
 	private double speedY;
-	protected boolean onGround;
+	private boolean onGround;
+	private AnimationChanger aniChanger;
 
-	public Sprite(HashMap<String, String> paths, String defaultAnimation, double x, double y, double w, double h) {
+	public Sprite(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h) {
 		super(x, y, w, h);
 		loadAnimations(paths);
+		this.aniChanger = aniChanger;
 		animation = defaultAnimation;
 	}
 
@@ -36,11 +39,15 @@ public class Sprite extends ZRect {
 
 		speedY += Level.GRAVITY;
 
-		y += speedY;
+		if(!onGround) {
+			y += speedY;
+		}
 
 		collisionY(lyr);
 
 		animations.get(animation).next();
+
+		setAnimation(aniChanger.change(this));
 
 	}
 
@@ -49,7 +56,14 @@ public class Sprite extends ZRect {
 		ArrayList<ZRect> range = getRangeX(ts, lyr.getTileSize());
 
 		range.forEach(t -> {
-
+			if(intersects(t)) {
+				if (x < t.x && x + w > t.x) {
+					x = t.x - w;
+				} else {
+					x = t.x + t.w;
+				}
+				speedX = 0;
+			}
 		});
 	}
 
@@ -61,6 +75,7 @@ public class Sprite extends ZRect {
 			if(intersects(t)) {
 				if (y < t.y && y + h > t.y) {
 					y = t.y - h;
+					onGround = true;
 				} else {
 					y = t.y + t.h;
 				}
@@ -142,5 +157,23 @@ public class Sprite extends ZRect {
 
 	private int range(int num, int max) {
 		return Math.max(Math.min(num, max - 1), 0);
+	}
+
+	private void setAnimation(String name) {
+		if(animations.containsKey(name)) {
+			animation = name;
+		}
+	}
+
+	public double getSpeedX() {
+		return speedX;
+	}
+
+	public double getSpeedY() {
+		return speedY;
+	}
+
+	public boolean isOnGround() {
+		return onGround;
 	}
 }
