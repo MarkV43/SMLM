@@ -1,41 +1,81 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class Character extends Sprite {
 
 	private double jumpSpeed;
-	private boolean up;
-	private boolean down;
 	private boolean left;
 	private boolean right;
+	private int dir = 0;
+	private int termVelocity;
 
-	public Character(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h) {
+	public Character(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h, int termVelocity) {
 		super(paths, aniChanger, defaultAnimation, x, y, w, h);
-		jumpSpeed = -Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpSpeed) / 30;
+		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * 3) + 0.5); // link: 0.2  megaman: 1  sonic: 2  mario: 3
+		System.out.println(jumpSpeed);
+		this.termVelocity = termVelocity;
 	}
 
 	public void update(TileLayer lyr, ZKeyboard kb, ZMouse mouse) {
-		if(isOnGround()) {
-
+		double change = dir * 0.8;
+		if(Math.signum(change) == -Math.signum(getSpeedX())) {
+			change *= 3d / 4d;
+		}
+		setSpeedX(getSpeedX() + change);
+		if (Math.abs(getSpeedX()) > termVelocity) {
+			setSpeedX(Math.signum(getSpeedX()) * termVelocity);
+		}
+		if (Math.abs(getSpeedX()) < 0.2) {
+			setSpeedX(0);
+		}
+		if (isOnGround()) {
+			if (!(kb.A || kb.D)) {
+				setSpeedX(getSpeedX() * 0.8);
+			}
+			if (kb.W) {
+				setSpeedY(jumpSpeed);
+			}
+		}
+		setLR(kb);
+		if (kb.SPACE) {
+			//special();
+		}
+		if (mouse.in(this)) {
+//			mouseOver();
 		}
 		super.update(lyr);
 	}
 
-	public boolean up() {
-		return up;
+	private void setLR(ZKeyboard kb) {
+		if (kb.A && kb.D) {
+			if (!left || !right) {
+				dir *= -1;
+			}
+		} else {
+			if (kb.A) {
+				dir = -1;
+			} else if (kb.D) {
+				dir = 1;
+			} else {
+				dir = 0;
+			}
+		}
+
+		left(kb.A);
+		right(kb.D);
 	}
 
-	public void up(boolean up) {
-		this.up = up;
-	}
-
-	public boolean down() {
-		return down;
-	}
-
-	public void down(boolean down) {
-		this.down = down;
+	@Override
+	public void draw(Graphics2D g2d) {
+		super.draw(g2d);
+		if (SMLM.DEBUG_MODE) {
+			g2d.setColor(Color.BLACK);
+			g2d.drawString("velX: " + getSpeedX(), 5, 15);
+			g2d.drawString("velY: " + getSpeedY(), 5, 30);
+			g2d.drawString("onGr: " + isOnGround(), 5, 45);
+		}
 	}
 
 	public boolean left() {
@@ -53,5 +93,9 @@ public class Character extends Sprite {
 	public void right(boolean right) {
 		this.right = right;
 	}
+
+	//abstract public void mouseOver();
+
+	//abstract public void special();
 
 }

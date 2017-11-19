@@ -15,13 +15,12 @@ public class DynamicScreen implements Screen {
 		level = new Level(levelName);
 	}
 
-	public void update(ZMouse m) {
-
+	public void update(ZKeyboard kb, ZMouse m) {
+		level.update(kb, m);
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		level.update();
 		level.draw(g2d);
 	}
 }

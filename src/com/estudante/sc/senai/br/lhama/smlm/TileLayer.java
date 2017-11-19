@@ -66,6 +66,10 @@ public class TileLayer extends Layer {
 					if (tile != null) {
 						tile.draw(g2d, j, i, tileSize);
 					}
+
+					if(SMLM.DEBUG_MODE) {
+						new ZRect(j * tileSize, i * tileSize, tileSize).drawBorder(g2d, Color.YELLOW);
+					}
 				}
 			}
 		}

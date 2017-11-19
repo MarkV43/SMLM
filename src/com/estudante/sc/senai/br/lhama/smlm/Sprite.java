@@ -3,7 +3,6 @@ package com.estudante.sc.senai.br.lhama.smlm;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Consumer;
 
 public class Sprite extends ZRect {
 	private HashMap<String, ZStrip> animations;
@@ -37,11 +36,9 @@ public class Sprite extends ZRect {
 
 		collisionX(lyr);
 
-		speedY += Level.GRAVITY;
+		speedY += SMLM.GRAVITY;
 
-		if(!onGround) {
-			y += speedY;
-		}
+		y += speedY;
 
 		collisionY(lyr);
 
@@ -71,9 +68,10 @@ public class Sprite extends ZRect {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
 		ArrayList<ZRect> range = getRangeY(ts, lyr.getTileSize());
 
+		onGround = false;
 		range.forEach(t -> {
-			if(intersects(t)) {
-				if (y < t.y && y + h > t.y) {
+			if((Math.floor(t.y) == Math.floor(y + h) && speedY > 0) || intersects(t)) {
+				if (y < t.y && y + h >= t.y) {
 					y = t.y - h;
 					onGround = true;
 				} else {
@@ -175,5 +173,13 @@ public class Sprite extends ZRect {
 
 	public boolean isOnGround() {
 		return onGround;
+	}
+
+	public void setSpeedX(double speedX) {
+		this.speedX = speedX;
+	}
+
+	public void setSpeedY(double speedY) {
+		this.speedY = speedY;
 	}
 }

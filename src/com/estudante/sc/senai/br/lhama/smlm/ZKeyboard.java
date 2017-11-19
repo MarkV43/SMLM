@@ -11,7 +11,6 @@ public class ZKeyboard {
 	public boolean B40;
 	public boolean SPACE;
 	public boolean ESCP;
-	public boolean TAB;
 
 	public ZKeyboard() {
 		W = false;
@@ -24,7 +23,6 @@ public class ZKeyboard {
 		B40 = false;
 		SPACE = false;
 		ESCP = false;
-		TAB = false;
 	}
 
 	public ZKeyboard(ZKeyboard k) {
@@ -38,6 +36,5 @@ public class ZKeyboard {
 		B40 = k. B40;
 		SPACE = k. SPACE;
 		ESCP = k. ESCP;
-		TAB = k. TAB;
 	}
 }

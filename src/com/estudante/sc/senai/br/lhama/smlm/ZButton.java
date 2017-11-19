@@ -57,7 +57,7 @@ public class ZButton extends ZImage {
 	}
 
 	public void update(ZMouse m) {
-		boolean h = m.pos.in(getRect());
+		boolean h = m.in(getRect());
 		if(h) {
 			if (m.click) {
 				setImage(clicked);

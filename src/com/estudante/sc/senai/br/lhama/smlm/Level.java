@@ -47,7 +47,7 @@ public class Level {
 			} else {
 				return "jump";
 			}
-		}, "idle", 0, 0, 48, 96);
+		}, "idle", 0, 0, 48, 96, 10);
 	}
 
 	private void importLevel(String levelName) throws ParserConfigurationException, IOException, SAXException {
@@ -88,8 +88,8 @@ public class Level {
 
 	}
 
-	public void update() {
-		character.update((TileLayer) layers.get("Camada de Tiles 1"));
+	public void update(ZKeyboard kb, ZMouse mouse) {
+		character.update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse);
 	}
 
 	public void draw(Graphics2D g2d) {

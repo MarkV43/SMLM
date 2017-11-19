@@ -14,15 +14,16 @@ public class SMLM extends Game {
 	public static final ZPoint TARGET_SIZE = new ZPoint(1920, 1080);
 	public static boolean DEBUG_MODE = false;
 	public static ZMode mode = ZMode.CENTER;
-	public static final int GRAVITY = 10;
+	public static final double GRAVITY = 0.6;
 	public static final int TILE_SIZE = 64;
 
 	private Level level;
 
 	private ZMouse mouse;
+	private ZKeyboard keyboard;
 
 	private HashMap<Screens, Screen> screens;
-	private Screens currentScreen = Screens.MAIN;
+	private Screens currentScreen = Screens.GAME;
 
 	public SMLM() {
 		super();
@@ -38,6 +39,7 @@ public class SMLM extends Game {
 	@Override
 	public void init() {
 		mouse = new ZMouse();
+		keyboard = new ZKeyboard();
 		try {
 			level = new Level("level1");
 
@@ -180,7 +182,7 @@ public class SMLM extends Game {
 	public void gameLoop() {
 		Screen current = screens.get(currentScreen);
 		if(current instanceof DynamicScreen) {
-			((DynamicScreen) current).update(mouse);
+			((DynamicScreen) current).update(keyboard, mouse);
 		} else {
 			((StaticScreen) current).update(mouse);
 		}
@@ -201,23 +203,40 @@ public class SMLM extends Game {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
-				case KeyEvent.VK_UP:
-//					c.up(true);
+				case KeyEvent.VK_W:
+					keyboard.W = true;
 					break;
-				case KeyEvent.VK_DOWN:
-//					c.down(true);
+				case KeyEvent.VK_A:
+					keyboard.A = true;
 					break;
-				case KeyEvent.VK_LEFT:
-//					c.left(true);
+				case KeyEvent.VK_S:
+					keyboard.S = true;
 					break;
-				case KeyEvent.VK_RIGHT:
-//					c.right(true);
+				case KeyEvent.VK_D:
+					keyboard.D = true;
 					break;
-				case KeyEvent.VK_R:
-//					c.x = 64;
-//					c.y = 64;
-//					c.xv = 0;
-//					c.yv = 0;
+				case KeyEvent.VK_1:
+				case KeyEvent.VK_7:
+					keyboard.B17 = true;
+					break;
+				case KeyEvent.VK_2:
+				case KeyEvent.VK_8:
+					keyboard.B28 = true;
+					break;
+				case KeyEvent.VK_3:
+				case KeyEvent.VK_9:
+					keyboard.B39 = true;
+					break;
+				case KeyEvent.VK_4:
+				case KeyEvent.VK_0:
+					keyboard.B40 = true;
+					break;
+				case KeyEvent.VK_SPACE:
+					keyboard.SPACE = true;
+					break;
+				case KeyEvent.VK_ESCAPE:
+				case KeyEvent.VK_P:
+					keyboard.ESCP = true;
 					break;
 			}
 		}
@@ -225,17 +244,40 @@ public class SMLM extends Game {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			switch (e.getKeyCode()) {
-				case KeyEvent.VK_UP:
-//					c.up(false);
+				case KeyEvent.VK_W:
+					keyboard.W = false;
 					break;
-				case KeyEvent.VK_DOWN:
-//					c.down(false);
+				case KeyEvent.VK_A:
+					keyboard.A = false;
 					break;
-				case KeyEvent.VK_LEFT:
-//					c.left(false);
+				case KeyEvent.VK_S:
+					keyboard.S = false;
 					break;
-				case KeyEvent.VK_RIGHT:
-//					c.right(false);
+				case KeyEvent.VK_D:
+					keyboard.D = false;
+					break;
+				case KeyEvent.VK_1:
+				case KeyEvent.VK_7:
+					keyboard.B17 = false;
+					break;
+				case KeyEvent.VK_2:
+				case KeyEvent.VK_8:
+					keyboard.B28 = false;
+					break;
+				case KeyEvent.VK_3:
+				case KeyEvent.VK_9:
+					keyboard.B39 = false;
+					break;
+				case KeyEvent.VK_4:
+				case KeyEvent.VK_0:
+					keyboard.B40 = false;
+					break;
+				case KeyEvent.VK_SPACE:
+					keyboard.SPACE = false;
+					break;
+				case KeyEvent.VK_ESCAPE:
+				case KeyEvent.VK_P:
+					keyboard.ESCP = false;
 					break;
 				case KeyEvent.VK_F12:
 					DEBUG_MODE = !DEBUG_MODE;
