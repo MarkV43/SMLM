@@ -23,6 +23,9 @@ public class Character extends Sprite {
 		if(Math.signum(change) == -Math.signum(getSpeedX())) {
 			change *= 3d / 4d;
 		}
+		if(!isOnGround()) {
+			change *= 2d / 3d;
+		}
 		setSpeedX(getSpeedX() + change);
 		if (Math.abs(getSpeedX()) > termVelocity) {
 			setSpeedX(Math.signum(getSpeedX()) * termVelocity);
