@@ -100,10 +100,10 @@ public class Level {
 	public void update(ZKeyboard kb, ZMouse mouse) {
 		character.update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse);
 		camera.goTo(character.getCenter());
-		System.out.println(camera);
 	}
 
 	public void draw(Graphics2D g2d) {
+		g2d.translate(-camera.x, -camera.y);
 		layers.forEach(
 				(s, layer) -> layer.draw(g2d)
 		);
@@ -120,6 +120,10 @@ public class Level {
 			g2d.setColor(Color.GRAY);
 			g2d.drawLine((int) c1.x, (int) c1.y, (int) c2.x, (int) c2.y);
 		}
+	}
+
+	public Character getCharacter() {
+		return character;
 	}
 
 	private ZRect getLimits() {

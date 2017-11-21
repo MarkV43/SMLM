@@ -43,7 +43,7 @@ public class TileLayer extends Layer {
 			int x = (int) Math.floorMod(i, w);
 			int y = (int) Math.floorDiv(i, w);
 			if(x == 0) {
-				tiles.add(y, new ArrayList<>());
+				tiles.add(y, new ArrayList<>((int) w));
 			}
 			long val = (Long) data.get(i);
 			tiles.get(y).add(x, tileMap.get((int) val));

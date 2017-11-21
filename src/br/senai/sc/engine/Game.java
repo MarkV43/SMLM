@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 public abstract class Game extends Canvas {
 	private static final long serialVersionUID = 6058040659371962305L;
-	private static final int TARGET_FRAMERATE = 30;
+	private static final int TARGET_FRAMERATE = 60;
 	protected JFrame container;
 	private JPanel panel;
 	protected BufferStrategy strategy;
