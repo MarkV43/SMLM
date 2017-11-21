@@ -25,7 +25,17 @@ public class Camera extends ZRect {
 	private void setCenter(ZPoint newCenter) {
 		ZPoint preCenter = getCenter();
 		x += newCenter.x - preCenter.x;
+		if(x < limits.x) {
+			x = 0;
+		} else if(x + w > limits.x + limits.w) {
+			x = limits.x + limits.w - w;
+		}
 		y += newCenter.y - preCenter.y;
+		if(y < 0) {
+			y = 0;
+		} else if(y + h > limits.y + limits.h) {
+			y = limits.y + limits.h - h;
+		}
 	}
 
 	@Override

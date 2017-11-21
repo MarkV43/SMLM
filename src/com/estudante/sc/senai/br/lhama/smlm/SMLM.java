@@ -278,6 +278,12 @@ public class SMLM extends Game {
 				case KeyEvent.VK_F12:
 					DEBUG_MODE = !DEBUG_MODE;
 					break;
+				case KeyEvent.VK_R:
+					Screen current = screens.get(currentScreen);
+					if(current instanceof DynamicScreen) {
+						((DynamicScreen) current).setCharacterPos(3008, 1888);
+					}
+					break;
 			}
 		}
 	}

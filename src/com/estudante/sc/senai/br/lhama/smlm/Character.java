@@ -75,12 +75,7 @@ public class Character extends Sprite {
 	@Override
 	public void draw(Graphics2D g2d) {
 		super.draw(g2d);
-		if (SMLM.DEBUG_MODE) {
-			g2d.setColor(Color.BLACK);
-			g2d.drawString("velX: " + getSpeedX(), 5, 15);
-			g2d.drawString("velY: " + getSpeedY(), 5, 30);
-			g2d.drawString("onGr: " + isOnGround(), 5, 45);
-		}
+
 	}
 
 	public boolean left() {

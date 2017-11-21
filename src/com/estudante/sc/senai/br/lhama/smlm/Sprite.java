@@ -83,8 +83,8 @@ public class Sprite extends ZRect {
 	}
 
 	private ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
-		int sx = ts.size();
-		int sy = ts.get(0).size();
+		int sy = ts.size();
+		int sx = ts.get(0).size();
 
 		int x1 = Math.floorDiv((int) this.x, tileSize);
 		x1 = range(x1, sx);
@@ -110,8 +110,8 @@ public class Sprite extends ZRect {
 	}
 
 	private ArrayList<ZRect> getRangeY(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
-		int sx = ts.size();
-		int sy = ts.get(0).size();
+		int sy = ts.size();
+		int sx = ts.get(0).size();
 
 		int x1 = Math.floorDiv((int) this.x, tileSize);
 		x1 = range(x1, sx);
@@ -132,6 +132,7 @@ public class Sprite extends ZRect {
 				range.add(new ZRect(x * tileSize, y2 * tileSize, tileSize));
 			}
 		}
+		System.out.println();
 
 		return range;
 	}
