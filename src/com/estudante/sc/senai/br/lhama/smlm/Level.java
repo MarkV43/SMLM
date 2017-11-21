@@ -18,8 +18,6 @@ import java.util.HashMap;
 
 public class Level {
 
-	public static final double GRAVITY = 1d / 6d;
-
 	private ArrayList<Sprite> sprites;
 	private HashMap<String, Layer> layers;
 	private ZTileMap tileMap;
@@ -47,7 +45,7 @@ public class Level {
 			} else {
 				return "jump";
 			}
-		}, "idle", 0, 0, 48, 96, 10, 3);
+		}, "idle", 0, 0, 48, 96, 10, 0.8, 3);
 	}
 
 	private void importLevel(String levelName) throws ParserConfigurationException, IOException, SAXException {

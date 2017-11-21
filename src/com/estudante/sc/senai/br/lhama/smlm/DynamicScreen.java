@@ -6,6 +6,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Is necessary. The level draws the level in its own, while
+ * this class will draw the static things in it, like punctuation
+ * and things like that.
+ */
 public class DynamicScreen implements Screen {
 
 	private ZImage s;

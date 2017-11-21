@@ -39,7 +39,7 @@ public class ZRect {
 		h = 0;
 	}
 
-	public ZPoint getUpLeft() {
+	public ZPoint getTopLeft() {
 		return new ZPoint(x, y);
 	}
 
@@ -116,6 +116,10 @@ public class ZRect {
 		g2d.drawLine((int) x, (int) y, (int) x, (int) (y + h));
 		g2d.drawLine((int) (x + w), (int) (y + h), (int) x, (int) (y + h));
 		g2d.drawLine((int) (x + w), (int) (y + h), (int) (x + w), (int) y);
+	}
+
+	public ZPoint getCenter() {
+		return new ZPoint(x + w / 2, y + h / 2);
 	}
 
 	@Override
