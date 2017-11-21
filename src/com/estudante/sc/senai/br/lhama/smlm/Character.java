@@ -10,20 +10,22 @@ public class Character extends Sprite {
 	private boolean right;
 	private int dir = 0;
 	private int termVelocity;
+	private double speed;
 
-	public Character(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h, int termVelocity) {
+	public Character(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight) {
 		super(paths, aniChanger, defaultAnimation, x, y, w, h);
-		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * 3) + 0.5); // link: 0.2  megaman: 1  sonic: 2  mario: 3
+		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpHeight) + 0.5); // link: 0.15  megaman: 1  sonic: 2  mario: 3
 		System.out.println(jumpSpeed);
 		this.termVelocity = termVelocity;
+		this.speed = speed;
 	}
 
 	public void update(TileLayer lyr, ZKeyboard kb, ZMouse mouse) {
-		double change = dir * 0.8;
+		double change = dir * speed;
 		if(Math.signum(change) == -Math.signum(getSpeedX())) {
 			change *= 3d / 4d;
 		}
-		if(!isOnGround()) {
+		if(!isOnGround() && Math.signum(getSpeedX()) == dir) {
 			change *= 2d / 3d;
 		}
 		setSpeedX(getSpeedX() + change);

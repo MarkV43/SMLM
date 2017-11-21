@@ -47,7 +47,7 @@ public class Level {
 			} else {
 				return "jump";
 			}
-		}, "idle", 0, 0, 48, 96, 10);
+		}, "idle", 0, 0, 48, 96, 10, 3);
 	}
 
 	private void importLevel(String levelName) throws ParserConfigurationException, IOException, SAXException {

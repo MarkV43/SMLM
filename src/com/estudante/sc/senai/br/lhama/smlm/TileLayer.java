@@ -37,16 +37,15 @@ public class TileLayer extends Layer {
 		long w = (long) layer.get("width");
 		long h = (long) layer.get("height");
 
-		tiles = new ArrayList<>();
+		tiles = new ArrayList<>((int) h);
 
 		for (int i = 0; i < data.size(); i++) {
 			int x = (int) Math.floorMod(i, w);
-			int y = (int) Math.floorDiv(i, h);
+			int y = (int) Math.floorDiv(i, w);
 			if(x == 0) {
 				tiles.add(y, new ArrayList<>());
 			}
 			long val = (Long) data.get(i);
-
 			tiles.get(y).add(x, tileMap.get((int) val));
 		}
 	}
