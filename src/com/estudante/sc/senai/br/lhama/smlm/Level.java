@@ -23,9 +23,14 @@ public class Level {
 	private ZTileMap tileMap;
 	private Character character;
 	private int tileSize;
+	private Camera camera;
+	private long width;
+	private long height;
 
 	public Level(String levelName) throws ParserConfigurationException, IOException, SAXException {
 		importLevel("levels/" + levelName);
+
+		sprites = new ArrayList<>();
 
 		HashMap<String, String> paths = new HashMap<>();
 		paths.put("idle", "characters/idle#3");
@@ -46,11 +51,14 @@ public class Level {
 				return "jump";
 			}
 		}, "idle", 0, 0, 48, 96, 10, 0.8, 3);
+
+		camera = new Camera(getLimits(), 0.1, character.getCenter());
 	}
 
 	private void importLevel(String levelName) throws ParserConfigurationException, IOException, SAXException {
 		JSONObject level = (JSONObject) ZFile.readJSON(levelName.concat(".json"));
 
+		assert level != null;
 		JSONArray tilemaps = (JSONArray) level.get("tilesets");
 		JSONObject tilemap = (JSONObject) tilemaps.get(0);
 		String tileMapPath = (String) tilemap.get("source");
@@ -75,6 +83,9 @@ public class Level {
 
 		tileMap = new ZTileMap(tilemapName, tileSize);
 
+		width = (long) level.get("width");
+		height = (long) level.get("height");
+
 		JSONArray layers = (JSONArray) level.get("layers");
 
 		this.layers = new HashMap<>(layers.size());
@@ -88,13 +99,34 @@ public class Level {
 
 	public void update(ZKeyboard kb, ZMouse mouse) {
 		character.update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse);
+		camera.goTo(character.getCenter());
+		System.out.println(camera);
 	}
 
 	public void draw(Graphics2D g2d) {
 		layers.forEach(
 				(s, layer) -> layer.draw(g2d)
 		);
+		sprites.forEach(
+				s -> s.draw(g2d)
+		);
+
 		character.draw(g2d);
+
+		if(SMLM.DEBUG_MODE) {
+			ZPoint c1 = camera.getCenter();
+			ZPoint c2 = character.getCenter();
+
+			g2d.setColor(Color.GRAY);
+			g2d.drawLine((int) c1.x, (int) c1.y, (int) c2.x, (int) c2.y);
+		}
+	}
+
+	private ZRect getLimits() {
+		ZRect ret = new ZRect();
+		ret.w = width * tileSize;
+		ret.y = height * tileSize;
+		return ret;
 	}
 
 }

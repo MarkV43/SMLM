@@ -187,10 +187,6 @@ public class SMLM extends Game {
 			((StaticScreen) current).update(mouse);
 		}
 		current.draw(g2d);
-//		level.update();
-//		level.draw(g2d);
-//		c.run();
-//		c.draw(g2d);
 	}
 
 	private class KeyboardHandler extends KeyAdapter {
