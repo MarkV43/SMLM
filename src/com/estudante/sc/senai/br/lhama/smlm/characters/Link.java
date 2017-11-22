@@ -1,7 +1,7 @@
 package com.estudante.sc.senai.br.lhama.smlm.characters;
 
-import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
+import com.estudante.sc.senai.br.lhama.smlm.ZMouse;
 
 import java.util.HashMap;
 
@@ -19,4 +19,14 @@ public class Link extends Character {
     public Link(double x, double y) {
         super(getPaths(), x, y, 48, 48, 5, 0.5, 0.1);
     }
+
+	@Override
+	public boolean mouseOver() {
+		return true;
+	}
+
+	@Override
+	public void special() {
+
+	}
 }

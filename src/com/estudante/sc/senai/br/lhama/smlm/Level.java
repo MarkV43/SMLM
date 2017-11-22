@@ -89,11 +89,13 @@ public class Level {
 
 	}
 
-	public void update(ZKeyboard kb, ZMouse mouse) {
-		getCharacter().update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse);
+	public boolean update(ZKeyboard kb, ZMouse mouse) {
+		boolean hover = getCharacter().update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse, camera);
 		camera.goTo(getCharacter().getCenter());
 
 		changeCharacter(kb);
+
+		return hover;
 	}
 
 	public void changeCharacter(ZKeyboard k) {

@@ -39,6 +39,13 @@ public class ZRect {
 		h = 0;
 	}
 
+	public ZRect(ZRect r) {
+		x = r.x;
+		y = r.y;
+		w = r.w;
+		h = r.h;
+	}
+
 	public ZPoint getTopLeft() {
 		return new ZPoint(x, y);
 	}

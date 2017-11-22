@@ -36,12 +36,12 @@ public abstract class Character extends Sprite {
 		this.speed = speed;
 	}
 
-	public void update(TileLayer lyr, ZKeyboard kb, ZMouse mouse) {
+	public boolean update(TileLayer lyr, ZKeyboard kb, ZMouse mouse, Camera c) {
 		double change = dir * speed;
-		if(Math.signum(change) == -Math.signum(getSpeedX())) {
+		if (Math.signum(change) == -Math.signum(getSpeedX())) {
 			change *= 3d / 4d;
 		}
-		if(!isOnGround() && Math.signum(getSpeedX()) == dir) {
+		if (!isOnGround() && Math.signum(getSpeedX()) == dir) {
 			change *= 2d / 3d;
 		}
 		setSpeedX(getSpeedX() + change);
@@ -61,12 +61,17 @@ public abstract class Character extends Sprite {
 		}
 		setLR(kb);
 		if (kb.SPACE) {
-			//special();
-		}
-		if (mouse.in(this)) {
-//			mouseOver();
+			special();
 		}
 		super.update(lyr);
+		return contains(mouse, c.x, c.y) && mouseOver();
+	}
+
+	public abstract void special();
+
+	public boolean mouseOver() {
+		// Implementation only on Link. (Easteregg)
+		return false;
 	}
 
 	public ZPoint getLL() {
@@ -76,6 +81,13 @@ public abstract class Character extends Sprite {
 	public void setLL(ZPoint p) {
 		x = p.x;
 		y = p.y - h;
+	}
+
+	private boolean contains(ZPoint p, double x, double y) {
+		ZRect t = new ZRect(this);
+		t.x -= x;
+		t.y -= y;
+		return p.in(t);
 	}
 
 	private void setLR(ZKeyboard kb) {

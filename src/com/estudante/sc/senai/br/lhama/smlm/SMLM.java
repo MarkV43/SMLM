@@ -200,15 +200,19 @@ public class SMLM extends Game {
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
+				case KeyEvent.VK_UP:
 					keyboard.W = true;
 					break;
 				case KeyEvent.VK_A:
+				case KeyEvent.VK_LEFT:
 					keyboard.A = true;
 					break;
 				case KeyEvent.VK_S:
+				case KeyEvent.VK_DOWN:
 					keyboard.S = true;
 					break;
 				case KeyEvent.VK_D:
+				case KeyEvent.VK_RIGHT:
 					keyboard.D = true;
 					break;
 				case KeyEvent.VK_1:
@@ -241,15 +245,19 @@ public class SMLM extends Game {
 		public void keyReleased(KeyEvent e) {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
+				case KeyEvent.VK_UP:
 					keyboard.W = false;
 					break;
 				case KeyEvent.VK_A:
+				case KeyEvent.VK_LEFT:
 					keyboard.A = false;
 					break;
 				case KeyEvent.VK_S:
+				case KeyEvent.VK_DOWN:
 					keyboard.S = false;
 					break;
 				case KeyEvent.VK_D:
+				case KeyEvent.VK_RIGHT:
 					keyboard.D = false;
 					break;
 				case KeyEvent.VK_1:

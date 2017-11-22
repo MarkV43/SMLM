@@ -1,6 +1,5 @@
 package com.estudante.sc.senai.br.lhama.smlm.characters;
 
-import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
 
 import java.util.HashMap;
@@ -19,4 +18,9 @@ public class Mario extends Character {
     public Mario(double x, double y) {
         super(getPaths(), x, y, 48, 96, 10, 0.8, 3);
     }
+
+	@Override
+	public void special() {
+
+	}
 }
