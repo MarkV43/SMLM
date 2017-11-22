@@ -57,6 +57,10 @@ public class ZImage {
 		}
 	}
 
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
 	public void setImage(URL path) {
 		rect = new ZRect();
 		try {

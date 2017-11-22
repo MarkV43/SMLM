@@ -50,7 +50,7 @@ public class TileLayer extends Layer {
 		}
 	}
 
-	public void draw(Graphics2D g2d) {
+	public void draw(Graphics2D g2d, ZRect rect) {
 		if (visible) {
 			g2d.setComposite(ac);
 
@@ -62,7 +62,7 @@ public class TileLayer extends Layer {
 
 					ZTile tile = rows.get(j);
 
-					if (tile != null) {
+					if (tile != null && intersecting(i, j, rect)) {
 						tile.draw(g2d, j, i, tileSize);
 					}
 
@@ -80,5 +80,10 @@ public class TileLayer extends Layer {
 
 	public int getTileSize() {
 		return tileSize;
+	}
+
+	private boolean intersecting(int i, int j, ZRect rect) {
+		Rectangle r = new Rectangle(j * tileSize, i * tileSize, tileSize, tileSize);
+		return r.intersects(rect.getRect());
 	}
 }

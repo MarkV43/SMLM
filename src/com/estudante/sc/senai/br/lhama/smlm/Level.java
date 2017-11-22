@@ -105,7 +105,7 @@ public class Level {
 	public void draw(Graphics2D g2d) {
 		g2d.translate(-camera.x, -camera.y);
 		layers.forEach(
-				(s, layer) -> layer.draw(g2d)
+				(s, layer) -> layer.draw(g2d, camera)
 		);
 		sprites.forEach(
 				s -> s.draw(g2d)

@@ -14,7 +14,7 @@ public abstract class Layer {
 	protected AlphaComposite ac;
 	protected String name;
 
-	public abstract void draw(Graphics2D g2d);
+	public abstract void draw(Graphics2D g2d, ZRect rect);
 
 	public String getName() {
 		return name;
