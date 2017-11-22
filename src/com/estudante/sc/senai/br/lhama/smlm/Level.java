@@ -1,5 +1,9 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
+import com.estudante.sc.senai.br.lhama.smlm.characters.Link;
+import com.estudante.sc.senai.br.lhama.smlm.characters.Mario;
+import com.estudante.sc.senai.br.lhama.smlm.characters.Megaman;
+import com.estudante.sc.senai.br.lhama.smlm.characters.Sonic;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
@@ -21,7 +25,8 @@ public class Level {
 	private ArrayList<Sprite> sprites;
 	private HashMap<String, Layer> layers;
 	private ZTileMap tileMap;
-	private Character character;
+	private ArrayList<Character> characters;
+	private int characterIndex = 0;
 	private int tileSize;
 	private Camera camera;
 	private long width;
@@ -32,27 +37,14 @@ public class Level {
 
 		sprites = new ArrayList<>();
 
-		HashMap<String, String> paths = new HashMap<>();
-		paths.put("idle", "characters/idle#3");
-		paths.put("fall", "characters/fall#3");
-		paths.put("jump", "characters/jump#3");
-		paths.put("walk", "characters/walk#3");
+		characters = new ArrayList<>();
 
-		character = new Character(paths, spr -> {
-			if(spr.isOnGround()) {
-				if(Math.abs(spr.getSpeedX()) > 0) {
-					return "walk";
-				} else {
-					return "idle";
-				}
-			} else if(spr.getSpeedY() > 0) {
-				return "fall";
-			} else {
-				return "jump";
-			}
-		}, "idle", 0, 0, 48, 96, 10, 0.8, 3);
+		characters.add(0, new Sonic(0,0));
+		characters.add(1, new Mario(0,0));
+		characters.add(2, new Link(0,0));
+		characters.add(3, new Megaman(0,0));
 
-		camera = new Camera(getLimits(), 0.1, character.getCenter());
+		camera = new Camera(getLimits(), 0.1, getCharacter().getCenter());
 	}
 
 	private void importLevel(String levelName) throws ParserConfigurationException, IOException, SAXException {
@@ -98,8 +90,30 @@ public class Level {
 	}
 
 	public void update(ZKeyboard kb, ZMouse mouse) {
-		character.update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse);
-		camera.goTo(character.getCenter());
+		getCharacter().update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse);
+		camera.goTo(getCharacter().getCenter());
+
+		changeCharacter(kb);
+	}
+
+	public void changeCharacter(ZKeyboard k) {
+		if(k.B17 && characterIndex != 0) {
+			int newIndex = 0;
+			getCharacter(newIndex).setLL(getCharacter().getLL());
+			characterIndex = newIndex;
+		} else if(k.B28 && characterIndex != 1) {
+			int newIndex = 1;
+			getCharacter(newIndex).setLL(getCharacter().getLL());
+			characterIndex = newIndex;
+		} else if(k.B39 && characterIndex != 2) {
+			int newIndex = 2;
+			getCharacter(newIndex).setLL(getCharacter().getLL());
+			characterIndex = newIndex;
+		} else if(k.B40 && characterIndex != 3) {
+			int newIndex = 3;
+			getCharacter(newIndex).setLL(getCharacter().getLL());
+			characterIndex = newIndex;
+		}
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -111,11 +125,11 @@ public class Level {
 				s -> s.draw(g2d)
 		);
 
-		character.draw(g2d);
+		getCharacter().draw(g2d);
 
 		if(SMLM.DEBUG_MODE) {
 			ZPoint c1 = camera.getCenter();
-			ZPoint c2 = character.getCenter();
+			ZPoint c2 = getCharacter().getCenter();
 
 			g2d.setColor(Color.GRAY);
 			g2d.drawLine((int) c1.x, (int) c1.y, (int) c2.x, (int) c2.y);
@@ -123,7 +137,11 @@ public class Level {
 	}
 
 	public Character getCharacter() {
-		return character;
+		return characters.get(characterIndex);
+	}
+
+	public Character getCharacter(int i) {
+		return characters.get(i);
 	}
 
 	private ZRect getLimits() {

@@ -3,7 +3,7 @@ package com.estudante.sc.senai.br.lhama.smlm;
 import java.awt.*;
 import java.util.HashMap;
 
-public class Character extends Sprite {
+public abstract class Character extends Sprite {
 
 	private double jumpSpeed;
 	private boolean left;
@@ -12,8 +12,24 @@ public class Character extends Sprite {
 	private int termVelocity;
 	private double speed;
 
-	public Character(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight) {
-		super(paths, aniChanger, defaultAnimation, x, y, w, h);
+	private static AnimationChanger getAniChanger() {
+		return spr -> {
+			if(spr.isOnGround()) {
+				if(Math.abs(spr.getSpeedX()) > 0) {
+					return "walk";
+				} else {
+					return "idle";
+				}
+			} else if(spr.getSpeedY() > 0) {
+				return "fall";
+			} else {
+				return "jump";
+			}
+		};
+	}
+
+	public Character(HashMap<String, String> paths, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight) {
+		super(paths, getAniChanger(), "idle", x, y, w, h);
 		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpHeight) + 0.5); // link: 0.15  megaman: 1  sonic: 2  mario: 3
 		System.out.println(jumpSpeed);
 		this.termVelocity = termVelocity;
@@ -51,6 +67,15 @@ public class Character extends Sprite {
 //			mouseOver();
 		}
 		super.update(lyr);
+	}
+
+	public ZPoint getLL() {
+		return new ZPoint(x, y + h);
+	}
+
+	public void setLL(ZPoint p) {
+		x = p.x;
+		y = p.y - h;
 	}
 
 	private void setLR(ZKeyboard kb) {

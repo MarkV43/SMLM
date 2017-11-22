@@ -7,7 +7,16 @@ import java.util.HashMap;
 
 public class Sonic extends Character {
 
-    public Sonic(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight) {
-        super(paths, aniChanger, defaultAnimation, x, y, w, h, termVelocity, speed, jumpHeight);
+    private static HashMap<String, String> getPaths() {
+        HashMap<String, String> paths = new HashMap<>();
+	    paths.put("idle", "characters/idle#3");
+	    paths.put("fall", "characters/fall#3");
+	    paths.put("jump", "characters/jump#3");
+	    paths.put("walk", "characters/walk#3");
+        return paths;
+    }
+
+    public Sonic(double x, double y) {
+        super(getPaths(), x, y, 48, 96, 20, 1.2, 2);
     }
 }
