@@ -23,16 +23,15 @@ public class TileLayer extends Layer {
 	public TileLayer(ZTileMap tileMap, JSONObject layer, int tileSize) {
 		this.tileSize = tileSize;
 		this.tileMap = tileMap;
-		name = (String) layer.get("name");
-		opacity = ((Number) layer.get("opacity")).floatValue();
-		visible = (boolean) layer.get("visible");
-		collision = !layer.containsKey("collision") || (boolean) layer.get("collision");
+		setName((String) layer.get("name"));
+		setOpacity(((Number) layer.get("opacity")).floatValue());
+		setVisible((boolean) layer.get("visible"));
 
 		load(layer);
-		ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity);
+		setAc(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 	}
 
-	private void load(JSONObject layer) {
+	protected void load(JSONObject layer) {
 		JSONArray data = (JSONArray) layer.get("data");
 		long w = (long) layer.get("width");
 		long h = (long) layer.get("height");
@@ -50,6 +49,7 @@ public class TileLayer extends Layer {
 		}
 	}
 
+	@Override
 	public void draw(Graphics2D g2d, ZRect rect) {
 		if (visible) {
 			g2d.setComposite(ac);

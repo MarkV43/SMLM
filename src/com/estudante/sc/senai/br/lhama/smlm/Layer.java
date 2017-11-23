@@ -10,11 +10,11 @@ public abstract class Layer {
 
 	protected float opacity;
 	protected boolean visible;
-	protected boolean collision;
 	protected AlphaComposite ac;
 	protected String name;
 
 	public abstract void draw(Graphics2D g2d, ZRect rect);
+	protected abstract void load(JSONObject layer);
 
 	public String getName() {
 		return name;
@@ -24,10 +24,37 @@ public abstract class Layer {
 		Layer l = null;
 		if(layer.get("type").equals("tilelayer")) {
 			l = new TileLayer(tileMap, layer, tileSize);
-		} else {
-			//TODO implement SpriteLayer class
-//			l = new SpriteLayer();
+		} else if(layer.get("type").equals("objectgroup")) {
+			l = new SpriteLayer(layer);
 		}
 		return l;
+	}
+
+	public float getOpacity() {
+		return opacity;
+	}
+
+	public void setOpacity(float opacity) {
+		this.opacity = opacity;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public AlphaComposite getAc() {
+		return ac;
+	}
+
+	public void setAc(AlphaComposite ac) {
+		this.ac = ac;
 	}
 }

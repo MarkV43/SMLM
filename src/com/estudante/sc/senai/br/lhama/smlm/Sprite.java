@@ -19,11 +19,11 @@ public class Sprite extends ZRect {
 		animation = defaultAnimation;
 	}
 
-	public Sprite(Sprite sprite) {
+	public Sprite(Sprite sprite, double x, double y) {
 		animations = sprite.animations;
 		animation = sprite.animation;
-		x = sprite.x;
-		y = sprite.y;
+		this.x = x;
+		this.y = y;
 		w = sprite.w;
 		h = sprite.h;
 		speedX = sprite.speedX;
