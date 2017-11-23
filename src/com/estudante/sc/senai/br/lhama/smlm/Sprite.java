@@ -70,7 +70,7 @@ public class Sprite extends ZRect {
 
 		onGround = false;
 		range.forEach(t -> {
-			if((Math.floor(t.y) == Math.floor(y + h) && speedY > 0) || intersects(t)) {
+			if(touching(t) || intersects(t)) {
 				if (y < t.y && y + h >= t.y) {
 					y = t.y - h;
 					onGround = true;
@@ -80,6 +80,10 @@ public class Sprite extends ZRect {
 				speedY = 0;
 			}
 		});
+	}
+
+	private boolean touching(ZRect t) {
+		return (Math.floor(t.y) == Math.floor(y + h) && speedY > 0) && ((x < t.x + t.w && x > t.x) || (x + w > t.x && x + w < t.x + t.w));
 	}
 
 	private ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {

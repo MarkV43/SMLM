@@ -55,7 +55,7 @@ public abstract class Character extends Sprite {
 			if (!(kb.A || kb.D)) {
 				setSpeedX(getSpeedX() * 0.8);
 			}
-			if (kb.W) {
+			if (kb.W && !kb.pW) {
 				setSpeedY(jumpSpeed);
 			}
 		}

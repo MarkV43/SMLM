@@ -2,6 +2,7 @@ package com.estudante.sc.senai.br.lhama.smlm;
 
 public class ZKeyboard {
 	public boolean W;
+	public boolean pW;
 	public boolean A;
 	public boolean S;
 	public boolean D;
@@ -14,6 +15,7 @@ public class ZKeyboard {
 
 	public ZKeyboard() {
 		W = false;
+		pW = false;
 		A = false;
 		S = false;
 		D = false;
@@ -26,15 +28,16 @@ public class ZKeyboard {
 	}
 
 	public ZKeyboard(ZKeyboard k) {
-		A = k. A;
-		S = k. S;
-		D = k. D;
-		W = k. W;
-		B17 = k. B17;
-		B28 = k. B28;
-		B39 = k. B39;
-		B40 = k. B40;
-		SPACE = k. SPACE;
-		ESCP = k. ESCP;
+		A = k.A;
+		S = k.S;
+		D = k.D;
+		W = k.W;
+		pW = k.pW;
+		B17 = k.B17;
+		B28 = k.B28;
+		B39 = k.B39;
+		B40 = k.B40;
+		SPACE = k.SPACE;
+		ESCP = k.ESCP;
 	}
 }
