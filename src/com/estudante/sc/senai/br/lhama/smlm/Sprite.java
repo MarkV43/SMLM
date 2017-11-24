@@ -12,6 +12,15 @@ public class Sprite extends ZRect {
     private double speedY;
     private boolean onGround;
     private AnimationChanger aniChanger;
+    private int frames = 0;
+
+    public boolean falls() {
+        return true;
+    }
+
+    public int framesPerFrame() {
+    	return 1;
+    }
 
     public Sprite(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h) {
         super(x, y, w, h);
@@ -38,13 +47,18 @@ public class Sprite extends ZRect {
 
         collisionX(lyr);
 
-        speedY += SMLM.GRAVITY;
+        if(falls()) {
+            speedY += SMLM.GRAVITY;
+            y += speedY;
 
-        y += speedY;
+            collisionY(lyr);
+        }
 
-        collisionY(lyr);
-
-        animations.get(animation).next();
+	    frames++;
+	    if(frames % framesPerFrame() == 0) {
+	        animations.get(animation).next();
+	        frames = 0;
+        }
 
         String next = aniChanger.change(this);
         setAnimation(next);

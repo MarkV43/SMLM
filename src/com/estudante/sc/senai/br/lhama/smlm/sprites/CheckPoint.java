@@ -8,19 +8,24 @@ public class CheckPoint extends Sprite {
 
 	private int index;
 
+	@Override
+	public boolean falls() {
+		return false;
+	}
+
 	private static HashMap<String, String> getPaths() {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("swing", "sprites/flag#1");
 		return hm;
 	}
 
-	public static String change(Sprite spr) {
+	private static String change(Sprite spr) {
 		return "swing";
 	}
 
 
 	public CheckPoint(double x, double y) {
-		super(getPaths(), CheckPoint::change, "swing", x, y, 32, 32);
+		super(getPaths(), CheckPoint::change, "swing", x, y, 128, 128);
 	}
 
 	public CheckPoint(Sprite cp, double x, double y, int num) {

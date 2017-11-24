@@ -16,11 +16,16 @@ public class KoopaShell extends Sprite {
 		return hm;
 	}
 
-	public static String change(Sprite spr) {
+	private static String change(Sprite spr) {
 		if (spr.getSpeedX() != 0) {
 			return "run";
 		}
 		return "run";
+	}
+
+	@Override
+	public int framesPerFrame() {
+		return 10;
 	}
 
 	public KoopaShell(double x, double y) {

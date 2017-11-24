@@ -46,6 +46,10 @@ public class ZRect {
 		h = r.h;
 	}
 
+	public void setPos() {
+
+	}
+
 	public ZPoint getTopLeft() {
 		return new ZPoint(x, y);
 	}

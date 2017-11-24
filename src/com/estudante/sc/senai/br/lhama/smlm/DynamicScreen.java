@@ -6,6 +6,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Is necessary. The level draws the level in its own, while
@@ -18,14 +19,26 @@ public class DynamicScreen implements Screen {
 	private Level level;
 	private boolean hover = false;
 	private ZImage hoverImage;
+	private ArrayList<Tag> tags;
 
 	public DynamicScreen(String levelName) throws IOException, SAXException, ParserConfigurationException {
 		level = new Level(levelName);
 		hoverImage = new ZImage("images/hover_image.png");
+		tags = new ArrayList<>(4);
+
+		for (int i = 0; i < 4; i++) {
+			ZRect r = new ZRect(
+					5 + 32 * i,
+					Utils.getInstance().getHeight() - 32,
+					32, 40
+			);
+			tags.add(new Tag(r, "images/tags" + i + ".png"));
+		}
 	}
 
 	public void update(ZKeyboard kb, ZMouse m) {
 		hover = level.update(kb, m);
+		tags.get(level.getCharacterIndex()).setActive(true);
 	}
 
 	@Override
@@ -46,6 +59,8 @@ public class DynamicScreen implements Screen {
 		if(hover) {
 			hoverImage.draw(g2d, 0, Utils.getInstance().getHeight() - hoverImage.getHeight());
 		}
+
+		tags.forEach(tag -> tag.draw(g2d));
 	}
 
 	public void setCharacterPos(double x, double y) {

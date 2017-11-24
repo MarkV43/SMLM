@@ -72,6 +72,14 @@ public class ZImage {
 		rect.setH(image.getHeight(null));
 	}
 
+	public void setY(double y) {
+		rect.y = y;
+	}
+
+	public double getY() {
+		return rect.y;
+	}
+
 	public int getWidth() {
 		return getBufferedImage().getWidth();
 	}

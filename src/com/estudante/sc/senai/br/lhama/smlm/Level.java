@@ -1,5 +1,6 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
+import br.senai.sc.engine.Utils;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Link;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Mario;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Megaman;
@@ -45,9 +46,9 @@ public class Level {
 		characters.add(2, new Link(0,0));
 		characters.add(3, new Megaman(0,0));
 
-		camera = new Camera(getLimits(), 0.1, getCharacter().getCenter());
-
 		importLevel("levels/" + levelName);
+
+		camera = new Camera(getLimits(), 0.1, getCharacter().getCenter());
 
 	}
 
@@ -141,6 +142,8 @@ public class Level {
 	}
 
 	public void draw(Graphics2D g2d) {
+		g2d.setColor(new Color(0x3babff));
+		g2d.fillRect(0, 0, Utils.getInstance().getWidth(), Utils.getInstance().getHeight());
 		g2d.translate(-camera.x, -camera.y);
 		layers.forEach(
 				(str, layer) -> layer.draw(g2d, camera)
@@ -168,6 +171,10 @@ public class Level {
 		return characters.get(i);
 	}
 
+	public int getCharacterIndex() {
+		return characterIndex;
+	}
+
 	private ZRect getLimits() {
 		ZRect ret = new ZRect();
 		ret.w = width * tileSize;
@@ -181,6 +188,10 @@ public class Level {
 
 	private CheckPoint getCheckpoint(int i) {
 		return checkPoints.get(i);
+	}
+
+	private void retry() {
+		getCharacter();
 	}
 
 }
