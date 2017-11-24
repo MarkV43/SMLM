@@ -4,6 +4,7 @@ import com.estudante.sc.senai.br.lhama.smlm.characters.Link;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Mario;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Megaman;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Sonic;
+import com.estudante.sc.senai.br.lhama.smlm.sprites.CheckPoint;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
@@ -31,10 +32,10 @@ public class Level {
 	private Camera camera;
 	private long width;
 	private long height;
+	private ArrayList<CheckPoint> checkPoints;
+	private int checkpoint = 0;
 
 	public Level(String levelName) throws ParserConfigurationException, IOException, SAXException {
-		importLevel("levels/" + levelName);
-
 		sprites = new ArrayList<>();
 
 		characters = new ArrayList<>();
@@ -45,6 +46,9 @@ public class Level {
 		characters.add(3, new Megaman(0,0));
 
 		camera = new Camera(getLimits(), 0.1, getCharacter().getCenter());
+
+		importLevel("levels/" + levelName);
+
 	}
 
 	private void importLevel(String levelName) throws ParserConfigurationException, IOException, SAXException {
@@ -81,16 +85,34 @@ public class Level {
 		JSONArray layers = (JSONArray) level.get("layers");
 
 		this.layers = new HashMap<>(layers.size());
+		checkPoints = new ArrayList<>();
 
 		for (Object lyr : layers) {
 			Layer layer = Layer.getInstance(tileMap, (JSONObject) lyr, tileSize);
 			this.layers.put(layer.getName(), layer);
+			if(layer instanceof SpriteLayer) {
+				ArrayList<CheckPoint> cps = ((SpriteLayer) layer).getCheckpoints();
+				for (CheckPoint cp : cps) {
+					checkPoints.add(cp.getIndex(), cp);
+				}
+			}
 		}
 
+		getCharacter().x = getCheckpoint().x;
+		getCharacter().y = getCheckpoint().y;
 	}
 
 	public boolean update(ZKeyboard kb, ZMouse mouse) {
-		boolean hover = getCharacter().update((TileLayer) layers.get("Camada de Tiles 1"), kb, mouse, camera);
+
+		TileLayer collisionLayer = (TileLayer) layers.get("Camada de Tiles 1");
+
+		layers.forEach((s, layer) -> {
+			if(layer instanceof SpriteLayer) {
+				((SpriteLayer) layer).update(collisionLayer);
+			}
+		});
+
+		boolean hover = getCharacter().update(collisionLayer, kb, mouse, camera);
 		camera.goTo(getCharacter().getCenter());
 
 		changeCharacter(kb);
@@ -151,6 +173,14 @@ public class Level {
 		ret.w = width * tileSize;
 		ret.y = height * tileSize;
 		return ret;
+	}
+
+	private CheckPoint getCheckpoint() {
+		return checkPoints.get(checkpoint);
+	}
+
+	private CheckPoint getCheckpoint(int i) {
+		return checkPoints.get(i);
 	}
 
 }

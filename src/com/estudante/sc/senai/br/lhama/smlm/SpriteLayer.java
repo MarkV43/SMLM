@@ -1,5 +1,6 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
+import com.estudante.sc.senai.br.lhama.smlm.sprites.CheckPoint;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -40,6 +41,10 @@ public class SpriteLayer extends Layer {
 
 	}
 
+	public void update(TileLayer lyr) {
+		sprites.forEach(sprite -> sprite.update(lyr));
+	}
+
 	@Override
 	public void draw(Graphics2D g2d, ZRect rect) {
 		if(visible) {
@@ -47,5 +52,15 @@ public class SpriteLayer extends Layer {
 
 			sprites.forEach(sprite -> sprite.draw(g2d));
 		}
+	}
+
+	public ArrayList<CheckPoint> getCheckpoints() {
+		ArrayList<CheckPoint> arr = new ArrayList<>();
+		for (Sprite spr : sprites) {
+			if(spr instanceof CheckPoint) {
+				arr.add((CheckPoint) spr);
+			}
+		}
+		return arr;
 	}
 }

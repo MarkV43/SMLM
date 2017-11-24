@@ -1,6 +1,5 @@
 package com.estudante.sc.senai.br.lhama.smlm.sprites;
 
-import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Sprite;
 
 import java.util.HashMap;
@@ -17,17 +16,14 @@ public class KoopaShell extends Sprite {
 		return hm;
 	}
 
-	private static AnimationChanger getAniChanger() {
-		return spr -> {
-			if(spr.getSpeedX() != 0) {
-				return "run";
-			}
-			return "idle";
-		};
+	public static String change(Sprite spr) {
+		if (spr.getSpeedX() != 0) {
+			return "run";
+		}
+		return "run";
 	}
 
 	public KoopaShell(double x, double y) {
-		super(getPaths(), getAniChanger(), "idle", x, y, 64, 47);
+		super(getPaths(), KoopaShell::change, "idle", x, y, 64, 47);
 	}
-
 }

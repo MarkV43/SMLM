@@ -27,4 +27,8 @@ public class ZStrip extends ZTileMap {
 		tiles[frame].draw(g2d, r);
 	}
 
+	public void set(int index) {
+		frame = index;
+	}
+
 }

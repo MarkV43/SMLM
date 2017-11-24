@@ -31,7 +31,6 @@ public abstract class Character extends Sprite {
 	public Character(HashMap<String, String> paths, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight) {
 		super(paths, getAniChanger(), "idle", x, y, w, h);
 		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpHeight) + 0.5); // link: 0.15  megaman: 1  sonic: 2  mario: 3
-		System.out.println(jumpSpeed);
 		this.termVelocity = termVelocity;
 		this.speed = speed;
 	}
