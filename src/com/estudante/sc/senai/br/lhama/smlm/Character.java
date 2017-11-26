@@ -11,6 +11,7 @@ public abstract class Character extends Sprite {
 	private int dir = 0;
 	private int termVelocity;
 	private double speed;
+	private long width;
 
 	@Override
 	public int framesPerFrame() {
@@ -19,13 +20,13 @@ public abstract class Character extends Sprite {
 
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
-			if(spr.isOnGround()) {
-				if(Math.abs(spr.getSpeedX()) > 0) {
+			if (spr.isOnGround()) {
+				if (Math.abs(spr.getSpeedX()) > 1.2) {
 					return "walk";
 				} else {
 					return "idle";
 				}
-			} else if(spr.getSpeedY() > 0) {
+			} else if (spr.getSpeedY() > 0) {
 				return "fall";
 			} else {
 				return "jump";
@@ -33,14 +34,15 @@ public abstract class Character extends Sprite {
 		};
 	}
 
-	public Character(HashMap<String, String> paths, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight) {
+	public Character(HashMap<String, String> paths, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight, long width) {
 		super(paths, getAniChanger(), "idle", x, y, w, h);
 		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpHeight) + 0.5); // link: 0.15  megaman: 1  sonic: 2  mario: 3
 		this.termVelocity = termVelocity;
 		this.speed = speed;
+		this.width = width;
 	}
 
-	public boolean update(TileLayer lyr, ZKeyboard kb, ZMouse mouse, Camera c) {
+	public boolean update(TileLayer lyr, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
 		double change = dir * speed;
 		if (Math.signum(change) == -Math.signum(getSpeedX())) {
 			change *= 3d / 4d;
@@ -59,7 +61,7 @@ public abstract class Character extends Sprite {
 			if (!(kb.A || kb.D)) {
 				setSpeedX(getSpeedX() * 0.8);
 			}
-			if (kb.W && !kb.pW) {
+			if (kb.W) {
 				setSpeedY(jumpSpeed);
 			}
 		}
@@ -68,6 +70,15 @@ public abstract class Character extends Sprite {
 			special();
 		}
 		super.update(lyr);
+
+		//double dist = Math.cos(d += 0.05) * 5 + 10;
+		if (x < dist) {
+			x = dist;
+			setSpeedX(0);
+		} else if (x + w > width - dist) {
+			x = width - dist - w;
+			setSpeedX(0);
+		}
 		return contains(mouse, c.x, c.y) && mouseOver();
 	}
 
@@ -116,7 +127,6 @@ public abstract class Character extends Sprite {
 	@Override
 	public void draw(Graphics2D g2d) {
 		super.draw(g2d);
-
 	}
 
 	public boolean left() {

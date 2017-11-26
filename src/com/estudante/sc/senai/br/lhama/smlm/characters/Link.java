@@ -16,8 +16,8 @@ public class Link extends Character {
         return paths;
     }
 
-    public Link(double x, double y) {
-        super(getPaths(), x, y, 48, 48, 5, 0.5, 0.1);
+    public Link(double x, double y, long w) {
+        super(getPaths(), x, y, 48, 48, 5, 0.5, 0.1, w);
     }
 
 	@Override

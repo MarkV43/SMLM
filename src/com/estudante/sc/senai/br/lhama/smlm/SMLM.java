@@ -201,7 +201,7 @@ public class SMLM extends Game {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
-					keyboard.setW(true);
+					keyboard.W = true;
 					break;
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:
@@ -246,7 +246,7 @@ public class SMLM extends Game {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
-					keyboard.setW(false);
+					keyboard.W = false;
 					break;
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:

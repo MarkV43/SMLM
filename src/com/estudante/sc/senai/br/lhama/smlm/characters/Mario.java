@@ -15,8 +15,8 @@ public class Mario extends Character {
         return paths;
     }
 
-    public Mario(double x, double y) {
-        super(getPaths(), x, y, 48, 96, 10, 0.8, 3);
+    public Mario(double x, double y, long w) {
+        super(getPaths(), x, y, 48, 96, 10, 0.8, 3, w);
     }
 
 	@Override

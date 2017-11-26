@@ -15,8 +15,8 @@ public class Sonic extends Character {
         return paths;
     }
 
-    public Sonic(double x, double y) {
-        super(getPaths(), x, y, 48, 96, 20, 1.2, 2);
+    public Sonic(double x, double y, long w) {
+        super(getPaths(), x, y, 48, 96, 20, 1.2, 2, w);
     }
 
 	@Override

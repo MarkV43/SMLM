@@ -35,6 +35,7 @@ public class Level {
 	private long height;
 	private ArrayList<CheckPoint> checkPoints;
 	private int checkpoint = 0;
+	private double d = 0;
 	private int energy;
 	private int maxEnergy;
 	private int lives;
@@ -43,14 +44,19 @@ public class Level {
 	public Level(String levelName) throws ParserConfigurationException, IOException, SAXException {
 		sprites = new ArrayList<>();
 
+		importLevel("levels/" + levelName);
+
+
 		characters = new ArrayList<>();
 
-		characters.add(0, new Sonic(0,0));
-		characters.add(1, new Mario(0,0));
-		characters.add(2, new Link(0,0));
-		characters.add(3, new Megaman(0,0));
+		long w = width * SMLM.TILE_SIZE;
+		characters.add(0, new Sonic(0,0, w));
+		characters.add(1, new Mario(0,0, w));
+		characters.add(2, new Link(0,0, w));
+		characters.add(3, new Megaman(0,0, w));
 
-		importLevel("levels/" + levelName);
+		getCharacter().x = getCheckpoint().x;
+		getCharacter().y = getCheckpoint().y;
 
 		camera = new Camera(getLimits(), 0.1, getCharacter().getCenter());
 
@@ -102,9 +108,6 @@ public class Level {
 				}
 			}
 		}
-
-		getCharacter().x = getCheckpoint().x;
-		getCharacter().y = getCheckpoint().y;
 	}
 
 	public boolean update(ZKeyboard kb, ZMouse mouse) {
@@ -117,9 +120,11 @@ public class Level {
 			}
 		});
 
-		boolean hover = getCharacter().update(collisionLayer, kb, mouse, camera);
-		camera.goTo(getCharacter().getCenter());
+		d += 0.05;
+		double dist = Math.cos(d) * 5 + 10;
+		boolean hover = getCharacter().update(collisionLayer, kb, mouse, camera, dist);
 
+		camera.goTo(getCharacter().getCenter());
 		changeCharacter(kb);
 
 		return hover;
@@ -168,6 +173,11 @@ public class Level {
 
 			g2d.setColor(Color.GRAY);
 			g2d.drawLine((int) c1.x, (int) c1.y, (int) c2.x, (int) c2.y);
+
+			int dist = (int) (Math.cos(d) * 5 + 10);
+			g2d.setColor(Color.CYAN);
+			g2d.drawLine(dist, (int) camera.y, dist, (int) (camera.y + camera.h));
+			g2d.drawLine((int) (width * SMLM.TILE_SIZE - dist), (int) camera.y, (int) (width * SMLM.TILE_SIZE - dist), (int) (camera.y + camera.h));
 		}
 	}
 

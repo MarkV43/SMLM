@@ -15,8 +15,8 @@ public class Megaman extends Character {
         return paths;
     }
 
-    public Megaman(double x, double y) {
-        super(getPaths(), x, y, 48, 96, 7, 1, 1);
+    public Megaman(double x, double y, long w) {
+        super(getPaths(), x, y, 48, 96, 7, 1, 1, w);
     }
 
     @Override
