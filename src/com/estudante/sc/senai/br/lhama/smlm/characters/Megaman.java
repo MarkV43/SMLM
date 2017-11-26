@@ -1,5 +1,6 @@
 package com.estudante.sc.senai.br.lhama.smlm.characters;
 
+import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
 
 import java.util.HashMap;
@@ -15,12 +16,28 @@ public class Megaman extends Character {
         return paths;
     }
 
+    private static AnimationChanger getAniChanger() {
+        return spr -> {
+            if (spr.isOnGround()) {
+                if (Math.abs(spr.getSpeedX()) > 1.2) {
+                    return "walk";
+                } else {
+                    return "idle";
+                }
+            } else if (spr.getSpeedY() > 0) {
+                return "fall";
+            } else {
+                return "jump";
+            }
+        };
+    }
+
     public Megaman(double x, double y, long w) {
-        super(getPaths(), x, y, 48, 96, 7, 1, 1, w);
+        super(getPaths(), getAniChanger(), x, y, 48, 96, 7, 1, 1, w);
     }
 
     @Override
-    public void special() {
+    public void special(boolean space) {
 
     }
 }

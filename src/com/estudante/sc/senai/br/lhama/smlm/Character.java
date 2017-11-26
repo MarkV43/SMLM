@@ -18,24 +18,8 @@ public abstract class Character extends Sprite {
 		return 5;
 	}
 
-	private static AnimationChanger getAniChanger() {
-		return spr -> {
-			if (spr.isOnGround()) {
-				if (Math.abs(spr.getSpeedX()) > 1.2) {
-					return "walk";
-				} else {
-					return "idle";
-				}
-			} else if (spr.getSpeedY() > 0) {
-				return "fall";
-			} else {
-				return "jump";
-			}
-		};
-	}
-
-	public Character(HashMap<String, String> paths, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight, long width) {
-		super(paths, getAniChanger(), "idle", x, y, w, h);
+	public Character(HashMap<String, String> paths, AnimationChanger animationChanger, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight, long width) {
+		super(paths, animationChanger, "idle", x, y, w, h);
 		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpHeight) + 0.5); // link: 0.15  megaman: 1  sonic: 2  mario: 3
 		this.termVelocity = termVelocity;
 		this.speed = speed;
@@ -66,9 +50,8 @@ public abstract class Character extends Sprite {
 			}
 		}
 		setLR(kb);
-		if (kb.SPACE) {
-			special();
-		}
+		special(kb.SPACE);
+
 		super.update(lyr);
 
 		//double dist = Math.cos(d += 0.05) * 5 + 10;
@@ -82,7 +65,7 @@ public abstract class Character extends Sprite {
 		return contains(mouse, c.x, c.y) && mouseOver();
 	}
 
-	public abstract void special();
+	public abstract void special(boolean space);
 
 	public boolean mouseOver() {
 		// Implementation only on Link. (Easteregg)
@@ -145,8 +128,7 @@ public abstract class Character extends Sprite {
 		this.right = right;
 	}
 
-	//abstract public void mouseOver();
-
-	//abstract public void special();
-
+	public double getJumpSpeed() {
+		return jumpSpeed;
+	}
 }
