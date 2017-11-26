@@ -40,4 +40,9 @@ public class ZKeyboard {
 		SPACE = k.SPACE;
 		ESCP = k.ESCP;
 	}
+
+	public void setW(boolean b) {
+		pW = W;
+		W = b;
+	}
 }

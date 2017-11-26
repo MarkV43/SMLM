@@ -28,9 +28,9 @@ public class DynamicScreen implements Screen {
 
 		for (int i = 0; i < 4; i++) {
 			ZRect r = new ZRect(
-					5 + 32 * i,
-					Utils.getInstance().getHeight() - 32,
-					32, 40
+					4 + 64 * i,
+					Utils.getInstance().getHeight() - 64,
+					64, 80
 			);
 			tags.add(new Tag(r, "images/tags" + i + ".png"));
 		}

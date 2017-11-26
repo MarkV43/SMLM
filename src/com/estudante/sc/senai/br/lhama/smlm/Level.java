@@ -35,6 +35,10 @@ public class Level {
 	private long height;
 	private ArrayList<CheckPoint> checkPoints;
 	private int checkpoint = 0;
+	private int energy;
+	private int maxEnergy;
+	private int lives;
+	private int maxLives;
 
 	public Level(String levelName) throws ParserConfigurationException, IOException, SAXException {
 		sprites = new ArrayList<>();
@@ -122,22 +126,26 @@ public class Level {
 	}
 
 	public void changeCharacter(ZKeyboard k) {
-		if(k.B17 && characterIndex != 0) {
-			int newIndex = 0;
-			getCharacter(newIndex).setLL(getCharacter().getLL());
-			characterIndex = newIndex;
-		} else if(k.B28 && characterIndex != 1) {
-			int newIndex = 1;
-			getCharacter(newIndex).setLL(getCharacter().getLL());
-			characterIndex = newIndex;
-		} else if(k.B39 && characterIndex != 2) {
-			int newIndex = 2;
-			getCharacter(newIndex).setLL(getCharacter().getLL());
-			characterIndex = newIndex;
-		} else if(k.B40 && characterIndex != 3) {
-			int newIndex = 3;
-			getCharacter(newIndex).setLL(getCharacter().getLL());
-			characterIndex = newIndex;
+		Character current = getCharacter();
+		if(current.getAnimation().equals("idle")) {
+			ZPoint ll = current.getLL();
+			if(k.B17 && characterIndex != 0) {
+				int newIndex = 0;
+				getCharacter(newIndex).setLL(ll);
+				characterIndex = newIndex;
+			} else if(k.B28 && characterIndex != 1) {
+				int newIndex = 1;
+				getCharacter(newIndex).setLL(ll);
+				characterIndex = newIndex;
+			} else if(k.B39 && characterIndex != 2) {
+				int newIndex = 2;
+				getCharacter(newIndex).setLL(ll);
+				characterIndex = newIndex;
+			} else if(k.B40 && characterIndex != 3) {
+				int newIndex = 3;
+				getCharacter(newIndex).setLL(ll);
+				characterIndex = newIndex;
+			}
 		}
 	}
 

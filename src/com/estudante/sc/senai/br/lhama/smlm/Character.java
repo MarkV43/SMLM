@@ -12,6 +12,11 @@ public abstract class Character extends Sprite {
 	private int termVelocity;
 	private double speed;
 
+	@Override
+	public int framesPerFrame() {
+		return 5;
+	}
+
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
 			if(spr.isOnGround()) {
