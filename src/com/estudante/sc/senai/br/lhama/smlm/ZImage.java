@@ -1,12 +1,9 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 /**
