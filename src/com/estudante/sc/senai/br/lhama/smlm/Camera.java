@@ -19,10 +19,10 @@ public class Camera extends ZRect {
 
 	public void goTo(ZPoint p) {
 		ZPoint newCenter = ZMath.lerp(getCenter(), p, smoothness);
-		setCenter(newCenter);
+		setCenterC(newCenter);
 	}
 
-	private void setCenter(ZPoint newCenter) {
+	private void setCenterC(ZPoint newCenter) {
 		ZPoint preCenter = getCenter();
 		x += newCenter.x - preCenter.x;
 		if(x < limits.x) {

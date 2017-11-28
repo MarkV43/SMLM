@@ -33,7 +33,7 @@ public class Megaman extends Character {
     }
 
     public Megaman(double x, double y, long w) {
-        super(getPaths(), getAniChanger(), x, y, 48, 96, 7, 1, 1, w);
+        super(getPaths(), getAniChanger(), x, y, 48, 80, 7, 1, 1, w);
     }
 
     @Override

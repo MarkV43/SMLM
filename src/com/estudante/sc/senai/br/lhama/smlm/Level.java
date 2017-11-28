@@ -193,6 +193,10 @@ public class Level {
 		return characterIndex;
 	}
 
+	public void resetCamera() {
+		camera.setCenter(getCharacter().getCenter());
+	}
+
 	private ZRect getLimits() {
 		ZRect ret = new ZRect();
 		ret.w = width * tileSize;
@@ -200,15 +204,15 @@ public class Level {
 		return ret;
 	}
 
-	private CheckPoint getCheckpoint() {
+	public CheckPoint getCheckpoint() {
 		return checkPoints.get(checkpoint);
 	}
 
-	private CheckPoint getCheckpoint(int i) {
+	public CheckPoint getCheckpoint(int i) {
 		return checkPoints.get(i);
 	}
 
-	private void retry() {
+	public void retry() {
 		getCharacter();
 	}
 

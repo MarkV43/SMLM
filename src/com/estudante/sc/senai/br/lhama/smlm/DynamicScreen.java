@@ -63,7 +63,12 @@ public class DynamicScreen implements Screen {
 		tags.forEach(tag -> tag.draw(g2d));
 	}
 
-	public void setCharacterPos(double x, double y) {
+	public void resetCharacter() {
+		level.getCharacter().setLL(level.getCheckpoint().getLL());
+		level.resetCamera();
+	}
+
+	private void setCharacterPos(double x, double y) {
 		Character c = level.getCharacter();
 		c.x = x;
 		c.y = y;

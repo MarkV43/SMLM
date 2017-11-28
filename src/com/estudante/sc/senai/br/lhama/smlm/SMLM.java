@@ -289,7 +289,7 @@ public class SMLM extends Game {
 				case KeyEvent.VK_R:
 					Screen current = screens.get(currentScreen);
 					if(current instanceof DynamicScreen) {
-						((DynamicScreen) current).setCharacterPos(3008, 1888);
+						((DynamicScreen) current).resetCharacter();
 					}
 					break;
 			}

@@ -133,6 +133,20 @@ public class ZRect {
 		return new ZPoint(x + w / 2, y + h / 2);
 	}
 
+	public void setCenter(ZPoint p) {
+		x = p.x - w / 2;
+		y = p.y - h / 2;
+	}
+
+	public ZPoint getLL() {
+		return new ZPoint(x, y + h);
+	}
+
+	public void setLL(ZPoint p) {
+		x = p.x;
+		y = p.y - h;
+	}
+
 	@Override
 	public String toString() {
 		return "ZRect{" +

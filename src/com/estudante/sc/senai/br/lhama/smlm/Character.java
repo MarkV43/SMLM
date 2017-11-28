@@ -72,15 +72,6 @@ public abstract class Character extends Sprite {
 		return false;
 	}
 
-	public ZPoint getLL() {
-		return new ZPoint(x, y + h);
-	}
-
-	public void setLL(ZPoint p) {
-		x = p.x;
-		y = p.y - h;
-	}
-
 	private boolean contains(ZPoint p, double x, double y) {
 		ZRect t = new ZRect(this);
 		t.x -= x;
