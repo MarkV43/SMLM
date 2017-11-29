@@ -4,7 +4,8 @@ package com.estudante.sc.senai.br.lhama.smlm;
  * Created by Marcelo Vogt on 21/11/2017.
  */
 public final class ZMath {
-	private ZMath() {}
+	private ZMath() {
+	}
 
 	public static ZPoint lerp(ZPoint p1, ZPoint p2, double alpha) {
 		ZPoint ret = new ZPoint();

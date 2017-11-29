@@ -9,7 +9,7 @@ import java.net.URL;
 /**
  * Created by Marcelo Vogt on 26/07/2017.
  */
-public class ZImage {
+public class ZImage implements Drawable {
 
 	private Image image;
 	private ZRect rect;
