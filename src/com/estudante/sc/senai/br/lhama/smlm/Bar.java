@@ -1,7 +1,5 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
-import org.intellij.lang.annotations.MagicConstant;
-
 import java.awt.*;
 
 /**
