@@ -2,6 +2,7 @@ package com.estudante.sc.senai.br.lhama.smlm.characters;
 
 import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
+import com.estudante.sc.senai.br.lhama.smlm.Sprite;
 
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ public class Megaman extends Character {
         return paths;
     }
 
+    @SuppressWarnings("Duplicates")
     private static AnimationChanger getAniChanger() {
         return spr -> {
             if (spr.isOnGround()) {
