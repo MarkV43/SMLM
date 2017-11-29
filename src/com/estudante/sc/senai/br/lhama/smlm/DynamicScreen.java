@@ -20,11 +20,15 @@ public class DynamicScreen implements Screen {
 	private boolean hover = false;
 	private ZImage hoverImage;
 	private ArrayList<Tag> tags;
+	private Bar energyBar;
+	private Bar lifeBar;
 
 	public DynamicScreen(String levelName) throws IOException, SAXException, ParserConfigurationException {
 		level = new Level(levelName);
 		hoverImage = new ZImage("images/hover_image.png");
 		tags = new ArrayList<>(4);
+		energyBar = new Bar("energy", Bar.FULL, 5, 5);
+		lifeBar = new Bar("life", Bar.HALF, 52, 5);
 
 		for (int i = 0; i < 4; i++) {
 			ZRect r = new ZRect(
@@ -61,6 +65,8 @@ public class DynamicScreen implements Screen {
 		}
 
 		tags.forEach(tag -> tag.draw(g2d));
+		energyBar.draw(g2d);
+		lifeBar.draw(g2d);
 	}
 
 	public void resetCharacter() {

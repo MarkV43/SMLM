@@ -17,6 +17,7 @@ public class Link extends Character {
         return paths;
     }
 
+	@SuppressWarnings("Duplicates")
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
 			if (spr.isOnGround()) {

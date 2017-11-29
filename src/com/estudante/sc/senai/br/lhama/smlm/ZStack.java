@@ -47,7 +47,9 @@ public class ZStack<T extends Drawable> implements Iterateable<T> {
 	public void indexedForEach(BiConsumer<Integer, T> b) {
 		for (int i = 0; i < ts.length; i++) {
 			T t = (T) ts[i];
-			b.accept(i, t);
+			if(t != null) {
+				b.accept(i, t);
+			}
 		}
 	}
 }

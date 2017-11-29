@@ -10,5 +10,6 @@
     <orderEntry type="library" name="SMLM" level="project" />
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" name="commons-collections4-4.1" level="project" />
+    <orderEntry type="library" name="annotations" level="application" />
   </component>
 </module>
