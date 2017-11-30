@@ -23,6 +23,7 @@ public abstract class Game extends Canvas {
 	private Map<String, Mp3> musicas;
 	private Map<String, CustomFont> customFonts;
 	private Map<String, Cursor> cursors;
+	private String currentCursor;
 
 	public Game() {
 		Dimension fullscreen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,6 +47,7 @@ public abstract class Game extends Canvas {
 		fps = new Fps(TARGET_FRAMERATE);
 		musicas = new HashMap<>();
 		customFonts = new HashMap<>();
+		cursors = new HashMap<>();
 		init();
 		container.setVisible(true);
 		requestFocus();
@@ -79,6 +81,7 @@ public abstract class Game extends Canvas {
 		init();
 		container.setLocationRelativeTo(null);
 		container.setVisible(true);
+		container.requestFocus();
 		requestFocus();
 		createBufferStrategy(2);
 		strategy = getBufferStrategy();
@@ -213,8 +216,9 @@ public abstract class Game extends Canvas {
 
 	public void setCursor(String cursorName) {
 
-		if(cursors.containsKey(cursorName)) {
-			panel.setCursor(cursors.get(cursorName));
+		if(cursors.containsKey(cursorName) && (currentCursor == null || !cursorName.equals(currentCursor))) {
+			container.setCursor(cursors.get(cursorName));
+			currentCursor = cursorName;
 		}
 
 	}

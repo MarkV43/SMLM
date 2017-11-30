@@ -43,6 +43,10 @@ public class Bar extends ZImage {
 		}
 	}
 
+	public int count() {
+		return segs.size();
+	}
+
 	public void add(int i) {
 		set(i + segs.size());
 	}

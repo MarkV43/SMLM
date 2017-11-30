@@ -12,6 +12,10 @@ public abstract class Character extends Sprite {
 	private int termVelocity;
 	private double speed;
 	private long width;
+	private int life = Bar.FULL;
+	private int energy;
+	private int invincibility = 0;
+	private Level level;
 
 	@Override
 	public int framesPerFrame() {
@@ -27,6 +31,7 @@ public abstract class Character extends Sprite {
 	}
 
 	public boolean update(TileLayer lyr, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+		invincibility = Math.max(invincibility - 1, 0);
 		double change = dir * speed;
 		if (Math.signum(change) == -Math.signum(getSpeedX())) {
 			change *= 3d / 4d;
@@ -100,7 +105,14 @@ public abstract class Character extends Sprite {
 
 	@Override
 	public void draw(Graphics2D g2d) {
+		int i = Math.floorDiv(invincibility, 4) % 2;
+		if(i != 0) {
+			g2d.setXORMode(new Color(0, 0, 0, 255));
+		}
 		super.draw(g2d);
+		if(i != 0) {
+			g2d.setXORMode(new Color(255, 255, 255, 0));
+		}
 	}
 
 	public boolean left() {
@@ -122,4 +134,28 @@ public abstract class Character extends Sprite {
 	public double getJumpSpeed() {
 		return jumpSpeed;
 	}
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = ZMath.limit(life, Bar.EMPTY, Bar.FULL);
+	}
+
+	public int getEnergy() {
+		return energy;
+	}
+
+	public void setEnergy(int energy) {
+		this.energy = ZMath.limit(energy, Bar.EMPTY, Bar.FULL);;
+	}
+
+	public void damage(int amount) {
+		if(invincibility == 0) {
+			setLife(life - amount);
+			invincibility = 120;
+		}
+	}
+
 }

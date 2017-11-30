@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class SpriteLayer extends Layer {
 
-	private ArrayList<Sprite> sprites;
+	private ZList<Sprite> sprites;
 
 	public SpriteLayer(JSONObject layer) {
 		setName((String) layer.get("name"));
@@ -25,7 +25,7 @@ public class SpriteLayer extends Layer {
 	}
 
 	protected void load(JSONObject layer) {
-		sprites = new ArrayList<>();
+		sprites = new ZList<>();
 
 		JSONArray sprs = (JSONArray) layer.get("objects");
 		for (Object obj : sprs) {
@@ -35,14 +35,35 @@ public class SpriteLayer extends Layer {
 			long x = (long) spr.get("x");
 			long y = (long) spr.get("y");
 
-			Sprite s = Sprites.getInstance(name, x, y);
+			Sprite s = null;
+			try {
+				s = Sprites.getInstance(name, x, y);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
 			sprites.add(s);
 		}
 
 	}
 
-	public void update(TileLayer lyr) {
+	public void update(TileLayer lyr, Character c) {
 		sprites.forEach(sprite -> sprite.update(lyr));
+		collide(c);
+	}
+
+	private void collide(Character c) {
+		sprites.forEach(s -> {
+			if(s.intersects(c)) {
+				s.collide(c);
+			}
+		});
+
+		sprites.forEachOther((s1, s2) -> {
+			if(s1.intersects(s2)) {
+				s1.collide(s2);
+			}
+		});
 	}
 
 	@Override

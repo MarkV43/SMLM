@@ -22,13 +22,14 @@ public class DynamicScreen implements Screen {
 	private ArrayList<Tag> tags;
 	private Bar energyBar;
 	private Bar lifeBar;
+	private ZMouse mouse;
 
 	public DynamicScreen(String levelName) throws IOException, SAXException, ParserConfigurationException {
 		level = new Level(levelName);
 		hoverImage = new ZImage("images/hover_image.png");
 		tags = new ArrayList<>(4);
-		energyBar = new Bar("energy", Bar.FULL, 5, 5);
-		lifeBar = new Bar("life", Bar.HALF, 52, 5);
+		energyBar = new Bar("energy", Bar.FULL, 52, 5);
+		lifeBar = new Bar("life", Bar.HALF, 5, 5);
 
 		for (int i = 0; i < 4; i++) {
 			ZRect r = new ZRect(
@@ -43,6 +44,9 @@ public class DynamicScreen implements Screen {
 	public void update(ZKeyboard kb, ZMouse m) {
 		hover = level.update(kb, m);
 		tags.get(level.getCharacterIndex()).setActive(true);
+		mouse = m;
+		lifeBar.set(level.getCharacter().getLife());
+		energyBar.set(level.getCharacter().getEnergy());
 	}
 
 	@Override
@@ -58,15 +62,16 @@ public class DynamicScreen implements Screen {
 			g2d.drawString("velY: " + c.getSpeedY(), 5, 60);
 			g2d.drawString("onGround: " + c.isOnGround(), 5, 75);
 			g2d.drawString("hover: " + hover, 5, 90);
-		}
-
-		if(hover) {
-			hoverImage.draw(g2d, 0, Utils.getInstance().getHeight() - hoverImage.getHeight());
+			g2d.drawOval((int) mouse.x - 2, (int) mouse.y - 2, 4, 4);
 		}
 
 		tags.forEach(tag -> tag.draw(g2d));
 		energyBar.draw(g2d);
 		lifeBar.draw(g2d);
+
+		if(hover) {
+			hoverImage.draw(g2d, 0, Utils.getInstance().getHeight() - hoverImage.getHeight());
+		}
 	}
 
 	public void resetCharacter() {

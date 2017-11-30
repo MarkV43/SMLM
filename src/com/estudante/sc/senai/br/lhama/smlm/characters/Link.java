@@ -2,6 +2,7 @@ package com.estudante.sc.senai.br.lhama.smlm.characters;
 
 import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
+import com.estudante.sc.senai.br.lhama.smlm.Sprite;
 import com.estudante.sc.senai.br.lhama.smlm.ZMouse;
 
 import java.util.HashMap;
