@@ -2,6 +2,7 @@ package com.estudante.sc.senai.br.lhama.smlm;
 
 import br.senai.sc.engine.Game;
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -16,8 +17,6 @@ public class SMLM extends Game {
 	public static ZMode mode = ZMode.CENTER;
 	public static final double GRAVITY = 0.6;
 	public static final int TILE_SIZE = 64;
-
-	private Level level;
 
 	private ZMouse mouse;
 	private ZKeyboard keyboard;
@@ -41,7 +40,6 @@ public class SMLM extends Game {
 		mouse = new ZMouse();
 		keyboard = new ZKeyboard();
 		try {
-			level = new Level("level1");
 
 			screens = new HashMap<>();
 
@@ -176,6 +174,11 @@ public class SMLM extends Game {
 			e.printStackTrace();
 			System.exit(0);
 		}
+
+		ZImage img = new ZImage("images/blank.png");
+		Image i = img.getImage();
+		Point p = new Point(0, 0);
+		addCursor("none", i, p);
 	}
 
 	@Override
@@ -183,6 +186,7 @@ public class SMLM extends Game {
 		Screen current = screens.get(currentScreen);
 		if(current instanceof DynamicScreen) {
 			((DynamicScreen) current).update(keyboard, mouse);
+			setCursor("none");
 		} else {
 			((StaticScreen) current).update(mouse);
 		}

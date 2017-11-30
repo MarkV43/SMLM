@@ -1,0 +1,42 @@
+[
+  {
+    "character": "mario",
+    "energy": 16
+  },
+  {
+    "character": "megaman",
+    "energy": 0
+  },
+  {
+    "character": "link",
+    "energy": 0
+  },
+  {
+    "character": "sonic",
+    "energy": 0
+  },
+  {
+    "character": "mario",
+    "energy": 8
+  },
+  {
+    "character": "megaman",
+    "energy": 8
+  },
+  {
+    "character": "link",
+    "energy": 8
+  },
+  {
+    "character": "sonic",
+    "energy": 8
+  },
+  {
+    "character": "megaman",
+    "energy": 8
+  },
+  {
+    "character": "megaman",
+    "energy": 8
+  }
+]

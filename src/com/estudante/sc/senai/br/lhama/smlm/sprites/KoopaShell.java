@@ -1,5 +1,6 @@
 package com.estudante.sc.senai.br.lhama.smlm.sprites;
 
+import com.estudante.sc.senai.br.lhama.smlm.Character;
 import com.estudante.sc.senai.br.lhama.smlm.Sprite;
 
 import java.util.HashMap;
@@ -21,6 +22,15 @@ public class KoopaShell extends Sprite {
 			return "run";
 		}
 		return "run";
+	}
+
+	@Override
+	public void collide(Sprite s) {
+	}
+
+	@Override
+	public void collide(Character c) {
+		c.damage(1);
 	}
 
 	@Override

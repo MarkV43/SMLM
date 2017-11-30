@@ -22,13 +22,14 @@ public class DynamicScreen implements Screen {
 	private ArrayList<Tag> tags;
 	private Bar energyBar;
 	private Bar lifeBar;
+	private ZMouse mouse;
 
 	public DynamicScreen(String levelName) throws IOException, SAXException, ParserConfigurationException {
 		level = new Level(levelName);
 		hoverImage = new ZImage("images/hover_image.png");
 		tags = new ArrayList<>(4);
-		energyBar = new Bar("energy", Bar.FULL, 5, 5);
-		lifeBar = new Bar("life", Bar.HALF, 52, 5);
+		energyBar = new Bar("energy", 52, 5, 16);
+		lifeBar = new Bar("life", 5, 5, 8);
 
 		for (int i = 0; i < 4; i++) {
 			ZRect r = new ZRect(
@@ -43,30 +44,36 @@ public class DynamicScreen implements Screen {
 	public void update(ZKeyboard kb, ZMouse m) {
 		hover = level.update(kb, m);
 		tags.get(level.getCharacterIndex()).setActive(true);
+		mouse = m;
+		lifeBar.set(level.getCharacter().getLife());
+		energyBar.set(level.getCharacter().getEnergy());
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
 		level.draw((Graphics2D) g2d.create());
 
-		if(SMLM.DEBUG_MODE) {
-			Character c = level.getCharacter();
-			g2d.setColor(Color.BLACK);
-			g2d.drawString("posX: " + c.x, 5, 15);
-			g2d.drawString("posY: " + c.y, 5, 30);
-			g2d.drawString("velX: " + c.getSpeedX(), 5, 45);
-			g2d.drawString("velY: " + c.getSpeedY(), 5, 60);
-			g2d.drawString("onGround: " + c.isOnGround(), 5, 75);
-			g2d.drawString("hover: " + hover, 5, 90);
-		}
+		tags.forEach(tag -> tag.draw(g2d));
+		energyBar.draw(g2d);
+		lifeBar.draw(g2d);
 
 		if(hover) {
 			hoverImage.draw(g2d, 0, Utils.getInstance().getHeight() - hoverImage.getHeight());
 		}
 
-		tags.forEach(tag -> tag.draw(g2d));
-		energyBar.draw(g2d);
-		lifeBar.draw(g2d);
+		if(SMLM.DEBUG_MODE) {
+			Character c = level.getCharacter();
+			g2d.setColor(Color.BLACK);
+			g2d.drawString("posX: " + c.x, 99, 15);
+			g2d.drawString("posY: " + c.y, 99, 30);
+			g2d.drawString("velX: " + c.getSpeedX(), 99, 45);
+			g2d.drawString("velY: " + c.getSpeedY(), 99, 60);
+			g2d.drawString("onGround: " + c.isOnGround(), 99, 75);
+			g2d.drawString("hover: " + hover, 99, 90);
+			g2d.drawString("life: " + c.getLife(), 99, 105);
+			g2d.drawString("energy: " + c.getEnergy(), 99, 120);
+			g2d.drawOval((int) mouse.x - 2, (int) mouse.y - 2, 4, 4);
+		}
 	}
 
 	public void resetCharacter() {

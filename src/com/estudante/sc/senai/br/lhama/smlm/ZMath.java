@@ -17,4 +17,8 @@ public final class ZMath {
 	public static double lerp(double p1, double p2, double alpha) {
 		return p1 + alpha * (p2 - p1);
 	}
+
+	public static int limit(int num, int min, int max) {
+		return Math.min(max, Math.max(min, num));
+	}
 }

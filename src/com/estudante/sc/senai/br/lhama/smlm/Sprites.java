@@ -24,14 +24,20 @@ public class Sprites {
 		return instance;
 	}
 
-	public static Sprite getInstance(String name, double x, double y) {
+	public static Sprite getInstance(String name, double x, double y) throws Exception {
 		char last = name.charAt(name.length() - 1);
 		Sprite spr;
 		if(Character.isDigit(last)) {
 			int num = Character.getNumericValue(last);
 			spr = new CheckPoint(getInstance().hm.get("cp"), x, y, num);
 		} else {
-			spr = new Sprite(getInstance().hm.get(name), x, y);
+			switch (name) {
+				case "koopa_shell":
+					spr = new KoopaShell(x, y);
+					break;
+				default:
+					throw new Exception("No matched Sprite");
+			}
 		}
 		return spr;
 	}

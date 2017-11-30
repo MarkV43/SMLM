@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 public class Level {
 
-	private ArrayList<Sprite> sprites;
 	private HashMap<String, Layer> layers;
 	private ZTileMap tileMap;
 	private ArrayList<Character> characters;
@@ -37,26 +36,23 @@ public class Level {
 	private int checkpoint = 0;
 	private double d = 0;
 	private int energy;
-	private int maxEnergy;
 	private int lives;
-	private int maxLives;
 
 	public Level(String levelName) throws ParserConfigurationException, IOException, SAXException {
-		sprites = new ArrayList<>();
 
 		importLevel("levels/" + levelName);
-
 
 		characters = new ArrayList<>();
 
 		long w = width * SMLM.TILE_SIZE;
-		characters.add(0, new Sonic(0,0, w));
-		characters.add(1, new Mario(0,0, w));
-		characters.add(2, new Link(0,0, w));
-		characters.add(3, new Megaman(0,0, w));
+		characters.add(0, new Sonic(0,0, w, this));
+		characters.add(1, new Mario(0,0, w, this));
+		characters.add(2, new Link(0,0, w, this));
+		characters.add(3, new Megaman(0,0, w, this));
 
 		getCharacter().x = getCheckpoint().x;
 		getCharacter().y = getCheckpoint().y;
+		getCharacter().setEnergy(getCheckpoint().getEnergy());
 
 		camera = new Camera(getLimits(), 0.1, getCharacter().getCenter());
 
@@ -116,7 +112,7 @@ public class Level {
 
 		layers.forEach((s, layer) -> {
 			if(layer instanceof SpriteLayer) {
-				((SpriteLayer) layer).update(collisionLayer);
+				((SpriteLayer) layer).update(collisionLayer, getCharacter());
 			}
 		});
 
@@ -130,28 +126,36 @@ public class Level {
 		return hover;
 	}
 
-	public void changeCharacter(ZKeyboard k) {
+	private void changeCharacter(ZKeyboard k) {
 		Character current = getCharacter();
-		if(current.getAnimation().equals("idle")) {
-			ZPoint ll = current.getLL();
+		if(current.getAnimation().equals("idle") && current.getEnergy() > 0) {
 			if(k.B17 && characterIndex != 0) {
-				int newIndex = 0;
-				getCharacter(newIndex).setLL(ll);
-				characterIndex = newIndex;
+				setCharacter(0);
 			} else if(k.B28 && characterIndex != 1) {
-				int newIndex = 1;
-				getCharacter(newIndex).setLL(ll);
-				characterIndex = newIndex;
+				setCharacter(1);
 			} else if(k.B39 && characterIndex != 2) {
-				int newIndex = 2;
-				getCharacter(newIndex).setLL(ll);
-				characterIndex = newIndex;
+				setCharacter(2);
 			} else if(k.B40 && characterIndex != 3) {
-				int newIndex = 3;
-				getCharacter(newIndex).setLL(ll);
-				characterIndex = newIndex;
+				setCharacter(3);
 			}
 		}
+	}
+
+	/**
+	 * @param i
+	 *
+	 * 0 - Sonic
+	 * 1 - Mario
+	 * 2 - Link
+	 * 3 - Megaman
+	 *
+	 */
+	public void setCharacter(int i) {
+		Character c = getCharacter();
+		characterIndex = i;
+		getCharacter(i).setLL(c.getLL());
+		getCharacter().setEnergy(c.getEnergy() - 1);
+		getCharacter().setLife(c.getLife());
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -160,9 +164,6 @@ public class Level {
 		g2d.translate(-camera.x, -camera.y);
 		layers.forEach(
 				(str, layer) -> layer.draw(g2d, camera)
-		);
-		sprites.forEach(
-				s -> s.draw(g2d)
 		);
 
 		getCharacter().draw(g2d);
