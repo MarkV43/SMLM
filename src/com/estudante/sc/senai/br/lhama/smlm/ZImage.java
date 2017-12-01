@@ -101,6 +101,14 @@ public class ZImage implements Drawable {
 		g2d.drawImage(image, x, y, null);
 	}
 
+	public void draw(Graphics2D g2d, int x, int y, int w, int h, boolean reverse) {
+		int dx0 = x + (reverse ? w : 0);
+		int dx1 = x + (reverse ? 0 : w);
+		int dy1 = y + h;
+
+		g2d.drawImage(image, dx0, y, dx1, dy1, 0, 0, w, h, null);
+	}
+
 	public void draw(Graphics2D g2d) {
 		if (rect == null) {
 			draw(g2d, 0, 0);

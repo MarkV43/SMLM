@@ -13,6 +13,7 @@ public class Sprite extends ZRect implements Drawable {
 	private boolean onGround;
 	private AnimationChanger aniChanger;
 	private int frames = 0;
+	private boolean facingRight = false;
 
 	public boolean falls() {
 		return true;
@@ -61,10 +62,10 @@ public class Sprite extends ZRect implements Drawable {
 		}
 
 		frames++;
-		if (frames % framesPerFrame() == 0) {
+//		if (frames % framesPerFrame() == 0) {
 			animations.get(animation).next();
 			frames = 0;
-		}
+//		}
 
 		String next = aniChanger.change(this);
 		setAnimation(next);
@@ -175,7 +176,7 @@ public class Sprite extends ZRect implements Drawable {
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		animations.get(animation).draw(g2d, this);
+		animations.get(animation).draw(g2d, this, !facingRight);
 		if (SMLM.DEBUG_MODE) {
 			drawBorder(g2d, Color.RED);
 			g2d.setColor(Color.BLACK);

@@ -27,6 +27,10 @@ public class ZTile extends ZImage {
 		draw(g2d, (int) r.x, (int) r.y, (int) r.w, (int) r.h);
 	}
 
+	public void draw(Graphics2D g2d, ZRect r, boolean reverse) {
+		draw(g2d, (int) r.x, (int) r.y, (int) r.w, (int) r.h, reverse);
+	}
+
 	public void draw(Graphics2D g2d, int x, int y, int w, int h) {
 		int dx2 = x + w;
 		int dy2 = y + h;

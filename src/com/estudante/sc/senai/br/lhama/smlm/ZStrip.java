@@ -23,8 +23,8 @@ public class ZStrip extends ZTileMap {
 		frame = (frame + 1) % getCols();
 	}
 
-	public void draw(Graphics2D g2d, ZRect r) {
-		tiles[frame].draw(g2d, r);
+	public void draw(Graphics2D g2d, ZRect r, boolean reverse) {
+		tiles[frame].draw(g2d, r, reverse);
 	}
 
 	public void set(int index) {

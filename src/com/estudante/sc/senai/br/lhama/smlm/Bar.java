@@ -8,7 +8,6 @@ import java.awt.*;
 public class Bar extends ZImage {
 
 	private int size;
-	public int empty = 0;
 
 	private ZStack<BarSegment> segs;
 	private BarSegment template;
