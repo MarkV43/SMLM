@@ -7,11 +7,8 @@ import java.awt.*;
  */
 public class Bar extends ZImage {
 
-	private final static int SIZE = 8;
-
-	public final static int FULL = SIZE;
-	public final static int EMPTY = 0;
-	public final static int HALF = FULL / 2;
+	private int size;
+	public int empty = 0;
 
 	private ZStack<BarSegment> segs;
 	private BarSegment template;
@@ -19,11 +16,12 @@ public class Bar extends ZImage {
 	private int x;
 	private int y;
 
-	public Bar(String path, int initial, int x, int y) {
+	public Bar(String path, int x, int y, int size) {
 		super("images/".concat(path).concat(".png"));
-		segs = new ZStack<>(SIZE);
+		this.size = size;
+		segs = new ZStack<>(this.size);
 		template = new BarSegment("images/".concat(path).concat("_seg.png"));
-		set(initial);
+		set(0);
 		this.x = x;
 		this.y = y;
 	}
@@ -60,13 +58,13 @@ public class Bar extends ZImage {
 	}
 
 	public void fill() {
-		set(FULL);
+		set(size);
 	}
 
 	public void draw(Graphics2D g2d) {
 		super.draw(g2d, x, y);
 		segs.indexedForEach((i, seg) ->
-				seg.draw(g2d, 12 + x, 9 + y + ((SIZE - (i + 1)) * 12)));
+				seg.draw(g2d, 12 + x, 9 + y + ((size - (i + 1)) * (96 / size))));
 	}
 
 }

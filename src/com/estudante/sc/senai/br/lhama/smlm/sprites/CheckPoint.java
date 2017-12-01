@@ -33,11 +33,12 @@ public class CheckPoint extends Sprite {
 
 	@Override
 	public void collide(Character c) {
-		c.setEnergy(energy);
 		if(Math.random() < 0.03) {
 			c.setLife(c.getLife() + 1);
 		}
-		c.
+		c.setEnergy(energy);
+		c.change(character);
+		c.setEnergy(energy);
 	}
 
 	public CheckPoint(double x, double y) {

@@ -2,6 +2,7 @@ package com.estudante.sc.senai.br.lhama.smlm.characters;
 
 import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
+import com.estudante.sc.senai.br.lhama.smlm.Level;
 import com.estudante.sc.senai.br.lhama.smlm.Sprite;
 
 import java.util.HashMap;
@@ -34,8 +35,8 @@ public class Megaman extends Character {
         };
     }
 
-    public Megaman(double x, double y, long w) {
-        super(getPaths(), getAniChanger(), x, y, 48, 80, 7, 1, 1, w);
+    public Megaman(double x, double y, long w, Level l) {
+        super(getPaths(), getAniChanger(), x, y, 48, 80, 7, 1, 1, w, l);
     }
 
     @Override

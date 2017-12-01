@@ -1,9 +1,7 @@
 package com.estudante.sc.senai.br.lhama.smlm.characters;
 
-import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
+import com.estudante.sc.senai.br.lhama.smlm.*;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
-import com.estudante.sc.senai.br.lhama.smlm.Sprite;
-import com.estudante.sc.senai.br.lhama.smlm.ZMouse;
 
 import java.util.HashMap;
 
@@ -35,8 +33,8 @@ public class Link extends Character {
 		};
 	}
 
-    public Link(double x, double y, long w) {
-        super(getPaths(), getAniChanger(), x, y, 48, 48, 5, 0.5, 0.1, w);
+    public Link(double x, double y, long w, Level l) {
+        super(getPaths(), getAniChanger(), x, y, 48, 48, 5, 0.5, 0.1, w, l);
     }
 
 	@Override

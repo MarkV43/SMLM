@@ -150,7 +150,7 @@ public class Level {
 	 * 3 - Megaman
 	 *
 	 */
-	private void setCharacter(int i) {
+	public void setCharacter(int i) {
 		Character c = getCharacter();
 		characterIndex = i;
 		getCharacter(i).setLL(c.getLL());

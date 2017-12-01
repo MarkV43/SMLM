@@ -1,9 +1,14 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class Character extends Sprite {
+
+	private String[] n = {"sonic", "mario", "link", "megaman"};
+	private List<String> names = Arrays.asList(n);
 
 	private double jumpSpeed;
 	private boolean left;
@@ -12,7 +17,7 @@ public abstract class Character extends Sprite {
 	private int termVelocity;
 	private double speed;
 	private long width;
-	private int life = Bar.FULL;
+	private int life = 8;
 	private int energy;
 	private int invincibility = 0;
 	private Level level;
@@ -22,12 +27,13 @@ public abstract class Character extends Sprite {
 		return 5;
 	}
 
-	public Character(HashMap<String, String> paths, AnimationChanger animationChanger, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight, long width) {
+	public Character(HashMap<String, String> paths, AnimationChanger animationChanger, double x, double y, double w, double h, int termVelocity, double speed, double jumpHeight, long width, Level l) {
 		super(paths, animationChanger, "idle", x, y, w, h);
 		jumpSpeed = -(Math.sqrt(2 * SMLM.GRAVITY * SMLM.TILE_SIZE * jumpHeight) + 0.5); // link: 0.15  megaman: 1  sonic: 2  mario: 3
 		this.termVelocity = termVelocity;
 		this.speed = speed;
 		this.width = width;
+		level = l;
 	}
 
 	public boolean update(TileLayer lyr, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
@@ -70,6 +76,10 @@ public abstract class Character extends Sprite {
 		return contains(mouse, c.x, c.y) && mouseOver();
 	}
 
+	public void change(String name) {
+		level.setCharacter(names.indexOf(name));
+	}
+
 	public abstract void special(boolean space);
 
 	public boolean mouseOver() {
@@ -106,12 +116,13 @@ public abstract class Character extends Sprite {
 	@Override
 	public void draw(Graphics2D g2d) {
 		int i = Math.floorDiv(invincibility, 4) % 2;
+		Graphics2D g = (Graphics2D) g2d.create();
 		if(i != 0) {
-			g2d.setXORMode(new Color(0, 0, 0, 255));
+			g.setXORMode(new Color(0, 0, 0, 255));
 		}
-		super.draw(g2d);
-		if(i != 0) {
-			g2d.setXORMode(new Color(255, 255, 255, 0));
+		super.draw(g);
+		if(SMLM.DEBUG_MODE && invincibility != 0) {
+			g2d.drawString(String.valueOf(invincibility), (int) x, (int) y - 15);
 		}
 	}
 
@@ -140,7 +151,7 @@ public abstract class Character extends Sprite {
 	}
 
 	public void setLife(int life) {
-		this.life = ZMath.limit(life, Bar.EMPTY, Bar.FULL);
+		this.life = ZMath.limit(life, 0, 8);
 	}
 
 	public int getEnergy() {
@@ -148,7 +159,7 @@ public abstract class Character extends Sprite {
 	}
 
 	public void setEnergy(int energy) {
-		this.energy = ZMath.limit(energy, Bar.EMPTY, Bar.FULL);;
+		this.energy = ZMath.limit(energy, 0, 16);
 	}
 
 	public void damage(int amount) {
@@ -158,4 +169,11 @@ public abstract class Character extends Sprite {
 		}
 	}
 
+	public int getTermVelocity() {
+		return termVelocity;
+	}
+
+	public void setTermVelocity(int termVelocity) {
+		this.termVelocity = termVelocity;
+	}
 }
