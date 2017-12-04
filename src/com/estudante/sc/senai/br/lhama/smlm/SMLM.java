@@ -186,6 +186,7 @@ public class SMLM extends Game {
 	@Override
 	public void gameLoop() {
 		Screen current = screens.get(currentScreen);
+		kb.update(keyboard);
 		if(current instanceof DynamicScreen) {
 			((DynamicScreen) current).update(kb, mouse);
 			setCursor("none");
@@ -193,7 +194,6 @@ public class SMLM extends Game {
 			((StaticScreen) current).update(mouse);
 		}
 		current.draw(g2d);
-		kb.update(keyboard);
 	}
 
 	private class KeyboardHandler extends KeyAdapter {

@@ -24,7 +24,7 @@ public class Sprites {
 		return instance;
 	}
 
-	public static Sprite getInstance(String name, double x, double y) throws Exception {
+	public static Sprite getInstance(Level l, String name, double x, double y) throws Exception {
 		char last = name.charAt(name.length() - 1);
 		Sprite spr;
 		int num = -1;
@@ -40,7 +40,7 @@ public class Sprites {
 				spr = new CheckPoint(getInstance().hm.get("cp"), x, y, num);
 				break;
 			case "cloud":
-				spr = new Cloud(num, x, y);
+				spr = new Cloud(num, x, y, l);
 				break;
 			default:
 				throw new Exception("No matched Sprite");
