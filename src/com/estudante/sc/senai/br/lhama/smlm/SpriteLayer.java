@@ -15,17 +15,17 @@ public class SpriteLayer extends Layer {
 
 	private ZList<Sprite> sprites;
 
-	public SpriteLayer(JSONObject layer) {
+	public SpriteLayer(Level l, JSONObject layer) {
 		setName((String) layer.get("name"));
 		setOpacity(((Number) layer.get("opacity")).floatValue());
 		setVisible((boolean) layer.get("visible"));
 
-		load(layer);
+		load(l, layer);
 
 		setAc(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 	}
 
-	protected void load(JSONObject layer) {
+	private void load(Level l, JSONObject layer) {
 		sprites = new ZList<>();
 
 		JSONArray sprs = (JSONArray) layer.get("objects");
@@ -38,7 +38,7 @@ public class SpriteLayer extends Layer {
 
 			Sprite s = null;
 			try {
-				s = Sprites.getInstance(name, x, y);
+				s = Sprites.getInstance(l, name, x, y);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(0);

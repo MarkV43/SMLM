@@ -14,18 +14,17 @@ public abstract class Layer {
 	protected String name;
 
 	public abstract void draw(Graphics2D g2d, ZRect rect);
-	protected abstract void load(JSONObject layer);
 
 	public String getName() {
 		return name;
 	}
 
-	public static Layer getInstance(ZTileMap tileMap, JSONObject layer, int tileSize) {
+	public static Layer getInstance(Level lvl, ZTileMap tileMap, JSONObject layer, int tileSize) {
 		Layer l = null;
 		if(layer.get("type").equals("tilelayer")) {
 			l = new TileLayer(tileMap, layer, tileSize);
 		} else if(layer.get("type").equals("objectgroup")) {
-			l = new SpriteLayer(layer);
+			l = new SpriteLayer(lvl, layer);
 		}
 		return l;
 	}

@@ -239,4 +239,8 @@ public class Level {
 	public void toggleCloudColision() {
 		cloudColision ^= true;
 	}
+
+	public boolean isCloudColision() {
+		return cloudColision;
+	}
 }

@@ -57,7 +57,7 @@ public class Sonic extends Character {
 		super.special(prev, space);
 		if(!prev && space && !isDashing()) {
 			setEnergy(getEnergy() - 1);
-			dashing = 30;
+			dashing = 30 * (isFacingRight() ? 1 : -1);
 		}
 	}
 

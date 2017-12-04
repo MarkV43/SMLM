@@ -1,7 +1,5 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
-import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
