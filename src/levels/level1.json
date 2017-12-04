@@ -40,7 +40,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"Tilemap.tsx"
+         "source":"../tilemaps/Tilemap.tsx"
         }],
  "tilewidth":64,
  "type":"map",
