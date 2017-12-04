@@ -12,7 +12,7 @@ public class Sonic extends Character {
 
     private static HashMap<String, String> getPaths() {
         HashMap<String, String> paths = new HashMap<>();
-	    paths.put("idle", "characters/idle#3");
+	    paths.put("idle", "characters/sonic/idle#6");
 	    paths.put("fall", "characters/fall#3");
 	    paths.put("jump", "characters/jump#3");
 	    paths.put("walk", "characters/walk#3");
@@ -50,13 +50,13 @@ public class Sonic extends Character {
 	}
 
 	public Sonic(double x, double y, long w, Level l) {
-        super(getPaths(), getAniChanger(), x, y, 48, 96, 20, 1.2, 2, w, l);
+        super(getPaths(), getAniChanger(), x, y, 96, 96, 20, 1.2, 2, w, l);
     }
 
 	@Override
 	public void special(boolean prev, boolean space) {
 		super.special(prev, space);
-		if(!prev && space && !isDashing()) {
+		if(!prev && space && !isDashing() && getEnergy() != 0) {
 			setEnergy(getEnergy() - 1);
 			dashing = 30 * (isFacingRight() ? 1 : -1);
 		}

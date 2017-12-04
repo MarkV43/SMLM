@@ -41,7 +41,7 @@ public class TileLayer extends Layer {
 		for (int i = 0; i < data.size(); i++) {
 			int x = (int) Math.floorMod(i, w);
 			int y = (int) Math.floorDiv(i, w);
-			if(x == 0) {
+			if (x == 0) {
 				tiles.add(y, new ArrayList<>((int) w));
 			}
 			long val = (Long) data.get(i);
@@ -62,12 +62,15 @@ public class TileLayer extends Layer {
 
 					ZTile tile = rows.get(j);
 
-					if (tile != null && intersecting(i, j, rect)) {
-						tile.draw(g2d, j, i, tileSize);
-					}
+					if (intersecting(i, j, rect)) {
 
-					if(SMLM.DEBUG_MODE) {
-						new ZRect(j * tileSize, i * tileSize, tileSize).drawBorder(g2d, Color.YELLOW);
+						if (tile != null) {
+							tile.draw(g2d, j, i, tileSize);
+						}
+
+						if (SMLM.DEBUG_MODE) {
+							new ZRect(j * tileSize, i * tileSize, tileSize).drawBorder(g2d, Color.YELLOW);
+						}
 					}
 				}
 			}
