@@ -8,20 +8,19 @@ import java.util.HashMap;
 /**
  * Created by Marcelo Vogt on 23/11/2017.
  */
-public class KoopaShell extends Sprite {
+public class Koopa extends Sprite {
 
 	private static HashMap<String, String> getPaths() {
 		HashMap<String, String> hm = new HashMap<>();
-		hm.put("idle", "sprites/koopa_greenshell#1");
-		hm.put("run", "sprites/koopa_greenshell_run#8");
+		hm.put("walk", "sprites/koopa_walk#2");
 		return hm;
 	}
 
 	private static String change(Sprite spr) {
 		if (spr.getSpeedX() != 0) {
-			return "run";
+			return "walk";
 		}
-		return "run";
+		return "walk";
 	}
 
 	@Override
@@ -38,13 +37,13 @@ public class KoopaShell extends Sprite {
 		return 10;
 	}
 
-	public KoopaShell(double x, double y) {
-		super(getPaths(), KoopaShell::change, "idle", x, y, 64, 47);
+	public Koopa(double x, double y) {
+		super(getPaths(), Koopa::change, "walk", x, y, 64, 47);
 	}
 
 	@Override
 	public String toString() {
-		return "KoopaShell{" +
+		return "Koopa{" +
 				"x=" + x +
 				", y=" + y +
 				", w=" + w +

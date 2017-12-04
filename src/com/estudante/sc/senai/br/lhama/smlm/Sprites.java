@@ -2,7 +2,7 @@ package com.estudante.sc.senai.br.lhama.smlm;
 
 import com.estudante.sc.senai.br.lhama.smlm.sprites.CheckPoint;
 import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
-import com.estudante.sc.senai.br.lhama.smlm.sprites.KoopaShell;
+import com.estudante.sc.senai.br.lhama.smlm.sprites.Koopa;
 
 import java.lang.Character;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class Sprites {
 		}
 		switch (name) {
 			case "koopa_shell":
-				spr = new KoopaShell(x, y);
+				spr = new Koopa(x, y);
 				break;
 			case "cp":
 				spr = new CheckPoint(getInstance().hm.get("cp"), x, y, num);

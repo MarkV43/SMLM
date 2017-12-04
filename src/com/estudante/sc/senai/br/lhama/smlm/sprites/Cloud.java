@@ -20,18 +20,19 @@ public class Cloud extends Sprite {
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
 				Cloud c = (Cloud) spr;
-				if(c.getLevel().isCloudColision()) {
+				/*if(c.getLevel().isCloudColision()) {
 					return "opaque";
 				} else {
 					return "translucent";
-				}
+				}*/
+				return "opaque";
 		};
 	}
 
 	private static HashMap<String, String> getPaths(int i) {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("opaque", "sprites/clouds/" + i + "#1");
-		hm.put("translucent", "sprites/clouds/" + i + "t#1");
+//		hm.put("translucent", "sprites/clouds/" + i + "t#1");
 		return hm;
 	}
 

@@ -40,8 +40,9 @@ public class Sonic extends Character {
 	public boolean update(TileLayer lyr, ArrayList<Sprite> sprs, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
     	if(isDashing()) {
     		setTermVelocity(30);
-    		setSpeedX(30);
-    	    dashing--;
+    		float sgn = Math.signum(dashing);
+    		setSpeedX(30 * sgn);
+    	    dashing -= sgn;
 	    } else {
     		setTermVelocity(20);
 	    }

@@ -99,7 +99,7 @@ public class Level {
 		clouds = new ArrayList<>();
 
 		for (Object lyr : layers) {
-			Layer layer = Layer.getInstance(tileMap, (JSONObject) lyr, tileSize);
+			Layer layer = Layer.getInstance(this, tileMap, (JSONObject) lyr, tileSize);
 			this.layers.put(layer.getName(), layer);
 			if(layer instanceof SpriteLayer) {
 				ArrayList<CheckPoint> cps = ((SpriteLayer) layer).getCheckpoints();
