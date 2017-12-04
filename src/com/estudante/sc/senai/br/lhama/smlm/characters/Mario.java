@@ -1,10 +1,9 @@
 package com.estudante.sc.senai.br.lhama.smlm.characters;
 
-import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
+import com.estudante.sc.senai.br.lhama.smlm.*;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
-import com.estudante.sc.senai.br.lhama.smlm.Level;
-import com.estudante.sc.senai.br.lhama.smlm.TileLayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Mario extends Character {
@@ -44,18 +43,21 @@ public class Mario extends Character {
     }
 
 	@Override
-	public void update(TileLayer lyr) {
-		super.update(lyr);
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs) {
+		super.update(lyr, sprs);
 		if(isOnGround()) {
 			spinning = false;
 		}
 	}
 
 	@Override
-	public void special(boolean space) {
+	public void special(boolean prev, boolean space) {
+		super.special(prev, space);
+
 		if(isOnGround()) {
-			spinning = space;
+			spinning = !prev && space;
 			if(spinning) {
+				setEnergy(getEnergy() - 1);
 				setSpeedY(getJumpSpeed());
 			}
 		}

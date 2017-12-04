@@ -1,6 +1,7 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
 import com.estudante.sc.senai.br.lhama.smlm.sprites.CheckPoint;
+import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -47,15 +48,19 @@ public class SpriteLayer extends Layer {
 
 	}
 
-	public void update(TileLayer lyr, Character c) {
-		sprites.forEach(sprite -> sprite.update(lyr));
-		collide(c);
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, Character c, ZKeyboard k) {
+		sprites.forEach(sprite -> sprite.update(lyr, sprs));
+		collide(c, k);
 	}
 
-	private void collide(Character c) {
+	private void collide(Character c, ZKeyboard k) {
 		sprites.forEach(s -> {
 			if(s.intersects(c)) {
-				s.collide(c);
+				if(s instanceof CheckPoint) {
+					((CheckPoint) s).collide(c, k);
+				} else {
+					s.collide(c);
+				}
 			}
 		});
 
@@ -71,7 +76,11 @@ public class SpriteLayer extends Layer {
 		if(visible) {
 			g2d.setComposite(ac);
 
-			sprites.forEach(sprite -> sprite.draw(g2d));
+			sprites.forEach(sprite -> {
+				if(sprite.intersects(rect)) {
+					sprite.draw(g2d);
+				}
+			});
 		}
 	}
 
@@ -80,6 +89,16 @@ public class SpriteLayer extends Layer {
 		for (Sprite spr : sprites) {
 			if(spr instanceof CheckPoint) {
 				arr.add((CheckPoint) spr);
+			}
+		}
+		return arr;
+	}
+
+	public ArrayList<Cloud> getClouds() {
+		ArrayList<Cloud> arr = new ArrayList<>();
+		for (Sprite spr : sprites) {
+			if(spr instanceof Cloud) {
+				arr.add((Cloud) spr);
 			}
 		}
 		return arr;

@@ -3,6 +3,7 @@ package com.estudante.sc.senai.br.lhama.smlm.sprites;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
 import com.estudante.sc.senai.br.lhama.smlm.Sprite;
 import com.estudante.sc.senai.br.lhama.smlm.ZFile;
+import com.estudante.sc.senai.br.lhama.smlm.ZKeyboard;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -31,14 +32,14 @@ public class CheckPoint extends Sprite {
 		return "swing";
 	}
 
-	@Override
-	public void collide(Character c) {
+	public void collide(Character c, ZKeyboard k) {
+		if(c.getAnimation().equals("idle") && !k.pS && k.S) {
+			c.change(character, energy);
+//			k.pSPACE = true;
+		}
 		if(Math.random() < 0.03) {
 			c.setLife(c.getLife() + 1);
 		}
-		c.setEnergy(energy);
-		c.change(character);
-		c.setEnergy(energy);
 	}
 
 	public CheckPoint(double x, double y) {
@@ -63,5 +64,18 @@ public class CheckPoint extends Sprite {
 
 	public int getEnergy() {
 		return energy;
+	}
+
+	@Override
+	public String toString() {
+		return "CheckPoint{" +
+				"index=" + index +
+				", character='" + character + '\'' +
+				", energy=" + energy +
+				", x=" + x +
+				", y=" + y +
+				", w=" + w +
+				", h=" + h +
+				'}';
 	}
 }

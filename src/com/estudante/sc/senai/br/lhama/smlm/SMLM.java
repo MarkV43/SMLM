@@ -20,6 +20,7 @@ public class SMLM extends Game {
 
 	private ZMouse mouse;
 	private ZKeyboard keyboard;
+	private ZKeyboard kb;
 
 	private HashMap<Screens, Screen> screens;
 	private Screens currentScreen = Screens.GAME;
@@ -39,6 +40,7 @@ public class SMLM extends Game {
 	public void init() {
 		mouse = new ZMouse();
 		keyboard = new ZKeyboard();
+		kb = new ZKeyboard();
 		try {
 
 			screens = new HashMap<>();
@@ -185,12 +187,13 @@ public class SMLM extends Game {
 	public void gameLoop() {
 		Screen current = screens.get(currentScreen);
 		if(current instanceof DynamicScreen) {
-			((DynamicScreen) current).update(keyboard, mouse);
+			((DynamicScreen) current).update(kb, mouse);
 			setCursor("none");
 		} else {
 			((StaticScreen) current).update(mouse);
 		}
 		current.draw(g2d);
+		kb.update(keyboard);
 	}
 
 	private class KeyboardHandler extends KeyAdapter {
@@ -205,42 +208,42 @@ public class SMLM extends Game {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
-					keyboard.W = true;
+					keyboard.W(true);
 					break;
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:
-					keyboard.A = true;
+					keyboard.A(true);
 					break;
 				case KeyEvent.VK_S:
 				case KeyEvent.VK_DOWN:
-					keyboard.S = true;
+					keyboard.S(true);
 					break;
 				case KeyEvent.VK_D:
 				case KeyEvent.VK_RIGHT:
-					keyboard.D = true;
+					keyboard.D(true);
 					break;
 				case KeyEvent.VK_1:
 				case KeyEvent.VK_7:
-					keyboard.B17 = true;
+					keyboard.B17(true);
 					break;
 				case KeyEvent.VK_2:
 				case KeyEvent.VK_8:
-					keyboard.B28 = true;
+					keyboard.B28(true);
 					break;
 				case KeyEvent.VK_3:
 				case KeyEvent.VK_9:
-					keyboard.B39 = true;
+					keyboard.B39(true);
 					break;
 				case KeyEvent.VK_4:
 				case KeyEvent.VK_0:
-					keyboard.B40 = true;
+					keyboard.B40(true);
 					break;
 				case KeyEvent.VK_SPACE:
-					keyboard.SPACE = true;
+					keyboard.SPACE(true);
 					break;
 				case KeyEvent.VK_ESCAPE:
 				case KeyEvent.VK_P:
-					keyboard.ESCP = true;
+					keyboard.ESCP(true);
 					break;
 			}
 		}
@@ -250,42 +253,42 @@ public class SMLM extends Game {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
-					keyboard.W = false;
+					keyboard.W(false);
 					break;
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:
-					keyboard.A = false;
+					keyboard.A(false);
 					break;
 				case KeyEvent.VK_S:
 				case KeyEvent.VK_DOWN:
-					keyboard.S = false;
+					keyboard.S(false);
 					break;
 				case KeyEvent.VK_D:
 				case KeyEvent.VK_RIGHT:
-					keyboard.D = false;
+					keyboard.D(false);
 					break;
 				case KeyEvent.VK_1:
 				case KeyEvent.VK_7:
-					keyboard.B17 = false;
+					keyboard.B17(false);
 					break;
 				case KeyEvent.VK_2:
 				case KeyEvent.VK_8:
-					keyboard.B28 = false;
+					keyboard.B28(false);
 					break;
 				case KeyEvent.VK_3:
 				case KeyEvent.VK_9:
-					keyboard.B39 = false;
+					keyboard.B39(false);
 					break;
 				case KeyEvent.VK_4:
 				case KeyEvent.VK_0:
-					keyboard.B40 = false;
+					keyboard.B40(false);
 					break;
 				case KeyEvent.VK_SPACE:
-					keyboard.SPACE = false;
+					keyboard.SPACE(false);
 					break;
 				case KeyEvent.VK_ESCAPE:
 				case KeyEvent.VK_P:
-					keyboard.ESCP = false;
+					keyboard.ESCP(false);
 					break;
 				case KeyEvent.VK_F12:
 					DEBUG_MODE = !DEBUG_MODE;

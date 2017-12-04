@@ -1,15 +1,22 @@
 package com.estudante.sc.senai.br.lhama.smlm.characters;
 
-import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
+import com.estudante.sc.senai.br.lhama.smlm.*;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
-import com.estudante.sc.senai.br.lhama.smlm.Level;
-import com.estudante.sc.senai.br.lhama.smlm.Sprite;
+import com.estudante.sc.senai.br.lhama.smlm.sprites.MegamanBullet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Megaman extends Character {
 
-    private static HashMap<String, String> getPaths() {
+	private int bulletDelay = 0;
+
+	@Override
+	public boolean canShoot() {
+		return true;
+	}
+
+	private static HashMap<String, String> getPaths() {
         HashMap<String, String> paths = new HashMap<>();
         paths.put("idle", "characters/idle#3");
         paths.put("fall", "characters/fall#3");
@@ -39,8 +46,20 @@ public class Megaman extends Character {
         super(getPaths(), getAniChanger(), x, y, 48, 80, 7, 1, 1, w, l);
     }
 
-    @Override
-    public void special(boolean space) {
+	@Override
+	public boolean update(TileLayer lyr, ArrayList<Sprite> s, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+    	bulletDelay = Math.max(bulletDelay - 1, 0);
+		return super.update(lyr, s, kb, mouse, c, dist);
+	}
 
+	@Override
+    public void special(boolean prev, boolean space) {
+        super.special(prev, space);
+        if(!prev && space && getEnergy() != 0 && bulletDelay == 0) {
+        	ZPoint center = getCenter();
+        	bulletDelay = 35;
+        	setEnergy(getEnergy() - 1);
+        	addBullet(new MegamanBullet(center.x, center.y, isFacingRight()));
+        }
     }
 }

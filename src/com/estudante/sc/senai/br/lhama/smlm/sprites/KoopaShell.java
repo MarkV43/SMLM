@@ -41,4 +41,14 @@ public class KoopaShell extends Sprite {
 	public KoopaShell(double x, double y) {
 		super(getPaths(), KoopaShell::change, "idle", x, y, 64, 47);
 	}
+
+	@Override
+	public String toString() {
+		return "KoopaShell{" +
+				"x=" + x +
+				", y=" + y +
+				", w=" + w +
+				", h=" + h +
+				'}';
+	}
 }

@@ -6,6 +6,7 @@ import com.estudante.sc.senai.br.lhama.smlm.characters.Mario;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Megaman;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Sonic;
 import com.estudante.sc.senai.br.lhama.smlm.sprites.CheckPoint;
+import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
@@ -34,6 +35,8 @@ public class Level {
 	private long height;
 	private ArrayList<CheckPoint> checkPoints;
 	private int checkpoint = 0;
+	private ArrayList<Cloud> clouds;
+	private boolean cloudColision = true;
 	private double d = 0;
 	private int energy;
 	private int lives;
@@ -50,9 +53,9 @@ public class Level {
 		characters.add(2, new Link(0,0, w, this));
 		characters.add(3, new Megaman(0,0, w, this));
 
+		setCharacter(getCPCharIndex(), getCheckpoint().getEnergy());
 		getCharacter().x = getCheckpoint().x;
 		getCharacter().y = getCheckpoint().y;
-		getCharacter().setEnergy(getCheckpoint().getEnergy());
 
 		camera = new Camera(getLimits(), 0.1, getCharacter().getCenter());
 
@@ -93,6 +96,7 @@ public class Level {
 
 		this.layers = new HashMap<>(layers.size());
 		checkPoints = new ArrayList<>();
+		clouds = new ArrayList<>();
 
 		for (Object lyr : layers) {
 			Layer layer = Layer.getInstance(tileMap, (JSONObject) lyr, tileSize);
@@ -102,23 +106,30 @@ public class Level {
 				for (CheckPoint cp : cps) {
 					checkPoints.add(cp.getIndex(), cp);
 				}
+				clouds = ((SpriteLayer) layer).getClouds();
 			}
 		}
 	}
 
 	public boolean update(ZKeyboard kb, ZMouse mouse) {
+		ArrayList<Sprite> sprs;
+		if(cloudColision) {
+			sprs =(ArrayList<Sprite>) ZUtils.<ArrayList<Cloud>, Cloud, Sprite>cast(clouds);
+		} else {
+			sprs = new ArrayList<>();
+		}
 
 		TileLayer collisionLayer = (TileLayer) layers.get("Camada de Tiles 1");
 
 		layers.forEach((s, layer) -> {
 			if(layer instanceof SpriteLayer) {
-				((SpriteLayer) layer).update(collisionLayer, getCharacter());
+				((SpriteLayer) layer).update(collisionLayer, sprs, getCharacter(), kb);
 			}
 		});
 
 		d += 0.05;
 		double dist = Math.cos(d) * 5 + 10;
-		boolean hover = getCharacter().update(collisionLayer, kb, mouse, camera, dist);
+		boolean hover = getCharacter().update(collisionLayer, sprs, kb, mouse, camera, dist);
 
 		camera.goTo(getCharacter().getCenter());
 		changeCharacter(kb);
@@ -141,6 +152,10 @@ public class Level {
 		}
 	}
 
+	private void setCharacter(int i) {
+		setCharacter(i, getCharacter().getEnergy() - 1);
+	}
+
 	/**
 	 * @param i
 	 *
@@ -150,11 +165,11 @@ public class Level {
 	 * 3 - Megaman
 	 *
 	 */
-	public void setCharacter(int i) {
+	public void setCharacter(int i, int e) {
 		Character c = getCharacter();
 		characterIndex = i;
 		getCharacter(i).setLL(c.getLL());
-		getCharacter().setEnergy(c.getEnergy() - 1);
+		getCharacter().setEnergy(e);
 		getCharacter().setLife(c.getLife());
 	}
 
@@ -180,6 +195,10 @@ public class Level {
 			g2d.drawLine(dist, (int) camera.y, dist, (int) (camera.y + camera.h));
 			g2d.drawLine((int) (width * SMLM.TILE_SIZE - dist), (int) camera.y, (int) (width * SMLM.TILE_SIZE - dist), (int) (camera.y + camera.h));
 		}
+	}
+
+	private int getCPCharIndex() {
+		return Character.names.indexOf(getCheckpoint().getCharacter());
 	}
 
 	public Character getCharacter() {
@@ -217,4 +236,7 @@ public class Level {
 		getCharacter();
 	}
 
+	public void toggleCloudColision() {
+		cloudColision ^= true;
+	}
 }

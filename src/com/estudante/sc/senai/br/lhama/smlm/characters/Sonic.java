@@ -3,6 +3,7 @@ package com.estudante.sc.senai.br.lhama.smlm.characters;
 import com.estudante.sc.senai.br.lhama.smlm.*;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Sonic extends Character {
@@ -36,7 +37,7 @@ public class Sonic extends Character {
 	}
 
 	@Override
-	public boolean update(TileLayer lyr, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+	public boolean update(TileLayer lyr, ArrayList<Sprite> sprs, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
     	if(isDashing()) {
     		setTermVelocity(30);
     		setSpeedX(30);
@@ -44,7 +45,7 @@ public class Sonic extends Character {
 	    } else {
     		setTermVelocity(20);
 	    }
-		return super.update(lyr, kb, mouse, c, dist);
+		return super.update(lyr, sprs, kb, mouse, c, dist);
 	}
 
 	public Sonic(double x, double y, long w, Level l) {
@@ -52,8 +53,10 @@ public class Sonic extends Character {
     }
 
 	@Override
-	public void special(boolean space) {
-		if(space && !isDashing()) {
+	public void special(boolean prev, boolean space) {
+		super.special(prev, space);
+		if(!prev && space && !isDashing()) {
+			setEnergy(getEnergy() - 1);
 			dashing = 30;
 		}
 	}

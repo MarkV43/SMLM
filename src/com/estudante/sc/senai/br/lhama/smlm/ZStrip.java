@@ -31,4 +31,8 @@ public class ZStrip extends ZTileMap {
 		frame = index;
 	}
 
+	public int get() {
+		return frame;
+	}
+
 }

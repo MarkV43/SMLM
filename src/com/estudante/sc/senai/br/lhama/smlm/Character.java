@@ -1,14 +1,15 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
+import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
+
 import java.awt.*;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public abstract class Character extends Sprite {
 
-	private String[] n = {"sonic", "mario", "link", "megaman"};
-	private List<String> names = Arrays.asList(n);
+	private static String[] n = {"sonic", "mario", "link", "megaman"};
+	public static List<String> names = Arrays.asList(n);
 
 	private double jumpSpeed;
 	private boolean left;
@@ -21,6 +22,7 @@ public abstract class Character extends Sprite {
 	private int energy;
 	private int invincibility = 0;
 	private Level level;
+	private boolean special = false;
 
 	@Override
 	public int framesPerFrame() {
@@ -36,7 +38,8 @@ public abstract class Character extends Sprite {
 		level = l;
 	}
 
-	public boolean update(TileLayer lyr, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+	public boolean update(TileLayer lyr, ArrayList<Sprite> sprites, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+
 		invincibility = Math.max(invincibility - 1, 0);
 		double change = dir * speed;
 		if (Math.signum(change) == -Math.signum(getSpeedX())) {
@@ -56,14 +59,14 @@ public abstract class Character extends Sprite {
 			if (!(kb.A || kb.D)) {
 				setSpeedX(getSpeedX() * 0.8);
 			}
-			if (kb.W) {
+			if (!kb.pW && kb.W) {
 				setSpeedY(jumpSpeed);
 			}
 		}
 		setLR(kb);
-		special(kb.SPACE);
+		special(kb.pSPACE, kb.SPACE);
 
-		super.update(lyr);
+		super.update(lyr, sprites);
 
 		//double dist = Math.cos(d += 0.05) * 5 + 10;
 		if (x < dist) {
@@ -77,10 +80,16 @@ public abstract class Character extends Sprite {
 	}
 
 	public void change(String name) {
-		level.setCharacter(names.indexOf(name));
+		change(name, energy - 1);
 	}
 
-	public abstract void special(boolean space);
+	public void change(String name, int energy) {
+		level.setCharacter(names.indexOf(name), energy);
+	}
+
+	public void special(boolean prev, boolean space) {
+		special = space;
+	}
 
 	public boolean mouseOver() {
 		// Implementation only on Link. (Easteregg)
@@ -98,12 +107,15 @@ public abstract class Character extends Sprite {
 		if (kb.A && kb.D) {
 			if (!left || !right) {
 				dir *= -1;
+				setFacingRight(!isFacingRight());
 			}
 		} else {
 			if (kb.A) {
 				dir = -1;
+				setFacingRight(false);
 			} else if (kb.D) {
 				dir = 1;
+				setFacingRight(true);
 			} else {
 				dir = 0;
 			}
@@ -116,14 +128,20 @@ public abstract class Character extends Sprite {
 	@Override
 	public void draw(Graphics2D g2d) {
 		int i = Math.floorDiv(invincibility, 4) % 2;
-		Graphics2D g = (Graphics2D) g2d.create();
+
 		if(i != 0) {
-			g.setXORMode(new Color(0, 0, 0, 255));
+			drawBullets(g2d);
+		} else {
+			super.draw(g2d);
 		}
-		super.draw(g);
+
 		if(SMLM.DEBUG_MODE && invincibility != 0) {
 			g2d.drawString(String.valueOf(invincibility), (int) x, (int) y - 15);
 		}
+	}
+
+	public Level getLevel() {
+		return level;
 	}
 
 	public boolean left() {
@@ -175,5 +193,18 @@ public abstract class Character extends Sprite {
 
 	public void setTermVelocity(int termVelocity) {
 		this.termVelocity = termVelocity;
+	}
+
+	@Override
+	public String toString() {
+		return "Character{" +
+				"life=" + life +
+				", energy=" + energy +
+				", invincibility=" + invincibility +
+				", x=" + x +
+				", y=" + y +
+				", w=" + w +
+				", h=" + h +
+				'}';
 	}
 }
