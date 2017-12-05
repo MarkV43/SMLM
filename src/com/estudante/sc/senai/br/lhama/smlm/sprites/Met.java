@@ -1,8 +1,6 @@
-package br.senai.sc.engine;
+package com.estudante.sc.senai.br.lhama.smlm.sprites;
 
-import com.estudante.sc.senai.br.lhama.smlm.AnimationChanger;
 import com.estudante.sc.senai.br.lhama.smlm.Sprite;
-import com.estudante.sc.senai.br.lhama.smlm.sprites.Goomba;
 
 import java.util.HashMap;
 
@@ -12,7 +10,7 @@ public class Met extends Sprite {
 
 	private int shoot;
 	private int sneaking;
-	
+
 	private static HashMap<String, String> getPaths() {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("shoot", "sprites/met_shoot#2");
