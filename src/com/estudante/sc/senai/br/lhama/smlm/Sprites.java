@@ -1,8 +1,7 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
-import com.estudante.sc.senai.br.lhama.smlm.sprites.CheckPoint;
-import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
-import com.estudante.sc.senai.br.lhama.smlm.sprites.Koopa;
+import br.senai.sc.engine.Met;
+import com.estudante.sc.senai.br.lhama.smlm.sprites.*;
 
 import java.lang.Character;
 import java.util.HashMap;
@@ -41,6 +40,12 @@ public class Sprites {
 				break;
 			case "cloud":
 				spr = new Cloud(num, x, y, l);
+				break;
+			case "goomba":
+				spr = new Goomba(x, y);
+				break;
+			case "met":
+				spr = new Met(x, y);
 				break;
 			default:
 				throw new Exception("No matched Sprite");
