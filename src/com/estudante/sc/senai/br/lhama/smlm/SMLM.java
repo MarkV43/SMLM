@@ -22,6 +22,8 @@ public class SMLM extends Game {
 	private ZKeyboard keyboard;
 	private ZKeyboard kb;
 
+	ZClip music;
+
 	private HashMap<Screens, Screen> screens;
 	private Screens currentScreen = Screens.GAME;
 
@@ -171,6 +173,9 @@ public class SMLM extends Game {
 			}
 
 			screens.put(Screens.GAME, new DynamicScreen("level1"));
+
+			music = new ZClip("musics/lost woods");
+			music.loop(9999);
 
 		} catch (Exception e) {
 			e.printStackTrace();

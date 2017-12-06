@@ -8,6 +8,11 @@ import java.util.HashMap;
 
 public class Mario extends Character {
 
+	@Override
+	public int framesPerFrame() {
+		return 9;
+	}
+
     private static HashMap<String, String> getPaths() {
         HashMap<String, String> paths = new HashMap<>();
 	    paths.put("idle", "characters/mario/idle#4");

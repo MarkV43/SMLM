@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Sprite extends ZRect implements Drawable {
+public class Sprite extends ZRect implements Drawable, SoundEmitter {
 	private HashMap<String, ZStrip> animations;
 	private ArrayList<Bullet> bullets;
 	private String animation;
@@ -14,6 +14,7 @@ public class Sprite extends ZRect implements Drawable {
 	private AnimationChanger aniChanger;
 	private int frames = 0;
 	private boolean facingRight = true;
+	private HashMap<String, ZClip> clips;
 
 	public boolean falls() {
 		return true;
@@ -45,6 +46,22 @@ public class Sprite extends ZRect implements Drawable {
 		h = sprite.h;
 		speedX = sprite.speedX;
 		speedY = sprite.speedY;
+	}
+
+	public void add(String name, ZClip clip) {
+		clips.put(name, clip);
+	}
+
+	public int play(String name) {
+		return clips.get(name).play();
+	}
+
+	public int loop(String name, int times) {
+		return clips.get(name).loop(times);
+	}
+
+	public void stop(String name, int i) {
+		clips.get(name).stop(i);
 	}
 
 	public void addBullet(Bullet b) {

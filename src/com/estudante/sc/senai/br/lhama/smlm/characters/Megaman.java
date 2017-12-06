@@ -23,6 +23,8 @@ public class Megaman extends Character {
 		paths.put("jump-start", "characters/megaman/jump-start#1");
 		paths.put("jump", "characters/megaman/jump#1");
 		paths.put("walk", "characters/megaman/walk#10");
+		paths.put("walk-shoot", "characters/megaman/walk-shot#10");
+		paths.put("shoot", "characters/megaman/shot#1");
 		return paths;
 	}
 
@@ -30,10 +32,19 @@ public class Megaman extends Character {
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
 			if (spr.isOnGround()) {
+				Megaman m = (Megaman) spr;
 				if (Math.abs(spr.getSpeedX()) > 1.2) {
-					return "walk";
+					if(m.isShooting()) {
+						return "walk-shoot";
+					} else {
+						return "walk";
+					}
 				} else {
-					return "idle";
+					if(m.isShooting()) {
+						return "shoot";
+					} else {
+						return "idle";
+					}
 				}
 			} else if (spr.getSpeedY() > 0) {
 				return "fall";
@@ -64,5 +75,9 @@ public class Megaman extends Character {
 			setEnergy(getEnergy() - 1);
 			addBullet(new MegamanBullet(center.x, center.y, isFacingRight()));
 		}
+	}
+
+	public boolean isShooting() {
+		return bulletDelay > 10;
 	}
 }

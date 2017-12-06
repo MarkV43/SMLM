@@ -25,6 +25,7 @@ public class Sonic extends Character {
         return paths;
     }
 
+    @SuppressWarnings("Duplicates")
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
 			Sonic s = (Sonic) spr;
@@ -54,7 +55,11 @@ public class Sonic extends Character {
 	    } else {
     		setTermVelocity(20);
 	    }
-		return super.update(lyr, sprs, kb, mouse, c, dist);
+		boolean b = super.update(lyr, sprs, kb, mouse, c, dist);
+    	if(isDashing()) {
+		    setFacingRight(dashing > 0);
+	    }
+    	return b;
 	}
 
 	public Sonic(double x, double y, long w, Level l) {
