@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="480" height="320" tilewidth="64" tileheight="64" nextobjectid="29">
- <tileset firstgid="1" source=../tilemaps/"Tilemap.tsx"/>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="480" height="320" tilewidth="64" tileheight="64" nextobjectid="37">
+ <tileset firstgid="1" source="../tilemaps/Tilemap.tsx"/>
  <layer name="Camada de Tiles 1" width="480" height="320">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -650,8 +650,16 @@
 </data>
  </layer>
  <objectgroup name="Camada de Objetos 1">
-  <object id="6" name="cp0" x="192" y="768" width="128" height="188.606"/>
-  <object id="25" name="cp1" x="128" y="8706" width="128" height="128"/>
-  <object id="28" name="cp1" x="3072" y="8703" width="128" height="128"/>
+  <object id="25" name="cp0" x="128" y="8704" width="128" height="128"/>
+  <object id="28" name="cp1" x="3072" y="8704" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="Camada de Objetos 2">
+  <object id="29" name="cloud1" x="1664" y="8640" width="64" height="64"/>
+  <object id="31" name="cloud4" x="1792" y="8640" width="64" height="64"/>
+  <object id="32" name="cloud2" x="1728" y="8640" width="64" height="64"/>
+  <object id="33" name="cloud5" x="1856" y="8640" width="64" height="64"/>
+  <object id="34" name="cloud3" x="1920" y="8448" width="64" height="64"/>
+  <object id="35" name="cloud0" x="1856" y="8448" width="64" height="64"/>
+  <object id="36" name="cloud6" x="1984" y="8448" width="64" height="64"/>
  </objectgroup>
 </map>

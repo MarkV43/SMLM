@@ -8,21 +8,29 @@ import java.util.HashMap;
 
 public class Sonic extends Character {
 
+	@Override
+	public int framesPerFrame() {
+		return 4;
+	}
+
 	private int dashing = 0;
 
     private static HashMap<String, String> getPaths() {
         HashMap<String, String> paths = new HashMap<>();
 	    paths.put("idle", "characters/sonic/idle#6");
-	    paths.put("fall", "characters/fall#3");
-	    paths.put("jump", "characters/jump#3");
-	    paths.put("walk", "characters/walk#3");
+	    paths.put("fall", "characters/sonic/fall#1");
+	    paths.put("jump", "characters/sonic/jump#3");
+	    paths.put("walk", "characters/sonic/walk#8");
+	    paths.put("special", "characters/sonic/special#7");
         return paths;
     }
 
-	@SuppressWarnings("Duplicates")
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
-			if (spr.isOnGround()) {
+			Sonic s = (Sonic) spr;
+			if(s.isDashing()) {
+				return "special";
+			} else if (spr.isOnGround()) {
 				if (Math.abs(spr.getSpeedX()) > 1.2) {
 					return "walk";
 				} else {

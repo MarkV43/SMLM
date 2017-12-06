@@ -48,7 +48,7 @@ public class Sprite extends ZRect implements Drawable {
 	}
 
 	public void addBullet(Bullet b) {
-		if(canShoot()) {
+		if (canShoot()) {
 
 			bullets.add(b);
 		}
@@ -64,7 +64,7 @@ public class Sprite extends ZRect implements Drawable {
 
 		ArrayList<ZRect> rs = (ArrayList<ZRect>) ZUtils.<ArrayList<Sprite>, Sprite, ZRect>cast(sprs);
 
-		if(canShoot()) {
+		if (canShoot()) {
 			bullets.forEach(bullet -> {
 				if (bullet != null) {
 					bullet.update(lyr, sprs);
@@ -140,7 +140,15 @@ public class Sprite extends ZRect implements Drawable {
 	}
 
 	private boolean touching(ZRect t) {
-		return (Math.floor(t.y) == Math.floor(y + h) && speedY > 0) && ((x < t.x + t.w && x > t.x) || (x + w > t.x && x + w < t.x + t.w));
+		return (Math.floor(t.y) == Math.floor(y + h) && speedY >= 0)
+				&&
+				(
+					(x < t.x + t.w && x > t.x)
+					||
+					(x + w > t.x && x + w < t.x + t.w)
+					||
+					(x <= t.x && x + w >= t.x + t.w)
+				);
 	}
 
 	@SuppressWarnings("Duplicates")

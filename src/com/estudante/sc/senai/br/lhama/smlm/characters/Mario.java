@@ -10,18 +10,21 @@ public class Mario extends Character {
 
     private static HashMap<String, String> getPaths() {
         HashMap<String, String> paths = new HashMap<>();
-	    paths.put("idle", "characters/idle#3");
-	    paths.put("fall", "characters/fall#3");
-	    paths.put("jump", "characters/jump#3");
-	    paths.put("walk", "characters/walk#3");
-	    paths.put("spin", "characters/mario_spin#3");
+	    paths.put("idle", "characters/mario/idle#4");
+	    paths.put("fall", "characters/mario/fall#1");
+	    paths.put("jump", "characters/mario/jump#1");
+	    paths.put("walk", "characters/mario/walk#3");
+	    paths.put("spin", "characters/mario/special#4");
+	    paths.put("break", "characters/mario/break#1");
         return paths;
     }
 
     private static AnimationChanger getAniChanger() {
     	return spr -> {
 		    if (spr.isOnGround()) {
-			    if (Math.abs(spr.getSpeedX()) > 1.2) {
+		    	if((spr.getSpeedX() > 0 && !spr.isFacingRight()) || (spr.getSpeedX() < 0 && spr.isFacingRight())) {
+		    		return "break";
+			    } else if (Math.abs(spr.getSpeedX()) > 1.2) {
 				    return "walk";
 			    } else {
 				    return "idle";
@@ -39,7 +42,7 @@ public class Mario extends Character {
     private boolean spinning;
 
     public Mario(double x, double y, long w, Level l) {
-        super(getPaths(), getAniChanger(), x, y, 48, 96, 10, 0.8, 3, w, l);
+        super(getPaths(), getAniChanger(), x, y, 96, 96, 10, 0.8, 3, w, l);
     }
 
 	@Override
