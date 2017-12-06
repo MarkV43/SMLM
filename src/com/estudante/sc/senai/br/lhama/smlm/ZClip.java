@@ -58,4 +58,14 @@ public class ZClip {
 	public void stop(int i) {
 		clips.get(i).stop();
 	}
+
+	public void wait(int i, Runnable r) {
+		new Thread(() -> {
+			Clip c = clips.get(i);
+			while(c.getFramePosition() < c.getFrameLength()) {
+				Thread.yield();
+			}
+			r.run();
+		}).start();
+	}
 }
