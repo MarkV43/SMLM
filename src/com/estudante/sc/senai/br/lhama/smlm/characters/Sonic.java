@@ -8,6 +8,11 @@ import java.util.HashMap;
 
 public class Sonic extends Character {
 
+	@Override
+	public int framesPerFrame() {
+		return 4;
+	}
+
 	private int dashing = 0;
 
     private static HashMap<String, String> getPaths() {
@@ -20,7 +25,6 @@ public class Sonic extends Character {
         return paths;
     }
 
-	@SuppressWarnings("Duplicates")
 	private static AnimationChanger getAniChanger() {
 		return spr -> {
 			Sonic s = (Sonic) spr;
