@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Sprite extends ZRect implements Drawable, SoundEmitter {
+public class Sprite extends ZRect implements Drawable {
 	private HashMap<String, ZStrip> animations;
 	private ArrayList<Bullet> bullets;
 	private String animation;
@@ -34,6 +34,7 @@ public class Sprite extends ZRect implements Drawable, SoundEmitter {
 		this.aniChanger = aniChanger;
 		animation = defaultAnimation;
 		bullets = new ArrayList<>();
+		clips = new HashMap<>();
 	}
 
 	public Sprite(Sprite sprite, double x, double y) {
@@ -50,6 +51,10 @@ public class Sprite extends ZRect implements Drawable, SoundEmitter {
 
 	public void add(String name, ZClip clip) {
 		clips.put(name, clip);
+	}
+
+	public void add(String name, String path) {
+		add(name, new ZClip(path));
 	}
 
 	public int play(String name) {
@@ -237,8 +242,10 @@ public class Sprite extends ZRect implements Drawable, SoundEmitter {
 	@Override
 	public void draw(Graphics2D g2d) {
 		drawBullets(g2d);
-		ZStrip img = animations.get(animation);
-		img.draw(g2d, this, !facingRight);
+		if(!animation.equals("none")) {
+			ZStrip img = animations.get(animation);
+			img.draw(g2d, this, !facingRight);
+		}
 		if (SMLM.DEBUG_MODE) {
 			drawBorder(g2d, Color.RED);
 			g2d.setColor(Color.BLACK);

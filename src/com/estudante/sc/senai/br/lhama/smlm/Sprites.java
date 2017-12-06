@@ -46,6 +46,9 @@ public class Sprites {
 			case "met":
 				spr = new Met(x, y);
 				break;
+			case "coin":
+				spr = new Coin(x, y);
+				break;
 			default:
 				throw new Exception("No matched Sprite");
 		}

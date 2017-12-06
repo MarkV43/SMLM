@@ -68,7 +68,6 @@ public class Megaman extends Character {
 
 	@Override
 	public void special(boolean prev, boolean space) {
-		super.special(prev, space);
 		if (!prev && space && getEnergy() != 0 && bulletDelay == 0) {
 			ZPoint center = getCenter();
 			bulletDelay = 35;

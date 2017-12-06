@@ -15,31 +15,29 @@ public class ZClip {
 
 	public ZClip(String path) {
 		this.path = "sounds/" + path;
-		if(!path.contains(".")) {
+		if (!path.contains(".")) {
 			this.path += ".wav";
 		}
 		clips = new ArrayList<>();
 	}
 
 	public synchronized int play() {
-		new Thread(() -> {
-			try {
-				Clip clip = AudioSystem.getClip();
-				InputStream is = this.getClass().getClassLoader().getResourceAsStream(path);
-				AudioInputStream inputStream = AudioSystem.getAudioInputStream(is);
+		try {
+			Clip clip = AudioSystem.getClip();
+			InputStream is = this.getClass().getClassLoader().getResourceAsStream(path);
+			AudioInputStream inputStream = AudioSystem.getAudioInputStream(is);
 
-				clip.open(inputStream);
-				clip.start();
-				clips.add(clip);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}).start();
+			clip.open(inputStream);
+			clip.start();
+			clips.add(clip);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return clips.size() - 1;
 	}
 
 	public synchronized int loop(int i) {
-		new Thread(() -> {
 			try {
 				Clip clip = AudioSystem.getClip();
 				InputStream ist = this.getClass().getClassLoader().getResourceAsStream(path);
@@ -51,7 +49,6 @@ public class ZClip {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}).start();
 		return clips.size() - 1;
 	}
 
@@ -62,7 +59,7 @@ public class ZClip {
 	public void wait(int i, Runnable r) {
 		new Thread(() -> {
 			Clip c = clips.get(i);
-			while(c.getFramePosition() < c.getFrameLength()) {
+			while (c.getFramePosition() < c.getFrameLength()) {
 				Thread.yield();
 			}
 			r.run();

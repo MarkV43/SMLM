@@ -27,10 +27,12 @@ public class Mario extends Character {
     private static AnimationChanger getAniChanger() {
     	return spr -> {
 		    if (spr.isOnGround()) {
-		    	if((spr.getSpeedX() > 0 && !spr.isFacingRight()) || (spr.getSpeedX() < 0 && spr.isFacingRight())) {
-		    		return "break";
-			    } else if (Math.abs(spr.getSpeedX()) > 1.2) {
-				    return "walk";
+		    	if (Math.abs(spr.getSpeedX()) > 1.2) {
+				    if((spr.getSpeedX() > 0 && !spr.isFacingRight()) || (spr.getSpeedX() < 0 && spr.isFacingRight())) {
+					    return "break";
+				    } else {
+					    return "walk";
+				    }
 			    } else {
 				    return "idle";
 			    }
@@ -60,8 +62,6 @@ public class Mario extends Character {
 
 	@Override
 	public void special(boolean prev, boolean space) {
-		super.special(prev, space);
-
 		if(isOnGround()) {
 			spinning = !prev && space;
 			if(spinning) {

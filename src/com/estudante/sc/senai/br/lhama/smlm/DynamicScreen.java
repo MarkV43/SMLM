@@ -88,4 +88,8 @@ public class DynamicScreen implements Screen {
 		c.setSpeedX(0);
 		c.setSpeedY(0);
 	}
+
+	public int getCharacter() {
+		return level.getCharacterIndex();
+	}
 }

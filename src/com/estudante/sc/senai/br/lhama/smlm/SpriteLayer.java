@@ -33,8 +33,8 @@ public class SpriteLayer extends Layer {
 			JSONObject spr = (JSONObject) obj;
 
 			String name = (String) spr.get("name");
-			long x = (long) spr.get("x");
-			long y = (long) spr.get("y");
+			double x = ((Number) spr.get("x")).doubleValue();
+			double y = ((Number) spr.get("y")).doubleValue();
 
 			Sprite s = null;
 			try {

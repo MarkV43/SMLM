@@ -22,10 +22,17 @@ public class SMLM extends Game {
 	private ZKeyboard keyboard;
 	private ZKeyboard kb;
 
-	ZClip music;
+	private ArrayList<ArrayList<ZClip>> musics;
 
 	private HashMap<Screens, Screen> screens;
 	private Screens currentScreen = Screens.GAME;
+
+	private void nextMusic() {
+		int charac = ((DynamicScreen) screens.get(currentScreen)).getCharacter();
+		ZClip c = musics.get(2).get((int) (Math.random() * 3));
+		int i = c.play();
+		c.wait(i, this::nextMusic);
+	}
 
 	public SMLM() {
 		super();
@@ -43,6 +50,20 @@ public class SMLM extends Game {
 		mouse = new ZMouse();
 		keyboard = new ZKeyboard();
 		kb = new ZKeyboard();
+
+		musics = new ArrayList<>(4);
+
+		for (int i = 0; i < 4; i++) {
+			musics.add(new ArrayList<>(3));
+
+			String p = "musics/" + Character.names.get(i) + "/";
+
+			for (int j = 0; j < 3; j++) {
+				ZClip c = new ZClip(p + j);
+				musics.get(i).add(c);
+			}
+		}
+
 		try {
 
 			screens = new HashMap<>();
@@ -174,9 +195,6 @@ public class SMLM extends Game {
 
 			screens.put(Screens.GAME, new DynamicScreen("level1"));
 
-			music = new ZClip("musics/lost woods");
-			music.loop(9999);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -186,6 +204,10 @@ public class SMLM extends Game {
 		Image i = img.getImage();
 		Point p = new Point(0, 0);
 		addCursor("none", i, p);
+
+		ZClip clip = musics.get(2).get(0);
+		int j = clip.play();
+		clip.wait(j, this::nextMusic);
 	}
 
 	@Override

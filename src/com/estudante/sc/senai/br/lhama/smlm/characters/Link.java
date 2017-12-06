@@ -44,8 +44,6 @@ public class Link extends Character {
 
 	@Override
 	public void special(boolean prev, boolean space) {
-    	super.special(prev, space);
-
 		if(!prev && space) {
 			getLevel().toggleCloudColision();
 			setEnergy(getEnergy() - 1);

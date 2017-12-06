@@ -1,15 +1,17 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
-import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
-
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class Character extends Sprite {
 
 	private static String[] n = {"sonic", "mario", "link", "megaman"};
 	public static List<String> names = Arrays.asList(n);
+
+	private HashMap<String, ZClip> sounds;
 
 	private double jumpSpeed;
 	private boolean left;
@@ -20,9 +22,9 @@ public abstract class Character extends Sprite {
 	private long width;
 	private int life = 8;
 	private int energy;
+	private int coins = 0;
 	private int invincibility = 0;
 	private Level level;
-	private boolean special = false;
 
 	@Override
 	public int framesPerFrame() {
@@ -36,6 +38,17 @@ public abstract class Character extends Sprite {
 		this.speed = speed;
 		this.width = width;
 		level = l;
+		sounds = new HashMap<>();
+		add("jump", "smw_jump");
+		add("damage", "smw_pipe");
+	}
+
+	public void addCoin() {
+		coins++;
+	}
+
+	public int getCoins() {
+		return coins;
 	}
 
 	public boolean update(TileLayer lyr, ArrayList<Sprite> sprites, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
@@ -61,6 +74,7 @@ public abstract class Character extends Sprite {
 			}
 			if (!kb.pW && kb.W) {
 				setSpeedY(jumpSpeed);
+				play("jump");
 			}
 		}
 		setLR(kb);
@@ -87,9 +101,7 @@ public abstract class Character extends Sprite {
 		level.setCharacter(names.indexOf(name), energy);
 	}
 
-	public void special(boolean prev, boolean space) {
-		special = space;
-	}
+	public abstract void special(boolean prev, boolean space);
 
 	public boolean mouseOver() {
 		// Implementation only on Link. (Easteregg)
