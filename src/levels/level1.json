@@ -157,6 +157,17 @@
                  "width":62,
                  "x":768,
                  "y":8064
+                }, 
+                {
+                 "height":61.3333333333339,
+                 "id":43,
+                 "name":"goomba",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":62.6666666666661,
+                 "x":4096,
+                 "y":8769.33333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -164,7 +175,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":43,
+ "nextobjectid":44,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tiledversion":"1.0.3",

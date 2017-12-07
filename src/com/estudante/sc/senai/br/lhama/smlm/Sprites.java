@@ -30,7 +30,7 @@ public class Sprites {
 			num = Character.getNumericValue(last);
 			name = name.substring(0, name.length() - 1);
 		}
-		switch (name) {
+		switch (name.toLowerCase()) {
 			case "koopa_shell":
 				spr = new Koopa(x, y);
 				break;

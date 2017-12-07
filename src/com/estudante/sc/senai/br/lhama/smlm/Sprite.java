@@ -82,7 +82,7 @@ public class Sprite extends ZRect implements Drawable {
 	public void collide(Character c) {
 	}
 
-	public void update(TileLayer lyr, ArrayList<Sprite> sprs) {
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, Runnable r) {
 
 		ArrayList<ZRect> rs = (ArrayList<ZRect>) ZUtils.<ArrayList<Sprite>, Sprite, ZRect>cast(sprs);
 
@@ -96,8 +96,12 @@ public class Sprite extends ZRect implements Drawable {
 
 		x += speedX;
 
-		collisionX(lyr);
-		collisionX(rs);
+		boolean a = collisionX(lyr);
+		boolean b = collisionX(rs);
+
+		if((a || b) && r != null) {
+			r.run();
+		}
 
 		if (falls()) {
 			speedY += SMLM.GRAVITY;
@@ -118,7 +122,12 @@ public class Sprite extends ZRect implements Drawable {
 
 	}
 
-	protected void collisionX(ArrayList<ZRect> ts) {
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs) {
+		update(lyr, sprs, null);
+	}
+
+	protected boolean collisionX(ArrayList<ZRect> ts) {
+		ZBoolean b = new ZBoolean(false);
 		ts.forEach(t -> {
 			if (intersects(t)) {
 				if (x < t.x && x + w > t.x) {
@@ -127,15 +136,17 @@ public class Sprite extends ZRect implements Drawable {
 					x = t.x + t.w;
 				}
 				speedX = 0;
+				b.set(true);
 			}
 		});
+		return b.is();
 	}
 
-	private void collisionX(TileLayer lyr) {
+	private boolean collisionX(TileLayer lyr) {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
 		ArrayList<ZRect> range = getRangeX(ts, lyr.getTileSize());
 
-		collisionX(range);
+		 return collisionX(range);
 	}
 
 	protected void collisionY(ArrayList<ZRect> ts) {

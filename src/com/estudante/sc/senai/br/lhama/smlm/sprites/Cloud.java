@@ -47,8 +47,8 @@ public class Cloud extends Sprite {
 	}
 
 	@Override
-	protected void collisionX(ArrayList<ZRect> ts) {
-
+	protected boolean collisionX(ArrayList<ZRect> ts) {
+		return false;
 	}
 
 	@Override
