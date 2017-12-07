@@ -30,6 +30,7 @@ public class Sprite extends ZRect implements Drawable {
 
 	public Sprite(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h) {
 		super(x, y, w, h);
+		paths.put("none", "images/none#1");
 		loadAnimations(paths);
 		this.aniChanger = aniChanger;
 		animation = defaultAnimation;
@@ -54,6 +55,11 @@ public class Sprite extends ZRect implements Drawable {
 	}
 
 	public void add(String name, String path) {
+		add(name, new ZClip(path));
+	}
+
+	public void set(String name, String path) {
+		clips.remove(name);
 		add(name, new ZClip(path));
 	}
 

@@ -3,6 +3,7 @@ package com.estudante.sc.senai.br.lhama.smlm;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,9 @@ public class ZClip {
 	private List<Clip> clips;
 
 	private String path;
+	public static float defaultVolume = 1f;
+	public static float musicVolume = 0.1f;
+	private float volume = defaultVolume;
 
 	public ZClip(String path) {
 		this.path = "sounds/" + path;
@@ -28,6 +32,7 @@ public class ZClip {
 			AudioInputStream inputStream = AudioSystem.getAudioInputStream(is);
 
 			clip.open(inputStream);
+			setVolume(clip, volume);
 			clip.start();
 			clips.add(clip);
 		} catch (Exception e) {
@@ -44,6 +49,7 @@ public class ZClip {
 				AudioInputStream inputStream = AudioSystem.getAudioInputStream(ist);
 
 				clip.open(inputStream);
+				setVolume(clip, volume);
 				clip.loop(i - 1);
 				clips.add(clip);
 			} catch (Exception e) {
@@ -64,5 +70,30 @@ public class ZClip {
 			}
 			r.run();
 		}).start();
+	}
+
+	public ZClip setVolume(float volume) {
+		if(volume < 0 || volume > 1) {
+			throw new IllegalArgumentException("Volume not valid: " + volume);
+		}
+		this.volume = volume;
+		return this;
+	}
+
+	public float getVolume() {
+		return volume;
+	}
+
+	public float getVolume(int i) {
+		FloatControl control = (FloatControl) clips.get(i).getControl(FloatControl.Type.MASTER_GAIN);
+		return (float) Math.pow(10f, control.getValue() / 20f);
+	}
+
+	public void setVolume(Clip c, float volume) {
+		if(volume < 0 || volume > 1) {
+			throw new IllegalArgumentException("Volume not valid: " + volume);
+		}
+		FloatControl control = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+		control.setValue(20f * (float) Math.log10(volume));
 	}
 }

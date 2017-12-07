@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="480" height="320" tilewidth="64" tileheight="64" nextobjectid="44">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="480" height="320" tilewidth="64" tileheight="64" nextobjectid="56">
  <tileset firstgid="1" source="../tilemaps/Tilemap.tsx"/>
  <layer name="Camada de Tiles 1" width="480" height="320">
   <data encoding="csv">
@@ -340,5 +340,10 @@
   <object id="41" name="coin" x="766" y="7998" width="62" height="64"/>
   <object id="42" name="coin" x="768" y="8064" width="62" height="64"/>
   <object id="43" name="goomba" x="4096" y="8769.33" width="62.6667" height="61.3333"/>
+  <object id="49" name="saw" x="1600" y="10112" width="128" height="128"/>
+  <object id="50" name="saw" x="1920" y="9920" width="128" height="128"/>
+  <object id="51" name="saw" x="2112" y="9792" width="128" height="128"/>
+  <object id="52" name="saw" x="1664" y="9664" width="128" height="128"/>
+  <object id="53" name="saw" x="1984" y="9472" width="128" height="128"/>
  </objectgroup>
 </map>

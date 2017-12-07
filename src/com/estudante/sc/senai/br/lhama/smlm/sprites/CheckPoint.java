@@ -33,12 +33,13 @@ public class CheckPoint extends Sprite {
 	}
 
 	public void collide(Character c, ZKeyboard k) {
-		if(c.isOnGround() && !k.pS && k.S) {
-			c.change(character, energy);
-//			k.pSPACE = true;
-		}
-		if(Math.random() < 0.03) {
-			c.setLife(c.getLife() + 1);
+		if (c.isOnGround()) {
+			if (!k.pS && k.S) {
+				c.change(character, energy);
+			}
+			if (Math.random() < 0.03) {
+				c.setLife(c.getLife() + 1);
+			}
 		}
 	}
 

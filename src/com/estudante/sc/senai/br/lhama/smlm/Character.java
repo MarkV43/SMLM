@@ -137,6 +137,22 @@ public abstract class Character extends Sprite {
 		right(kb.D);
 	}
 
+	public void die() {
+		if(!invincible()) {
+			if (life > 0) {
+				play("damage");
+			} else {
+				play("death");
+			}
+			setLife(life - 1);
+			invincibility = 120;
+		}
+	}
+
+	public boolean invincible() {
+		return invincibility != 0;
+	}
+
 	@Override
 	public void draw(Graphics2D g2d) {
 		int i = Math.floorDiv(invincibility, 4) % 2;
@@ -150,6 +166,10 @@ public abstract class Character extends Sprite {
 		if(SMLM.DEBUG_MODE && invincibility != 0) {
 			g2d.drawString(String.valueOf(invincibility), (int) x, (int) y - 15);
 		}
+	}
+
+	public void setCoins(int coins) {
+		this.coins = coins;
 	}
 
 	public Level getLevel() {

@@ -49,6 +49,9 @@ public class Sprites {
 			case "coin":
 				spr = new Coin(x, y);
 				break;
+			case "saw":
+				spr = new Saw(x, y);
+				break;
 			default:
 				throw new Exception("No matched Sprite");
 		}

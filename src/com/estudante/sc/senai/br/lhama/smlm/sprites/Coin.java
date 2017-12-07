@@ -45,7 +45,6 @@ public class Coin extends Sprite {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("idle", "sprites/coin#4");
 		hm.put("blink", "sprites/coin-blink#1");
-		hm.put("none", "images/none#1");
 		return hm;
 	}
 

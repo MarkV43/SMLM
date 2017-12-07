@@ -10,7 +10,7 @@ public class Mario extends Character {
 
 	@Override
 	public int framesPerFrame() {
-		return 9;
+		return 5;
 	}
 
     private static HashMap<String, String> getPaths() {
@@ -50,6 +50,12 @@ public class Mario extends Character {
 
     public Mario(double x, double y, long w, Level l) {
         super(getPaths(), getAniChanger(), x, y, 96, 96, 10, 0.8, 3, w, l);
+        add("stomp", "smw_stomp");
+        add("spin", "smw_spin_jump");
+        add("spin_stomp", "smw_spin_stomp");
+        add("damage", "smw_damage");
+        add("death", "smw_death");
+        add("spin_bounce", "smw_spin_bounce");
     }
 
 	@Override
@@ -67,6 +73,7 @@ public class Mario extends Character {
 			if(spinning) {
 				setEnergy(getEnergy() - 1);
 				setSpeedY(getJumpSpeed());
+				play("spin");
 			}
 		}
 	}

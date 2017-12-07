@@ -168,9 +168,12 @@ public class Level {
 	public void setCharacter(int i, int e) {
 		Character c = getCharacter();
 		characterIndex = i;
-		getCharacter(i).setLL(c.getLL());
+		getCharacter().setLL(c.getLL());
 		getCharacter().setEnergy(e);
 		getCharacter().setLife(c.getLife());
+		getCharacter().setSpeedX(0);
+		getCharacter().setSpeedY(0);
+		getCharacter().setCoins(c.getCoins());
 	}
 
 	public void draw(Graphics2D g2d) {

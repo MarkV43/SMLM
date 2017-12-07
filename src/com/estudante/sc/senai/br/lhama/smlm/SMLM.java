@@ -31,7 +31,7 @@ public class SMLM extends Game {
 		int charac = ((DynamicScreen) screens.get(currentScreen)).getCharacter();
 		ZClip c = musics.get(2).get((int) (Math.random() * 3));
 		int i = c.play();
-		c.wait(i, this::nextMusic);
+		c.wait(i, SMLM.this::nextMusic);
 	}
 
 	public SMLM() {
@@ -60,7 +60,7 @@ public class SMLM extends Game {
 
 			for (int j = 0; j < 3; j++) {
 				ZClip c = new ZClip(p + j);
-				musics.get(i).add(c);
+				musics.get(i).add(c.setVolume(ZClip.musicVolume));
 			}
 		}
 
@@ -214,7 +214,7 @@ public class SMLM extends Game {
 	public void gameLoop() {
 		Screen current = screens.get(currentScreen);
 		kb.update(keyboard);
-		if(current instanceof DynamicScreen) {
+		if (current instanceof DynamicScreen) {
 			((DynamicScreen) current).update(kb, mouse);
 			setCursor("none");
 		} else {
@@ -322,7 +322,7 @@ public class SMLM extends Game {
 					break;
 				case KeyEvent.VK_R:
 					Screen current = screens.get(currentScreen);
-					if(current instanceof DynamicScreen) {
+					if (current instanceof DynamicScreen) {
 						((DynamicScreen) current).resetCharacter();
 					}
 					break;
