@@ -31,7 +31,7 @@ public class Sprites {
 			name = name.substring(0, name.length() - 1);
 		}
 		switch (name.toLowerCase()) {
-			case "koopa_shell":
+			case "koopa":
 				spr = new Koopa(x, y);
 				break;
 			case "cp":

@@ -13,7 +13,7 @@ public class ZClip {
 	private List<Clip> clips;
 
 	private String path;
-	public static float defaultVolume = 1f;
+	public static float defaultVolume = 0.5f;
 	public static float musicVolume = 0.1f;
 	private float volume = defaultVolume;
 

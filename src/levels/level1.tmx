@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="480" height="320" tilewidth="64" tileheight="64" nextobjectid="56">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="480" height="320" tilewidth="64" tileheight="64" nextobjectid="59">
  <tileset firstgid="1" source="../tilemaps/Tilemap.tsx"/>
  <layer name="Camada de Tiles 1" width="480" height="320">
   <data encoding="csv">
@@ -345,5 +345,6 @@
   <object id="51" name="saw" x="2112" y="9792" width="128" height="128"/>
   <object id="52" name="saw" x="1664" y="9664" width="128" height="128"/>
   <object id="53" name="saw" x="1984" y="9472" width="128" height="128"/>
+  <object id="58" name="koopa" x="1104" y="8758" width="48" height="72"/>
  </objectgroup>
 </map>

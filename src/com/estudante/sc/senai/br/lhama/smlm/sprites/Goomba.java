@@ -42,13 +42,13 @@ public class Goomba extends Sprite {
 	@Override
 	public void collide(Character c) {
 		if(!isDead()) {
-			if (c instanceof Mario && c.y + c.h <= y + c.getSpeedY()) {
+			if (c instanceof Mario && fromTop(c)) {
 				if (((Mario) c).isSpinning()) {
 					c.setSpeedY(0);
 					dead = 25;
 					c.play("spin_stomp");
 				} else {
-					c.setSpeedY(-13);
+					c.setSpeedY(c.getJumpSpeed() / 2);
 					dead = 25;
 					c.play("stomp");
 				}

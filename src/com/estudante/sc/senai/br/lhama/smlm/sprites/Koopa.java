@@ -2,6 +2,7 @@ package com.estudante.sc.senai.br.lhama.smlm.sprites;
 
 import com.estudante.sc.senai.br.lhama.smlm.Character;
 import com.estudante.sc.senai.br.lhama.smlm.Sprite;
+import com.estudante.sc.senai.br.lhama.smlm.characters.Mario;
 
 import java.util.HashMap;
 
@@ -10,6 +11,10 @@ import java.util.HashMap;
  */
 public class Koopa extends Sprite {
 
+	private boolean dead = false;
+	private boolean sliding = false;
+	private int inShell = 0;
+
 	private static HashMap<String, String> getPaths() {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("walk", "sprites/koopa_walk#2");
@@ -17,10 +22,16 @@ public class Koopa extends Sprite {
 	}
 
 	private static String change(Sprite spr) {
-		if (spr.getSpeedX() != 0) {
+		Koopa k = (Koopa) spr;
+		if (k.dead) {
+			return "none";
+		} else if (k.sliding) {
+			return "slide";
+		} else if (k.inShell == 0) {
+			return "idle";
+		} else {
 			return "walk";
 		}
-		return "walk";
 	}
 
 	@Override
@@ -29,7 +40,21 @@ public class Koopa extends Sprite {
 
 	@Override
 	public void collide(Character c) {
-		c.damage(1);
+		if (!dead) {
+			if (c instanceof Mario && fromTop(c)) {
+				if (((Mario) c).isSpinning()) {
+					c.setSpeedY(0);
+					dead = true;
+				} else if (sliding) {
+					c.setSpeedY(c.getJumpSpeed() / 2);
+				} else if (inShell == 0) {
+					inShell = 600;
+				}
+			} else if (inShell > 0 && !sliding) {
+				setFacingRight(fromLeft(c));
+				sliding = true;
+			}
+		}
 	}
 
 	@Override
@@ -38,7 +63,7 @@ public class Koopa extends Sprite {
 	}
 
 	public Koopa(double x, double y) {
-		super(getPaths(), Koopa::change, "walk", x, y, 64, 47);
+		super(getPaths(), Koopa::change, "walk", x, y, 48, 72);
 	}
 
 	@Override
@@ -50,4 +75,5 @@ public class Koopa extends Sprite {
 				", h=" + h +
 				'}';
 	}
+
 }

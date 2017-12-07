@@ -75,7 +75,7 @@ public class Sprite extends ZRect implements Drawable {
 		clips.get(name).stop(i);
 	}
 
-	public void addBullet(Bullet b) {
+	protected void addBullet(Bullet b) {
 		if (canShoot()) {
 
 			bullets.add(b);
@@ -303,7 +303,7 @@ public class Sprite extends ZRect implements Drawable {
 		return onGround;
 	}
 
-	public void setSpeedX(double speedX) {
+	protected void setSpeedX(double speedX) {
 		this.speedX = speedX;
 	}
 
@@ -315,11 +315,19 @@ public class Sprite extends ZRect implements Drawable {
 		return animation;
 	}
 
-	public void setFacingRight(boolean facingRight) {
+	protected void setFacingRight(boolean facingRight) {
 		this.facingRight = facingRight;
 	}
 
 	public boolean isFacingRight() {
 		return facingRight;
+	}
+
+	protected boolean fromTop(Character c) {
+		return c.y + c.h <= y + c.getSpeedY();
+	}
+
+	protected boolean fromLeft(Character c) {
+		return c.x + c.w <= x + c.getSpeedX();
 	}
 }
