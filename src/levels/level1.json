@@ -223,17 +223,6 @@
                  "width":128,
                  "x":1984,
                  "y":9472
-                }, 
-                {
-                 "height":72,
-                 "id":58,
-                 "name":"koopa",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":1104,
-                 "y":8758
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -241,7 +230,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":59,
+ "nextobjectid":56,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tiledversion":"1.0.3",
