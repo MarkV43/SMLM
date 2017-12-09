@@ -58,9 +58,8 @@ public class Mario extends Character {
         add("spin_bounce", "smw_spin_bounce");
     }
 
-	@Override
-	public void update(TileLayer lyr, ArrayList<Sprite> sprs) {
-		super.update(lyr, sprs);
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
+		super.update(lyr, sprs, clouds);
 		if(isOnGround()) {
 			spinning = false;
 		}

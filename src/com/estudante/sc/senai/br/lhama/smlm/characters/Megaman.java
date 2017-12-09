@@ -11,11 +11,6 @@ public class Megaman extends Character {
 
 	private int bulletDelay = 0;
 
-	@Override
-	public boolean canShoot() {
-		return true;
-	}
-
 	private static HashMap<String, String> getPaths() {
 		HashMap<String, String> paths = new HashMap<>();
 		paths.put("idle", "characters/megaman/idle#8");
@@ -58,12 +53,14 @@ public class Megaman extends Character {
 
 	public Megaman(double x, double y, long w, Level l) {
 		super(getPaths(), getAniChanger(), x, y, 80, 80, 7, 1, 1, w, l);
+		add("damage", "meg_damage");
+		add("death", "meg_death");
+		add("shoot", "meg_shoot");
 	}
 
-	@Override
-	public boolean update(TileLayer lyr, ArrayList<Sprite> s, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+	public boolean update(TileLayer lyr, ArrayList<Sprite> s, ZKeyboard kb, ZMouse mouse, Camera c, double dist, boolean clouds) {
 		bulletDelay = Math.max(bulletDelay - 1, 0);
-		return super.update(lyr, s, kb, mouse, c, dist);
+		return super.update(lyr, s, kb, mouse, c, dist, clouds);
 	}
 
 	@Override
@@ -73,6 +70,7 @@ public class Megaman extends Character {
 			bulletDelay = 35;
 			setEnergy(getEnergy() - 1);
 			addBullet(new MegamanBullet(center.x, center.y, isFacingRight()));
+			play("shoot");
 		}
 	}
 

@@ -45,8 +45,7 @@ public class Sonic extends Character {
 		};
 	}
 
-	@Override
-	public boolean update(TileLayer lyr, ArrayList<Sprite> sprs, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+	public boolean update(TileLayer lyr, ArrayList<Sprite> sprs, ZKeyboard kb, ZMouse mouse, Camera c, double dist, boolean clouds) {
     	if(isDashing()) {
     		setTermVelocity(30);
     		float sgn = Math.signum(dashing);
@@ -55,7 +54,7 @@ public class Sonic extends Character {
 	    } else {
     		setTermVelocity(20);
 	    }
-		boolean b = super.update(lyr, sprs, kb, mouse, c, dist);
+		boolean b = super.update(lyr, sprs, kb, mouse, c, dist, clouds);
     	if(isDashing()) {
 		    setFacingRight(dashing > 0);
 	    }
@@ -64,6 +63,12 @@ public class Sonic extends Character {
 
 	public Sonic(double x, double y, long w, Level l) {
         super(getPaths(), getAniChanger(), x, y, 96, 96, 20, 1.2, 2, w, l);
+        add("damage", "snc_damage");
+        add("coin", "snc_coin");
+        add("jump", "snc_jump");
+        add("death", "snc_death");
+        add("dash", "snc_dash");
+        add("stomp", "stomp");
     }
 
 	@Override
@@ -71,10 +76,18 @@ public class Sonic extends Character {
 		if(!prev && space && !isDashing() && getEnergy() != 0) {
 			setEnergy(getEnergy() - 1);
 			dashing = 30 * (isFacingRight() ? 1 : -1);
+			play("dash");
 		}
 	}
 
 	public boolean isDashing() {
 		return dashing != 0;
+	}
+
+	@Override
+	public void die() {
+    	if(!isDashing()) {
+		    super.die();
+	    }
 	}
 }

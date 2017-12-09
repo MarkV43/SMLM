@@ -1,5 +1,8 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
+import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +18,21 @@ public class Sprite extends ZRect implements Drawable {
 	private int frames = 0;
 	private boolean facingRight = true;
 	private HashMap<String, ZClip> clips;
+	private ZRect collision;
+
+	public static ArrayList<ZRect> filter(ArrayList<Sprite> sprs, boolean clouds) {
+		ArrayList<ZRect> rs = new ArrayList<>();
+		for (Sprite s : sprs) {
+			if(s.collides() && (!(s instanceof Cloud) || clouds)) {
+				rs.add(s);
+			}
+		}
+		return rs;
+	}
+
+	public boolean collides() {
+		return false;
+	}
 
 	public boolean falls() {
 		return true;
@@ -51,6 +69,9 @@ public class Sprite extends ZRect implements Drawable {
 	}
 
 	public void add(String name, ZClip clip) {
+		if (clips.containsKey(name)) {
+			clips.remove(name);
+		}
 		clips.put(name, clip);
 	}
 
@@ -63,7 +84,10 @@ public class Sprite extends ZRect implements Drawable {
 		add(name, new ZClip(path));
 	}
 
-	public int play(String name) {
+	public synchronized int play(String name) {
+		if (!clips.containsKey(name)) {
+			throw new IllegalArgumentException("Sound " + name + " does not exist");
+		}
 		return clips.get(name).play();
 	}
 
@@ -88,16 +112,21 @@ public class Sprite extends ZRect implements Drawable {
 	public void collide(Character c) {
 	}
 
-	public void update(TileLayer lyr, ArrayList<Sprite> sprs, Runnable r) {
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds, Runnable r) {
 
-		ArrayList<ZRect> rs = (ArrayList<ZRect>) ZUtils.<ArrayList<Sprite>, Sprite, ZRect>cast(sprs);
+		ArrayList<ZRect> rs = filter(sprs, clouds);
 
 		if (canShoot()) {
-			bullets.forEach(bullet -> {
+			for (int i = 0; i < bullets.size(); i++) {
+				Bullet bullet = bullets.get(i);
 				if (bullet != null) {
-					bullet.update(lyr, sprs);
+					if (!bullet.isDead()) {
+						bullet.update(lyr, sprs, clouds);
+					} else {
+						bullets.set(i, null);
+					}
 				}
-			});
+			}
 		}
 
 		x += speedX;
@@ -105,7 +134,7 @@ public class Sprite extends ZRect implements Drawable {
 		boolean a = collisionX(lyr);
 		boolean b = collisionX(rs);
 
-		if((a || b) && r != null) {
+		if ((a || b) && r != null) {
 			r.run();
 		}
 
@@ -128,13 +157,13 @@ public class Sprite extends ZRect implements Drawable {
 
 	}
 
-	public void update(TileLayer lyr, ArrayList<Sprite> sprs) {
-		update(lyr, sprs, null);
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
+		update(lyr, sprs, clouds, null);
 	}
 
 	protected boolean collisionX(ArrayList<ZRect> ts) {
 		ZBoolean b = new ZBoolean(false);
-		ts.forEach(t -> {
+		for (ZRect t : ts) {
 			if (intersects(t)) {
 				if (x < t.x && x + w > t.x) {
 					x = t.x - w;
@@ -143,16 +172,21 @@ public class Sprite extends ZRect implements Drawable {
 				}
 				speedX = 0;
 				b.set(true);
+				collision = t;
 			}
-		});
+		}
 		return b.is();
+	}
+
+	public ZRect getLastCollision() {
+		return collision;
 	}
 
 	private boolean collisionX(TileLayer lyr) {
 		ArrayList<ArrayList<ZTile>> ts = lyr.getTiles();
 		ArrayList<ZRect> range = getRangeX(ts, lyr.getTileSize());
 
-		 return collisionX(range);
+		return collisionX(range);
 	}
 
 	protected void collisionY(ArrayList<ZRect> ts) {
@@ -182,16 +216,16 @@ public class Sprite extends ZRect implements Drawable {
 		return (Math.floor(t.y) == Math.floor(y + h) && speedY >= 0)
 				&&
 				(
-					(x < t.x + t.w && x > t.x)
-					||
-					(x + w > t.x && x + w < t.x + t.w)
-					||
-					(x <= t.x && x + w >= t.x + t.w)
+						(x < t.x + t.w && x > t.x)
+								||
+								(x + w > t.x && x + w < t.x + t.w)
+								||
+								(x <= t.x && x + w >= t.x + t.w)
 				);
 	}
 
 	@SuppressWarnings("Duplicates")
-	private ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
+	protected ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
 		int sy = ts.size();
 		int sx = ts.get(0).size();
 
@@ -259,7 +293,7 @@ public class Sprite extends ZRect implements Drawable {
 	@Override
 	public void draw(Graphics2D g2d) {
 		drawBullets(g2d);
-		if(!animation.equals("none")) {
+		if (!animation.equals("none")) {
 			ZStrip img = animations.get(animation);
 			img.draw(g2d, this, !facingRight);
 		}
@@ -324,10 +358,23 @@ public class Sprite extends ZRect implements Drawable {
 	}
 
 	protected boolean fromTop(Character c) {
-		return c.y + c.h <= y + c.getSpeedY();
+		return fromTopS(c) && c.getSpeedY() > 0;
+	}
+
+	protected boolean fromTopS(Character c) {
+		return c.y + c.h <= y + h;
 	}
 
 	protected boolean fromLeft(Character c) {
-		return c.x + c.w <= x + c.getSpeedX();
+		return c.getCenter().x < getCenter().x;
 	}
+
+	public ArrayList<Bullet> getBullets() {
+		return bullets;
+	}
+
+	public void setBullets(ArrayList<Bullet> bullets) {
+		this.bullets = bullets;
+	}
+
 }

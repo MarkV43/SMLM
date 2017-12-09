@@ -48,8 +48,8 @@ public class SpriteLayer extends Layer {
 
 	}
 
-	public void update(TileLayer lyr, ArrayList<Sprite> sprs, Character c, ZKeyboard k) {
-		sprites.forEach(sprite -> sprite.update(lyr, sprs));
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, Character c, ZKeyboard k, boolean clouds) {
+		sprites.forEach(sprite -> sprite.update(lyr, sprs, clouds));
 		collide(c, k);
 	}
 
@@ -94,13 +94,7 @@ public class SpriteLayer extends Layer {
 		return arr;
 	}
 
-	public ArrayList<Cloud> getClouds() {
-		ArrayList<Cloud> arr = new ArrayList<>();
-		for (Sprite spr : sprites) {
-			if(spr instanceof Cloud) {
-				arr.add((Cloud) spr);
-			}
-		}
-		return arr;
+	public ArrayList<Sprite> getSprites() {
+		return sprites;
 	}
 }

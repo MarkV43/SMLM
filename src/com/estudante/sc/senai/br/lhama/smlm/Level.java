@@ -34,9 +34,9 @@ public class Level {
 	private long width;
 	private long height;
 	private ArrayList<CheckPoint> checkPoints;
+	private ArrayList<Sprite> sprites;
 	private int checkpoint = 0;
-	private ArrayList<Cloud> clouds;
-	private boolean cloudColision = true;
+	public boolean cloudColision = true;
 	private double d = 0;
 	private int energy;
 	private int lives;
@@ -96,40 +96,32 @@ public class Level {
 
 		this.layers = new HashMap<>(layers.size());
 		checkPoints = new ArrayList<>();
-		clouds = new ArrayList<>();
 
 		for (Object lyr : layers) {
 			Layer layer = Layer.getInstance(this, tileMap, (JSONObject) lyr, tileSize);
 			this.layers.put(layer.getName(), layer);
 			if(layer instanceof SpriteLayer) {
+				sprites = ((SpriteLayer) layer).getSprites();
 				ArrayList<CheckPoint> cps = ((SpriteLayer) layer).getCheckpoints();
 				for (CheckPoint cp : cps) {
 					checkPoints.add(cp.getIndex(), cp);
 				}
-				clouds = ((SpriteLayer) layer).getClouds();
 			}
 		}
 	}
 
 	public boolean update(ZKeyboard kb, ZMouse mouse) {
-		ArrayList<Sprite> sprs;
-		if(cloudColision) {
-			sprs =(ArrayList<Sprite>) ZUtils.<ArrayList<Cloud>, Cloud, Sprite>cast(clouds);
-		} else {
-			sprs = new ArrayList<>();
-		}
-
 		TileLayer collisionLayer = (TileLayer) layers.get("Camada de Tiles 1");
 
 		layers.forEach((s, layer) -> {
 			if(layer instanceof SpriteLayer) {
-				((SpriteLayer) layer).update(collisionLayer, sprs, getCharacter(), kb);
+				((SpriteLayer) layer).update(collisionLayer, sprites, getCharacter(), kb, cloudColision);
 			}
 		});
 
 		d += 0.05;
 		double dist = Math.cos(d) * 5 + 10;
-		boolean hover = getCharacter().update(collisionLayer, sprs, kb, mouse, camera, dist);
+		boolean hover = getCharacter().update(collisionLayer, sprites, kb, mouse, camera, dist, cloudColision);
 
 		camera.goTo(getCharacter().getCenter());
 		changeCharacter(kb);
@@ -174,6 +166,7 @@ public class Level {
 		getCharacter().setSpeedX(0);
 		getCharacter().setSpeedY(0);
 		getCharacter().setCoins(c.getCoins());
+		getCharacter().setBullets(c.getBullets());
 	}
 
 	public void draw(Graphics2D g2d) {

@@ -13,6 +13,11 @@ public class Cloud extends Sprite {
 	private Level level;
 
 	@Override
+	public boolean collides() {
+		return true;
+	}
+
+	@Override
 	public boolean falls() {
 		return false;
 	}

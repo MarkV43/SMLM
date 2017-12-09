@@ -5,6 +5,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class ZClip {
 
 	private String path;
 	public static float defaultVolume = 0.5f;
-	public static float musicVolume = 0.1f;
+	public static float musicVolume = 0f;//0.1
 	private float volume = defaultVolume;
 
 	public ZClip(String path) {
@@ -28,8 +29,8 @@ public class ZClip {
 	public synchronized int play() {
 		try {
 			Clip clip = AudioSystem.getClip();
-			InputStream is = this.getClass().getClassLoader().getResourceAsStream(path);
-			AudioInputStream inputStream = AudioSystem.getAudioInputStream(is);
+			URL u = this.getClass().getClassLoader().getResource(path);
+			AudioInputStream inputStream = AudioSystem.getAudioInputStream(u);
 
 			clip.open(inputStream);
 			setVolume(clip, volume);
@@ -45,8 +46,8 @@ public class ZClip {
 	public synchronized int loop(int i) {
 			try {
 				Clip clip = AudioSystem.getClip();
-				InputStream ist = this.getClass().getClassLoader().getResourceAsStream(path);
-				AudioInputStream inputStream = AudioSystem.getAudioInputStream(ist);
+				URL u = this.getClass().getClassLoader().getResource(path);
+				AudioInputStream inputStream = AudioSystem.getAudioInputStream(u);
 
 				clip.open(inputStream);
 				setVolume(clip, volume);

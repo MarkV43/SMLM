@@ -27,6 +27,7 @@ public class Coin extends Sprite {
 		if(!isCaptured()) {
 			captured = 9;
 			c.addCoin();
+			c.play("coin");
 		}
 	}
 
@@ -48,18 +49,15 @@ public class Coin extends Sprite {
 		return hm;
 	}
 
-	@Override
-	public void update(TileLayer lyr, ArrayList<Sprite> sprs) {
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
 		if(captured > 0) {
 			captured--;
-			play("collect");
 		}
-		super.update(lyr, sprs);
+		super.update(lyr, sprs, clouds);
 	}
 
 	public Coin(double x, double y) {
 		super(getPaths(), Coin::change, "idle", x, y, 64, 64);
-		add("collect", "smw_coin");
 	}
 
 	public int getCaptured() {

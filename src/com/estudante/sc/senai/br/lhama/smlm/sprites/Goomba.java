@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class Goomba extends Sprite {
 
 	private int dead = -1;
+	private boolean spin = false;
 
 	@Override
 	public int framesPerFrame() {
@@ -21,6 +22,7 @@ public class Goomba extends Sprite {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("walk", "sprites/goomba#2");
 		hm.put("dead", "sprites/goomba_die#1");
+		hm.put("smoke", "sprites/smoke#4");
 		return hm;
 	}
 
@@ -30,6 +32,8 @@ public class Goomba extends Sprite {
 			return "none";
 		} else if(g.dead == -1) {
 			return "walk";
+		} else if(g.spin) {
+			return "smoke";
 		} else {
 			return "dead";
 		}
@@ -46,9 +50,10 @@ public class Goomba extends Sprite {
 				if (((Mario) c).isSpinning()) {
 					c.setSpeedY(0);
 					dead = 25;
+					spin = true;
 					c.play("spin_stomp");
 				} else {
-					c.setSpeedY(c.getJumpSpeed() / 2);
+					c.bounce();
 					dead = 25;
 					c.play("stomp");
 				}
@@ -58,22 +63,21 @@ public class Goomba extends Sprite {
 		}
 	}
 
-	@Override
-	public void update(TileLayer lyr, ArrayList<Sprite> sprs) {
+	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
 		if(dead > 0) {
 			dead--;
 			setSpeedX(0);
 		} else if(dead == -1){
 			setSpeedX(2 * (isFacingRight() ? 1 : -1));
 		}
-		super.update(lyr, sprs, () -> setFacingRight(!isFacingRight()));
+		super.update(lyr, sprs, clouds, () -> setFacingRight(!isFacingRight()));
 	}
 
 	public boolean isDead() {
 		return dead != -1;
 	}
 
-	public void setDead(int dead) {
-		this.dead = dead;
+	public boolean isSpin() {
+		return spin;
 	}
 }

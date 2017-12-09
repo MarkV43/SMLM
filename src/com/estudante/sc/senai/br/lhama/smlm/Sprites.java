@@ -23,12 +23,15 @@ public class Sprites {
 	}
 
 	public static Sprite getInstance(Level l, String name, double x, double y) throws Exception {
-		char last = name.charAt(name.length() - 1);
 		Sprite spr;
-		int num = -1;
-		if (Character.isDigit(last)) {
-			num = Character.getNumericValue(last);
+		int num = 0;
+		int i = 0;
+		char last = name.charAt(name.length() - 1);
+		while(Character.isDigit(last)) {
+			num += Character.getNumericValue(last) * Math.pow(10, i);
 			name = name.substring(0, name.length() - 1);
+			last = name.charAt(name.length() - 1);
+			i++;
 		}
 		switch (name.toLowerCase()) {
 			case "koopa":
@@ -51,6 +54,15 @@ public class Sprites {
 				break;
 			case "saw":
 				spr = new Saw(x, y);
+				break;
+			case "crab":
+				spr = new CrabBot(x, y);
+				break;
+			case "blader":
+				spr = new Blader(x, y, num);
+				break;
+			case "beebot":
+				spr = new BeeBot(x, y, num);
 				break;
 			default:
 				throw new Exception("No matched Sprite");

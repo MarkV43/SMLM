@@ -29,7 +29,7 @@ public class SMLM extends Game {
 
 	private void nextMusic() {
 		int charac = ((DynamicScreen) screens.get(currentScreen)).getCharacter();
-		ZClip c = musics.get(2).get((int) (Math.random() * 3));
+		ZClip c = musics.get(3).get((int) (Math.random() * 3));
 		int i = c.play();
 		c.wait(i, SMLM.this::nextMusic);
 	}
@@ -205,7 +205,7 @@ public class SMLM extends Game {
 		Point p = new Point(0, 0);
 		addCursor("none", i, p);
 
-		ZClip clip = musics.get(2).get((int) (Math.random() * 3));
+		ZClip clip = musics.get(3).get((int) (Math.random() * 3));
 		int j = clip.play();
 		clip.wait(j, this::nextMusic);
 	}

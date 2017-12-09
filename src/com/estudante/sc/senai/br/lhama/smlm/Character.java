@@ -13,6 +13,11 @@ public abstract class Character extends Sprite {
 
 	private HashMap<String, ZClip> sounds;
 
+	@Override
+	public boolean canShoot() {
+		return true;
+	}
+
 	private double jumpSpeed;
 	private boolean left;
 	private boolean right;
@@ -39,8 +44,11 @@ public abstract class Character extends Sprite {
 		this.width = width;
 		level = l;
 		sounds = new HashMap<>();
+		add("stomp", "smw_stomp");
 		add("jump", "smw_jump");
 		add("damage", "smw_pipe");
+		add("coin", "smw_coin");
+
 	}
 
 	public void addCoin() {
@@ -51,7 +59,7 @@ public abstract class Character extends Sprite {
 		return coins;
 	}
 
-	public boolean update(TileLayer lyr, ArrayList<Sprite> sprites, ZKeyboard kb, ZMouse mouse, Camera c, double dist) {
+	public boolean update(TileLayer lyr, ArrayList<Sprite> sprites, ZKeyboard kb, ZMouse mouse, Camera c, double dist, boolean clouds) {
 
 		invincibility = Math.max(invincibility - 1, 0);
 		double change = dir * speed;
@@ -80,7 +88,7 @@ public abstract class Character extends Sprite {
 		setLR(kb);
 		special(kb.pSPACE, kb.SPACE);
 
-		super.update(lyr, sprites);
+		super.update(lyr, sprites, clouds);
 
 		//double dist = Math.cos(d += 0.05) * 5 + 10;
 		if (x < dist) {
@@ -238,5 +246,13 @@ public abstract class Character extends Sprite {
 				", w=" + w +
 				", h=" + h +
 				'}';
+	}
+
+	public void bounce() {
+		setSpeedY(-7.8394663844);
+	}
+
+	public void bounce(double plus) {
+		setSpeedY(-7.8394663844 + plus);
 	}
 }
