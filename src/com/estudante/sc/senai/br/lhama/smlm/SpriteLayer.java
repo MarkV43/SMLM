@@ -79,6 +79,12 @@ public class SpriteLayer extends Layer {
 			sprites.forEach(sprite -> {
 				if(sprite.intersects(rect)) {
 					sprite.draw(g2d);
+				} else if(sprite.canShoot()) {
+					sprite.getBullets().forEach(b -> {
+						if(b != null) {
+							b.draw(g2d);
+						}
+					});
 				}
 			});
 		}
@@ -96,5 +102,11 @@ public class SpriteLayer extends Layer {
 
 	public ArrayList<Sprite> getSprites() {
 		return sprites;
+	}
+
+	public void reset() {
+		for (Sprite spr : sprites) {
+			spr.reset();
+		}
 	}
 }

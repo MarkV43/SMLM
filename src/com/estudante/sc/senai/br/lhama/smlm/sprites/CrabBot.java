@@ -10,8 +10,6 @@ import java.util.HashMap;
 
 public class CrabBot extends Sprite {
 
-	private boolean dead = false;
-
 	private static HashMap<String, String> getPaths() {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("walk", "sprites/crab_bot#20");
@@ -29,9 +27,9 @@ public class CrabBot extends Sprite {
 
 	@Override
 	public void collide(Character c) {
-		if(!dead) {
-			if(c instanceof Sonic && fromTop(c)) {
-				dead = true;
+		if (!isDead()) {
+			if (c instanceof Sonic && fromTop(c)) {
+				setDead(true);
 				c.bounce();
 				play("stomp");
 			} else {
@@ -42,14 +40,14 @@ public class CrabBot extends Sprite {
 
 	@Override
 	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
-		if(!dead) {
+		if (!isDead()) {
 			setSpeedX(3 * (isFacingRight() ? 1 : -1));
 		}
 		super.update(lyr, sprs, clouds, () -> setFacingRight(!isFacingRight()));
 	}
 
 	private static String change(Sprite spr) {
-		if(((CrabBot) spr).isDead()) {
+		if (spr.isDead()) {
 			return "none";
 		} else {
 			return "walk";
@@ -61,7 +59,4 @@ public class CrabBot extends Sprite {
 		add("stomp", "smw_stomp");
 	}
 
-	public boolean isDead() {
-		return dead;
-	}
 }

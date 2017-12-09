@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 public class Goomba extends Sprite {
 
-	private int dead = -1;
 	private boolean spin = false;
 
 	@Override
@@ -28,9 +27,9 @@ public class Goomba extends Sprite {
 
 	private static String change(Sprite spr) {
 		Goomba g = (Goomba) spr;
-		if(g.dead == 0) {
+		if(g.getDead() == 0) {
 			return "none";
-		} else if(g.dead == -1) {
+		} else if(!g.isDead()) {
 			return "walk";
 		} else if(g.spin) {
 			return "smoke";
@@ -49,12 +48,12 @@ public class Goomba extends Sprite {
 			if (c instanceof Mario && fromTop(c)) {
 				if (((Mario) c).isSpinning()) {
 					c.setSpeedY(0);
-					dead = 25;
+					setDead(25);
 					spin = true;
 					c.play("spin_stomp");
 				} else {
 					c.bounce();
-					dead = 25;
+					setDead(25);
 					c.play("stomp");
 				}
 			} else {
@@ -64,20 +63,13 @@ public class Goomba extends Sprite {
 	}
 
 	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
-		if(dead > 0) {
-			dead--;
+		if(getDead() > 0) {
+			deadMM();
 			setSpeedX(0);
-		} else if(dead == -1){
+		} else if(getDead() == -1){
 			setSpeedX(2 * (isFacingRight() ? 1 : -1));
 		}
 		super.update(lyr, sprs, clouds, () -> setFacingRight(!isFacingRight()));
 	}
 
-	public boolean isDead() {
-		return dead != -1;
-	}
-
-	public boolean isSpin() {
-		return spin;
-	}
 }

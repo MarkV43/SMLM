@@ -226,11 +226,6 @@ public class SMLM extends Game {
 	private class KeyboardHandler extends KeyAdapter {
 
 		@Override
-		public void keyTyped(KeyEvent e) {
-
-		}
-
-		@Override
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
@@ -323,7 +318,7 @@ public class SMLM extends Game {
 				case KeyEvent.VK_R:
 					Screen current = screens.get(currentScreen);
 					if (current instanceof DynamicScreen) {
-						((DynamicScreen) current).resetCharacter();
+						((DynamicScreen) current).reset();
 					}
 					break;
 			}

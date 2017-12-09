@@ -9,9 +9,6 @@ import java.util.HashMap;
 
 public class Coin extends Sprite {
 
-	private int captured = -1;
-	private ZClip sound;
-
 	@Override
 	public boolean falls() {
 		return false;
@@ -24,8 +21,8 @@ public class Coin extends Sprite {
 
 	@Override
 	public void collide(Character c) {
-		if(!isCaptured()) {
-			captured = 9;
+		if(!isDead()) {
+			setDead(9);
 			c.addCoin();
 			c.play("coin");
 		}
@@ -33,9 +30,9 @@ public class Coin extends Sprite {
 
 	private static String change(Sprite spr) {
 		Coin c = (Coin) spr;
-		if(c.getCaptured() == 0) {
+		if(c.getDead() == 0) {
 			return "none";
-		} else if(c.getCaptured() == -1) {
+		} else if(!c.isDead()) {
 			return "idle";
 		} else {
 			return "blink";
@@ -50,8 +47,8 @@ public class Coin extends Sprite {
 	}
 
 	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
-		if(captured > 0) {
-			captured--;
+		if(getDead() > 0) {
+			deadMM();
 		}
 		super.update(lyr, sprs, clouds);
 	}
@@ -60,11 +57,4 @@ public class Coin extends Sprite {
 		super(getPaths(), Coin::change, "idle", x, y, 64, 64);
 	}
 
-	public int getCaptured() {
-		return captured;
-	}
-
-	public boolean isCaptured() {
-		return captured != -1;
-	}
 }

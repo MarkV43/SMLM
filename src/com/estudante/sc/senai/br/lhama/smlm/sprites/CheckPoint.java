@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class CheckPoint extends Sprite {
 
@@ -16,6 +17,7 @@ public class CheckPoint extends Sprite {
 	private int index;
 	private String character;
 	private int energy;
+	private Consumer<Integer> change;
 
 	@Override
 	public boolean falls() {
@@ -32,9 +34,14 @@ public class CheckPoint extends Sprite {
 		return "swing";
 	}
 
+	public void setChange(Consumer<Integer> c) {
+		change = c;
+	}
+
 	public void collide(Character c, ZKeyboard k) {
 		if (c.isOnGround()) {
 			if (!k.pS && k.S) {
+				change.accept(index);
 				c.change(character, energy);
 			}
 			if (Math.random() < 0.03) {
@@ -43,12 +50,8 @@ public class CheckPoint extends Sprite {
 		}
 	}
 
-	public CheckPoint(double x, double y) {
+	public CheckPoint(double x, double y, int num) {
 		super(getPaths(), CheckPoint::change, "swing", x, y, 128, 128);
-	}
-
-	public CheckPoint(Sprite cp, double x, double y, int num) {
-		super(cp, x, y);
 		index = num;
 		JSONObject obj = (JSONObject) reference.get(num);
 		character = (String) obj.get("character");

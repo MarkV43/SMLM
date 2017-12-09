@@ -4,13 +4,17 @@ import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Sprite extends ZRect implements Drawable {
+	private double dx;
+	private double dy;
 	private HashMap<String, ZStrip> animations;
 	private ArrayList<Bullet> bullets;
 	private String animation;
+	private String defAnimation;
 	private double speedX;
 	private double speedY;
 	private boolean onGround;
@@ -19,8 +23,9 @@ public class Sprite extends ZRect implements Drawable {
 	private boolean facingRight = true;
 	private HashMap<String, ZClip> clips;
 	private ZRect collision;
+	private int dead = -1;
 
-	public static ArrayList<ZRect> filter(ArrayList<Sprite> sprs, boolean clouds) {
+	public ArrayList<ZRect> filter(ArrayList<Sprite> sprs, boolean clouds) {
 		ArrayList<ZRect> rs = new ArrayList<>();
 		for (Sprite s : sprs) {
 			if(s.collides() && (!(s instanceof Cloud) || clouds)) {
@@ -48,10 +53,13 @@ public class Sprite extends ZRect implements Drawable {
 
 	public Sprite(HashMap<String, String> paths, AnimationChanger aniChanger, String defaultAnimation, double x, double y, double w, double h) {
 		super(x, y, w, h);
+		dx = x;
+		dy = y;
 		paths.put("none", "images/none#1");
 		loadAnimations(paths);
 		this.aniChanger = aniChanger;
 		animation = defaultAnimation;
+		defAnimation = animation;
 		bullets = new ArrayList<>();
 		clips = new HashMap<>();
 	}
@@ -79,11 +87,6 @@ public class Sprite extends ZRect implements Drawable {
 		add(name, new ZClip(path));
 	}
 
-	public void set(String name, String path) {
-		clips.remove(name);
-		add(name, new ZClip(path));
-	}
-
 	public synchronized int play(String name) {
 		if (!clips.containsKey(name)) {
 			throw new IllegalArgumentException("Sound " + name + " does not exist");
@@ -101,7 +104,6 @@ public class Sprite extends ZRect implements Drawable {
 
 	protected void addBullet(Bullet b) {
 		if (canShoot()) {
-
 			bullets.add(b);
 		}
 	}
@@ -123,7 +125,7 @@ public class Sprite extends ZRect implements Drawable {
 					if (!bullet.isDead()) {
 						bullet.update(lyr, sprs, clouds);
 					} else {
-						bullets.set(i, null);
+						bullets.remove(i);
 					}
 				}
 			}
@@ -148,7 +150,12 @@ public class Sprite extends ZRect implements Drawable {
 
 		frames++;
 		if (frames % framesPerFrame() == 0) {
-			animations.get(animation).next();
+			ZStrip strip = animations.get(animation);
+			try {
+				strip.next();
+			} catch (Exception e) {
+				System.out.println(animation);
+			}
 			frames = 0;
 		}
 
@@ -375,6 +382,36 @@ public class Sprite extends ZRect implements Drawable {
 
 	public void setBullets(ArrayList<Bullet> bullets) {
 		this.bullets = bullets;
+	}
+
+	public boolean isDead() {
+		return dead != -1;
+	}
+
+	public int getDead() {
+		return dead;
+	}
+
+	public void setDead(boolean b) {
+		dead = b ? 0 : -1;
+	}
+
+	public void setDead(int i) {
+		dead = i;
+	}
+
+	public void deadMM() {
+		dead--;
+	}
+
+	public void reset() {
+		bullets = new ArrayList<>();
+		x = dx;
+		y = dy;
+		speedX = 0;
+		speedY = 0;
+		dead = -1;
+		animation = defAnimation;
 	}
 
 }

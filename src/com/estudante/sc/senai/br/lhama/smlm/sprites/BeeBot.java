@@ -1,9 +1,7 @@
 package com.estudante.sc.senai.br.lhama.smlm.sprites;
 
+import com.estudante.sc.senai.br.lhama.smlm.*;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
-import com.estudante.sc.senai.br.lhama.smlm.SMLM;
-import com.estudante.sc.senai.br.lhama.smlm.Sprite;
-import com.estudante.sc.senai.br.lhama.smlm.TileLayer;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Sonic;
 
 import java.util.ArrayList;
@@ -13,7 +11,6 @@ public class BeeBot extends Sprite {
 
 	private static final double PI4 = Math.PI / 2;
 	private static final double PI2 = 2 * Math.PI;
-	private boolean dead;
 	private int radius;
 	private int r;
 	private double cx;
@@ -27,7 +24,7 @@ public class BeeBot extends Sprite {
 	}
 
 	private static String change(Sprite spr) {
-		if(((BeeBot) spr).isDead()) {
+		if (spr.isDead()) {
 			return "none";
 		} else {
 			return "fly";
@@ -41,9 +38,9 @@ public class BeeBot extends Sprite {
 
 	@Override
 	public void collide(Character c) {
-		if(!dead) {
-			if(c instanceof Sonic && fromTop(c)) {
-				dead = true;
+		if (!isDead()) {
+			if (c instanceof Sonic && fromTop(c)) {
+				setDead(true);
 				c.play("stomp");
 			} else {
 				c.die();
@@ -62,22 +59,23 @@ public class BeeBot extends Sprite {
 
 	@Override
 	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
-		angle += 0.09;
+		angle = ZMath.angleAdd(angle, 0.09, r);
 
 		x = cx + Math.sin(angle / r) * radius;
 		y = cy + Math.sin(angle) * SMLM.TILE_SIZE;
 
 		double rt = (angle / r) % (PI2);
-		if(rt >= 3 * PI4) {
+		if (rt >= 3 * PI4) {
 			setFacingRight(true);
-		} else if(rt >= PI4) {
+		} else if (rt >= PI4) {
 			setFacingRight(false);
 		}
 
 		super.update(lyr, sprs, clouds);
 	}
 
-	public boolean isDead() {
-		return dead;
+	public void reset() {
+		angle = 0;
+		super.reset();
 	}
 }

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 public class Level {
 
@@ -38,8 +39,6 @@ public class Level {
 	private int checkpoint = 0;
 	public boolean cloudColision = true;
 	private double d = 0;
-	private int energy;
-	private int lives;
 
 	public Level(String levelName) throws ParserConfigurationException, IOException, SAXException {
 
@@ -104,6 +103,7 @@ public class Level {
 				sprites = ((SpriteLayer) layer).getSprites();
 				ArrayList<CheckPoint> cps = ((SpriteLayer) layer).getCheckpoints();
 				for (CheckPoint cp : cps) {
+					cp.setChange(this::setCheckpoint);
 					checkPoints.add(cp.getIndex(), cp);
 				}
 			}
@@ -228,8 +228,8 @@ public class Level {
 		return checkPoints.get(i);
 	}
 
-	public void retry() {
-		getCharacter();
+	public void setCheckpoint(int i) {
+		checkpoint = i;
 	}
 
 	public void toggleCloudColision() {
@@ -238,5 +238,34 @@ public class Level {
 
 	public boolean isCloudColision() {
 		return cloudColision;
+	}
+
+	public void reset(int cpIndex) {
+		layers.forEach((s, layer) -> {
+			if(layer instanceof SpriteLayer)
+				((SpriteLayer) layer).reset();
+		});
+		CheckPoint cp = getCheckpoint(cpIndex);
+		Character ch = getCharacter();
+
+		ch.setLL(cp.getLL());
+		String chr = cp.getCharacter();
+		int i = Character.names.indexOf(chr);
+		setCharacter(i, cp.getEnergy());
+	}
+
+	public void reset() {
+		layers.forEach((s, layer) -> {
+			if(layer instanceof SpriteLayer)
+				((SpriteLayer) layer).reset();
+		});
+		CheckPoint cp = getCheckpoint();
+		Character ch = getCharacter();
+
+		ch.setLL(cp.getLL());
+		String chr = cp.getCharacter();
+		int i = Character.names.indexOf(chr);
+		setCharacter(i, cp.getEnergy());
+		camera.setCenterC(ch.getCenter());
 	}
 }

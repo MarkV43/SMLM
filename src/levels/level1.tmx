@@ -663,7 +663,7 @@
   <object id="38" name="coin" x="1344" y="8382" width="64" height="66"/>
   <object id="41" name="coin" x="766" y="7998" width="62" height="64"/>
   <object id="42" name="coin" x="768" y="8064" width="62" height="64"/>
-  <object id="43" name="koopa" x="4096" y="8769.33" width="62.6667" height="61.3333"/>
+  <object id="43" name="met" x="4096" y="8769.33" width="62.6667" height="61.3333"/>
   <object id="49" name="saw" x="1600" y="10112" width="128" height="128"/>
   <object id="50" name="saw" x="1920" y="9920" width="128" height="128"/>
   <object id="51" name="saw" x="2112" y="9792" width="128" height="128"/>

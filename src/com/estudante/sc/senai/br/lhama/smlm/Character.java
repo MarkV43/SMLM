@@ -98,6 +98,21 @@ public abstract class Character extends Sprite {
 			x = width - dist - w;
 			setSpeedX(0);
 		}
+
+		for (Sprite spr : sprites) {
+			if (spr.canShoot()) {
+				ArrayList<Bullet> bullets = spr.getBullets();
+				for (int j = 0; j < bullets.size(); j++) {
+					Bullet b = bullets.get(j);
+					if (b != null && intersects(b)) {
+						if (!invincible()) {
+							bullets.set(j, null);
+							die();
+						}
+					}
+				}
+			}
+		}
 		return contains(mouse, c.x, c.y) && mouseOver();
 	}
 

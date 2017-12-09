@@ -13,7 +13,6 @@ import java.util.HashMap;
  */
 public class Koopa extends Sprite {
 
-	private int dead = -1;
 	private int sliding = -1;
 	private int inShell = 0;
 	private boolean spin = false;
@@ -29,7 +28,7 @@ public class Koopa extends Sprite {
 
 	private static String change(Sprite spr) {
 		Koopa k = (Koopa) spr;
-		if (k.dead == 0) {
+		if (k.getDead() == 0) {
 			return "none";
 		} else if(k.isDead()) {
 			return "smoke";
@@ -48,7 +47,7 @@ public class Koopa extends Sprite {
 			if (c instanceof Mario && fromTop(c)) {
 				if (((Mario) c).isSpinning()) {
 					c.setSpeedY(0);
-					dead = 25;
+					setDead(25);
 					spin = true;
 					c.play("spin_stomp");
 				} else if (sliding >= 0) {
@@ -71,8 +70,8 @@ public class Koopa extends Sprite {
 	}
 
 	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
-		if(dead > 0) {
-			dead--;
+		if(getDead() > 0) {
+			deadMM();
 		}
 		if(!isDead()) {
 			int mult;
@@ -103,14 +102,6 @@ public class Koopa extends Sprite {
 	public Koopa(double x, double y) {
 		super(getPaths(), Koopa::change, "walk", x, y, 48, 72);
 		add("kick", "smw_kick");
-	}
-
-	public boolean isSpin() {
-		return spin;
-	}
-
-	public boolean isDead() {
-		return dead != -1;
 	}
 
 	@Override

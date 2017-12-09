@@ -22,7 +22,7 @@ public class Camera extends ZRect {
 		setCenterC(newCenter);
 	}
 
-	private void setCenterC(ZPoint newCenter) {
+	public void setCenterC(ZPoint newCenter) {
 		ZPoint preCenter = getCenter();
 		x += newCenter.x - preCenter.x;
 		if(x < limits.x) {

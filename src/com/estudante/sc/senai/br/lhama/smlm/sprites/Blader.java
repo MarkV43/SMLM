@@ -13,7 +13,6 @@ public class Blader extends Sprite {
 	private double cx;
 	private double cy;
 	private double angle = 0;
-	private boolean dead = false;
 
 	@Override
 	public int framesPerFrame() {
@@ -32,23 +31,23 @@ public class Blader extends Sprite {
 	}
 
 	private static String change(Sprite spr) {
-		if(((Blader) spr).isDead()) {
+		if (spr.isDead()) {
 			return "none";
 		} else {
 			return "idle";
 		}
 	}
 
+
 	public void hit() {
-		dead = true;
-		System.out.println("dead");
+		setDead(true);
 	}
 
 	@Override
 	public void collide(Character c) {
-		if(!dead) {
-			if(c instanceof Mario && ((Mario) c).isSpinning() && fromTopS(c)) {
-				if(c.getSpeedY() > 0) {
+		if (!isDead()) {
+			if (c instanceof Mario && ((Mario) c).isSpinning() && fromTopS(c)) {
+				if (c.getSpeedY() > 0) {
 					c.bounce(-5);
 					c.play("spin_bounce");
 				}
@@ -66,8 +65,8 @@ public class Blader extends Sprite {
 	}
 
 	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {
-		if(!dead) {
-			angle += 0.03;
+		if (!isDead()) {
+			angle = ZMath.angleAdd(angle, 0.03);
 			x = cx + Math.cos(angle) * r;
 			y = cy + Math.sin(angle) * r;
 			setSpeedX(0);
@@ -77,7 +76,8 @@ public class Blader extends Sprite {
 		}
 	}
 
-	public boolean isDead() {
-		return dead;
+	public void reset() {
+		angle = 0;
+		super.reset();
 	}
 }

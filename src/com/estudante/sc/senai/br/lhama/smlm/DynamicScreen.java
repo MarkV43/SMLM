@@ -76,17 +76,8 @@ public class DynamicScreen implements Screen {
 		}
 	}
 
-	public void resetCharacter() {
-		level.getCharacter().setLL(level.getCheckpoint().getLL());
-		level.resetCamera();
-	}
-
-	private void setCharacterPos(double x, double y) {
-		Character c = level.getCharacter();
-		c.x = x;
-		c.y = y;
-		c.setSpeedX(0);
-		c.setSpeedY(0);
+	public void reset() {
+		level.reset();
 	}
 
 	public int getCharacter() {

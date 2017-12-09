@@ -10,18 +10,6 @@ import java.util.HashMap;
  */
 public class Sprites {
 
-	private static Sprites instance = new Sprites();
-
-	private HashMap<String, Sprite> hm = new HashMap<>();
-
-	private Sprites() {
-		hm.put("cp", new CheckPoint(0, 0));
-	}
-
-	private static Sprites getInstance() {
-		return instance;
-	}
-
 	public static Sprite getInstance(Level l, String name, double x, double y) throws Exception {
 		Sprite spr;
 		int num = 0;
@@ -38,7 +26,7 @@ public class Sprites {
 				spr = new Koopa(x, y);
 				break;
 			case "cp":
-				spr = new CheckPoint(getInstance().hm.get("cp"), x, y, num);
+				spr = new CheckPoint(x, y, num);
 				break;
 			case "cloud":
 				spr = new Cloud(num, x, y, l);
