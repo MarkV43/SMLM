@@ -15,7 +15,7 @@ public class ZClip {
 
 	private String path;
 	public static float defaultVolume = 0.5f;
-	public static float musicVolume = 0f;//0.1
+	public static float musicVolume = 0.1f;
 	private float volume = defaultVolume;
 
 	public ZClip(String path) {

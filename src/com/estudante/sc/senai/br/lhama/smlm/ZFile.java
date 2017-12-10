@@ -28,10 +28,7 @@ public class ZFile {
 
 	}
 
-	public static void writeFile(String path, String content) throws FileNotFoundException, UnsupportedEncodingException {
-		/*PrintWriter writer = new PrintWriter(path, "UTF-8");
-		writer.print(content);
-		writer.close();*/
+	public static void writeFile(String path, String content) {
 		try {
 			Files.write(Paths.get(path), content.getBytes(), StandardOpenOption.CREATE);
 		} catch (IOException e) {

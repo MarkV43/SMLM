@@ -232,7 +232,7 @@ public class Sprite extends ZRect implements Drawable {
 	}
 
 	@SuppressWarnings("Duplicates")
-	protected ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
+	protected final ArrayList<ZRect> getRangeX(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
 		int sy = ts.size();
 		int sx = ts.get(0).size();
 
@@ -260,7 +260,7 @@ public class Sprite extends ZRect implements Drawable {
 	}
 
 	@SuppressWarnings("Duplicates")
-	private ArrayList<ZRect> getRangeY(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
+	private final ArrayList<ZRect> getRangeY(ArrayList<ArrayList<ZTile>> ts, int tileSize) {
 		int sy = ts.size();
 		int sx = ts.get(0).size();
 

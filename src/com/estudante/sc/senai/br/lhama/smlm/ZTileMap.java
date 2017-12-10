@@ -85,7 +85,12 @@ public class ZTileMap extends ZImage {
 		int x = Math.floorMod(index, cols);
 		int y = Math.floorDiv(index, cols);
 
-		return tiles.get(y).get(x);
+		if(y == 7) {
+			System.out.println("ERROR");
+		}
+
+		ArrayList<ZTile> row = tiles.get(y);
+		return row.get(x);
 	}
 
 }

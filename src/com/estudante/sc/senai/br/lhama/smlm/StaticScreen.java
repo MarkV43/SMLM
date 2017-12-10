@@ -31,27 +31,27 @@ public class StaticScreen implements Screen {
 		return a;
 	}
 
-	private ArrayList<ZButton> buttons;
+	private ArrayList<Clickable> clickables;
 	private ArrayList<ZImage> images;
 	private ZImage background;
 
-	public StaticScreen(ZImage background, ArrayList<ZButton> buttons, ArrayList<ZImage> images) {
+	public StaticScreen(ZImage background, ArrayList<Clickable> clickables, ArrayList<ZImage> images) {
 		this.background = background;
-		this.buttons = resize(buttons);
+		this.clickables = resize(clickables);
 		this.images = resize(images);
 	}
 
 	public void update(ZMouse m) {
-		for (ZButton button : buttons) {
-			button.update(m);
+		for (Clickable c : clickables) {
+			c.update(m);
 		}
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
 		background.draw(g2d);
-		for (ZButton button : buttons) {
-			button.draw(g2d);
+		for (Clickable c : clickables) {
+			c.draw(g2d);
 		}
 		for (ZImage img : images) {
 			img.draw(g2d);

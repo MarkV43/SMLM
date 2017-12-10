@@ -1,19 +1,19 @@
 [
   {
     "character": "mario",
-    "energy": 16
+    "energy": 10
   },
   {
     "character": "megaman",
-    "energy": 0
+    "energy": 10
   },
   {
     "character": "link",
-    "energy": 0
+    "energy": 10
   },
   {
     "character": "sonic",
-    "energy": 0
+    "energy": 10
   },
   {
     "character": "mario",

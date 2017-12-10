@@ -102,6 +102,15 @@ public class Koopa extends Sprite {
 	public Koopa(double x, double y) {
 		super(getPaths(), Koopa::change, "walk", x, y, 48, 72);
 		add("kick", "smw_kick");
+		add("stomp", "smw_stomp");
+	}
+
+	@Override
+	public void reset() {
+		sliding = -1;
+		inShell = 0;
+		spin = false;
+		super.reset();
 	}
 
 	@Override

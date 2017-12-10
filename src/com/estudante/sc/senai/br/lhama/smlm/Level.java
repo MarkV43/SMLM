@@ -103,8 +103,11 @@ public class Level {
 				sprites = ((SpriteLayer) layer).getSprites();
 				ArrayList<CheckPoint> cps = ((SpriteLayer) layer).getCheckpoints();
 				for (CheckPoint cp : cps) {
+					checkPoints.add(null);
+				}
+				for (CheckPoint cp : cps) {
 					cp.setChange(this::setCheckpoint);
-					checkPoints.add(cp.getIndex(), cp);
+					checkPoints.set(cp.getIndex(), cp);
 				}
 			}
 		}
@@ -271,7 +274,6 @@ public class Level {
 		String chr = cp.getCharacter();
 		int i = Character.names.indexOf(chr);
 		setCharacter(i, cp.getEnergy());
-//		camera.setCenterC(ch.getCenter());
 	}
 
 	public void save() {

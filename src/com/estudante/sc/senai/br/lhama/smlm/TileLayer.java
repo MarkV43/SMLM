@@ -40,6 +40,9 @@ public class TileLayer extends Layer {
 				tiles.add(y, new ArrayList<>((int) w));
 			}
 			long val = (Long) data.get(i);
+			if(val == 38) {
+				System.out.println("ERROR");
+			}
 			tiles.get(y).add(x, tileMap.get((int) val));
 		}
 	}

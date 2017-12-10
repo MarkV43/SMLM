@@ -27,7 +27,7 @@ public class SMLM extends Game {
 	private ArrayList<ArrayList<ZClip>> musics;
 
 	private HashMap<Screens, Screen> screens;
-	private Screens currentScreen = Screens.GAME;
+	private Screens currentScreen = Screens.MAIN;
 
 	private void nextMusic() {
 		int charac = ((DynamicScreen) screens.get(currentScreen)).getCharacter();
@@ -76,7 +76,7 @@ public class SMLM extends Game {
 			ZImage background = new ZImage("screens/background.png");
 
 			{
-				ArrayList<ZButton> buttons = new ArrayList<>();
+				ArrayList<Clickable> buttons = new ArrayList<>();
 
 				buttons.add(new ZButton(
 						new ZRect(864, 800, 197, 81),
@@ -115,7 +115,7 @@ public class SMLM extends Game {
 			}
 
 			{
-				ArrayList<ZButton> buttons = new ArrayList<>();
+				ArrayList<Clickable> buttons = new ArrayList<>();
 
 				buttons.add(new ZButton(
 						new ZRect(1264, 800, 256, 81),
@@ -148,13 +148,43 @@ public class SMLM extends Game {
 			}
 
 			{
-				ArrayList<ZButton> buttons = new ArrayList<>();
+				ArrayList<Clickable> buttons = new ArrayList<>();
+
+				CheckBox c1 = new CheckBox(
+						new ZRect(750, 650, 351, 240),
+						"sfx_no",
+						"sfx_yes",
+						b -> ZClip.defaultVolume = b ? 0.5f : 0,
+						true
+				);
+				CheckBox c2 = new CheckBox(
+						new ZRect(1100, 650, 351, 240),
+						"music_no",
+						"music_yes",
+						b -> {
+							ZClip.musicVolume = b ? 0.1f : 0;
+							musics.forEach(ms -> {
+								ms.forEach(m -> {
+									m.setVolume(ZClip.musicVolume);
+								});
+							});
+						},
+						true
+				);
 
 				buttons.add(new ZButton(
 						new ZRect(1280, 950, 448, 67),
 						"btn_reset",
 						() -> {
-
+							ZClip.defaultVolume = 0.5f;
+							ZClip.musicVolume = 0.1f;
+							musics.forEach(ms -> {
+								ms.forEach(m -> {
+									m.setVolume(ZClip.musicVolume);
+								});
+							});
+							c1.set(true);
+							c2.set(true);
 						}
 				));
 
@@ -163,6 +193,10 @@ public class SMLM extends Game {
 						"btn_back",
 						() -> currentScreen = Screens.MAIN
 				));
+
+				buttons.add(c1);
+
+				buttons.add(c2);
 
 				ArrayList<ZImage> imgs = new ArrayList<>();
 
@@ -178,7 +212,7 @@ public class SMLM extends Game {
 
 			{
 
-				ArrayList<ZButton> buttons = new ArrayList<>();
+				ArrayList<Clickable> buttons = new ArrayList<>();
 
 				buttons.add(new ZButton(
 						new ZRect(1696, 950, 113, 67),
@@ -208,6 +242,10 @@ public class SMLM extends Game {
 		ZImage img = new ZImage("images/blank.png");
 		Image i = img.getImage();
 		Point p = new Point(0, 0);
+
+		ZImage img2 = new ZImage("images/normal.png");
+		Image i2 = img2.getImage();
+		addCursor("normal", i2, p);
 		addCursor("none", i, p);
 
 		ZClip clip = musics.get(3).get((int) (Math.random() * 3));
@@ -217,6 +255,9 @@ public class SMLM extends Game {
 
 	@Override
 	public void gameLoop() {
+		if(!kb.pESCP && kb.ESCP) {
+			currentScreen = Screens.PAUSE;
+		}
 		Screen current = screens.get(currentScreen);
 		kb.update(keyboard);
 		if (current instanceof DynamicScreen) {
@@ -224,6 +265,7 @@ public class SMLM extends Game {
 			setCursor("none");
 		} else {
 			((StaticScreen) current).update(mouse);
+			setCursor("normal");
 		}
 		current.draw(g2d);
 	}

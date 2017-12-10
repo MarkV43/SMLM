@@ -52,8 +52,11 @@ public class Sprites {
 			case "beebot":
 				spr = new BeeBot(x, y, num);
 				break;
+			case "walkblaster":
+				spr = new WalkBlaster(x, y);
+				break;
 			default:
-				throw new Exception("No matched Sprite");
+				throw new Exception("No matched Sprite: " + name);
 		}
 		return spr;
 	}

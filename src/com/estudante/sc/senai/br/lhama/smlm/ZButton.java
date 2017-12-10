@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * Created by Marcelo Vogt on 29/09/2017.
  */
-public class ZButton extends ZImage {
+public class ZButton extends ZImage implements Clickable {
 
 	private ZImage normal, clicked, hovered;
 	private ZRunnable click, hover, over;

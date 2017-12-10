@@ -1,2 +1,2 @@
 cp:1
-coins:1
+coins:3
