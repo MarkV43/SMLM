@@ -7,6 +7,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,6 +49,9 @@ public class SMLM extends Game {
 
 	@Override
 	public void init() {
+
+		Fonts.init();
+
 		mouse = new ZMouse();
 		keyboard = new ZKeyboard();
 		kb = new ZKeyboard();
@@ -272,6 +277,7 @@ public class SMLM extends Game {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
+			Screen curr = screens.get(currentScreen);
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
 				case KeyEvent.VK_UP:
@@ -316,9 +322,18 @@ public class SMLM extends Game {
 					DEBUG_MODE = !DEBUG_MODE;
 					break;
 				case KeyEvent.VK_R:
-					Screen current = screens.get(currentScreen);
-					if (current instanceof DynamicScreen) {
-						((DynamicScreen) current).reset();
+					if (curr instanceof DynamicScreen) {
+						((DynamicScreen) curr).reset();
+					}
+					break;
+				case KeyEvent.VK_PAGE_UP:
+					if (curr instanceof DynamicScreen) {
+						((DynamicScreen) curr).save();
+					}
+					break;
+				case KeyEvent.VK_PAGE_DOWN:
+					if (curr instanceof DynamicScreen) {
+						((DynamicScreen) curr).load();
 					}
 					break;
 			}

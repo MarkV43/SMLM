@@ -3,12 +3,7 @@ package com.estudante.sc.senai.br.lhama.smlm;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.swing.text.Document;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 
 /**

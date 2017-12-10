@@ -1,9 +1,7 @@
 package com.estudante.sc.senai.br.lhama.smlm.sprites;
 
+import com.estudante.sc.senai.br.lhama.smlm.*;
 import com.estudante.sc.senai.br.lhama.smlm.Character;
-import com.estudante.sc.senai.br.lhama.smlm.Sprite;
-import com.estudante.sc.senai.br.lhama.smlm.ZFile;
-import com.estudante.sc.senai.br.lhama.smlm.ZKeyboard;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -18,6 +16,8 @@ public class CheckPoint extends Sprite {
 	private String character;
 	private int energy;
 	private Consumer<Integer> change;
+	private int lastCoins = -1;
+	private boolean used = false;
 
 	@Override
 	public boolean falls() {
@@ -43,9 +43,11 @@ public class CheckPoint extends Sprite {
 			if (!k.pS && k.S) {
 				change.accept(index);
 				c.change(character, energy);
-			}
-			if (Math.random() < 0.03) {
-				c.setLife(c.getLife() + 1);
+				if(!used) {
+					lastCoins = c.getCoins();
+					used = true;
+				}
+				c.getLevel().resetLight();
 			}
 		}
 	}
@@ -56,6 +58,10 @@ public class CheckPoint extends Sprite {
 		JSONObject obj = (JSONObject) reference.get(num);
 		character = (String) obj.get("character");
 		energy = ((Long) obj.get("energy")).intValue();
+		if(num == 0) {
+			lastCoins =  0;
+			used = true;
+		}
 	}
 
 	public int getIndex() {
@@ -81,5 +87,9 @@ public class CheckPoint extends Sprite {
 				", w=" + w +
 				", h=" + h +
 				'}';
+	}
+
+	public int getLastCoins() {
+		return lastCoins;
 	}
 }

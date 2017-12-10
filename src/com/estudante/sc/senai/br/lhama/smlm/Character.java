@@ -105,7 +105,7 @@ public abstract class Character extends Sprite {
 				for (int j = 0; j < bullets.size(); j++) {
 					Bullet b = bullets.get(j);
 					if (b != null && intersects(b)) {
-						if (!invincible()) {
+						if (vulnerable()) {
 							bullets.set(j, null);
 							die();
 						}
@@ -161,7 +161,7 @@ public abstract class Character extends Sprite {
 	}
 
 	public void die() {
-		if(!invincible()) {
+		if(vulnerable()) {
 			if (life > 0) {
 				play("damage");
 			} else {
@@ -172,8 +172,8 @@ public abstract class Character extends Sprite {
 		}
 	}
 
-	public boolean invincible() {
-		return invincibility != 0;
+	public boolean vulnerable() {
+		return invincibility == 0;
 	}
 
 	@Override
@@ -269,5 +269,13 @@ public abstract class Character extends Sprite {
 
 	public void bounce(double plus) {
 		setSpeedY(-7.8394663844 + plus);
+	}
+
+	public void setInvincibility(int n) {
+		invincibility = n;
+	}
+
+	public int getInvincibility() {
+		return invincibility;
 	}
 }

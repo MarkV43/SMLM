@@ -1,5 +1,7 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,8 +22,19 @@ public final class ZUtils {
 	}
 
 	public static <T extends Collection<O>, O extends D, D> Collection<D> cast(T t) {
-		Collection<D> d = new ArrayList<>();
-		d.addAll(t);
-		return d;
+		return new ArrayList<>(t);
+	}
+
+	public static String repeat(String str, int times) {
+		StringBuilder s = new StringBuilder();
+		for (int i = 0; i < times; i++) {
+			s.append(str);
+		}
+		return s.toString();
+	}
+
+	public static String trail(int num, int size) {
+		NumberFormat formatter = new DecimalFormat(repeat("0", size));
+		return formatter.format(num);
 	}
 }

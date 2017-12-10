@@ -37,7 +37,6 @@ public class Bullet extends Sprite {
 		super(ZUtils.toMap("shoot", path), Bullet::change, "shoot", x - w / 2, y - h / 2, w, h);
 		setFacingRight(facingRight);
 		this.speed = speed;
-		add("hit", "meg_damage");
 	}
 
 	public void update(TileLayer lyr, ArrayList<Sprite> sprs, boolean clouds) {

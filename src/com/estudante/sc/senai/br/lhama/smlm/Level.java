@@ -6,13 +6,14 @@ import com.estudante.sc.senai.br.lhama.smlm.characters.Mario;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Megaman;
 import com.estudante.sc.senai.br.lhama.smlm.characters.Sonic;
 import com.estudante.sc.senai.br.lhama.smlm.sprites.CheckPoint;
-import com.estudante.sc.senai.br.lhama.smlm.sprites.Cloud;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,7 +23,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.BiConsumer;
 
 public class Level {
 
@@ -47,10 +47,10 @@ public class Level {
 		characters = new ArrayList<>();
 
 		long w = width * SMLM.TILE_SIZE;
-		characters.add(0, new Sonic(0,0, w, this));
-		characters.add(1, new Mario(0,0, w, this));
-		characters.add(2, new Link(0,0, w, this));
-		characters.add(3, new Megaman(0,0, w, this));
+		characters.add(0, new Sonic(0, 0, w, this));
+		characters.add(1, new Mario(0, 0, w, this));
+		characters.add(2, new Link(0, 0, w, this));
+		characters.add(3, new Megaman(0, 0, w, this));
 
 		setCharacter(getCPCharIndex(), getCheckpoint().getEnergy());
 		getCharacter().x = getCheckpoint().x;
@@ -99,7 +99,7 @@ public class Level {
 		for (Object lyr : layers) {
 			Layer layer = Layer.getInstance(this, tileMap, (JSONObject) lyr, tileSize);
 			this.layers.put(layer.getName(), layer);
-			if(layer instanceof SpriteLayer) {
+			if (layer instanceof SpriteLayer) {
 				sprites = ((SpriteLayer) layer).getSprites();
 				ArrayList<CheckPoint> cps = ((SpriteLayer) layer).getCheckpoints();
 				for (CheckPoint cp : cps) {
@@ -114,7 +114,7 @@ public class Level {
 		TileLayer collisionLayer = (TileLayer) layers.get("Camada de Tiles 1");
 
 		layers.forEach((s, layer) -> {
-			if(layer instanceof SpriteLayer) {
+			if (layer instanceof SpriteLayer) {
 				((SpriteLayer) layer).update(collisionLayer, sprites, getCharacter(), kb, cloudColision);
 			}
 		});
@@ -131,14 +131,14 @@ public class Level {
 
 	private void changeCharacter(ZKeyboard k) {
 		Character current = getCharacter();
-		if(current.getAnimation().equals("idle") && current.getEnergy() > 0) {
-			if(k.B17 && characterIndex != 0) {
+		if (current.getAnimation().equals("idle") && current.getEnergy() > 0) {
+			if (k.B17 && characterIndex != 0) {
 				setCharacter(0);
-			} else if(k.B28 && characterIndex != 1) {
+			} else if (k.B28 && characterIndex != 1) {
 				setCharacter(1);
-			} else if(k.B39 && characterIndex != 2) {
+			} else if (k.B39 && characterIndex != 2) {
 				setCharacter(2);
-			} else if(k.B40 && characterIndex != 3) {
+			} else if (k.B40 && characterIndex != 3) {
 				setCharacter(3);
 			}
 		}
@@ -149,13 +149,10 @@ public class Level {
 	}
 
 	/**
-	 * @param i
-	 *
-	 * 0 - Sonic
-	 * 1 - Mario
-	 * 2 - Link
-	 * 3 - Megaman
-	 *
+	 * @param i 0 - Sonic
+	 *          1 - Mario
+	 *          2 - Link
+	 *          3 - Megaman
 	 */
 	public void setCharacter(int i, int e) {
 		Character c = getCharacter();
@@ -167,6 +164,7 @@ public class Level {
 		getCharacter().setSpeedY(0);
 		getCharacter().setCoins(c.getCoins());
 		getCharacter().setBullets(c.getBullets());
+		getCharacter().setInvincibility(c.getInvincibility());
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -179,7 +177,7 @@ public class Level {
 
 		getCharacter().draw(g2d);
 
-		if(SMLM.DEBUG_MODE) {
+		if (SMLM.DEBUG_MODE) {
 			ZPoint c1 = camera.getCenter();
 			ZPoint c2 = getCharacter().getCenter();
 
@@ -242,7 +240,7 @@ public class Level {
 
 	public void reset(int cpIndex) {
 		layers.forEach((s, layer) -> {
-			if(layer instanceof SpriteLayer)
+			if (layer instanceof SpriteLayer)
 				((SpriteLayer) layer).reset();
 		});
 		CheckPoint cp = getCheckpoint(cpIndex);
@@ -255,17 +253,48 @@ public class Level {
 	}
 
 	public void reset() {
+		resetLight();
+		getCharacter().setLL(getCheckpoint().getLL());
+	}
+
+	public void resetLight() {
 		layers.forEach((s, layer) -> {
-			if(layer instanceof SpriteLayer)
+			if (layer instanceof SpriteLayer)
 				((SpriteLayer) layer).reset();
 		});
 		CheckPoint cp = getCheckpoint();
 		Character ch = getCharacter();
 
-		ch.setLL(cp.getLL());
+		ch.setLife(8);
+		ch.setInvincibility(0);
+		ch.setCoins(cp.getLastCoins());
 		String chr = cp.getCharacter();
 		int i = Character.names.indexOf(chr);
 		setCharacter(i, cp.getEnergy());
-		camera.setCenterC(ch.getCenter());
+//		camera.setCenterC(ch.getCenter());
+	}
+
+	public void save() {
+		try {
+			String sb = "cp:" +
+					checkpoint +
+					"\ncoins:" +
+					getCheckpoint().getLastCoins();
+
+			ZFile.writeFile("save1.txt", sb);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void load() {
+		List<String> strs = ZFile.readWrittenFile("save1.txt");
+		assert strs != null;
+		int cp = Integer.parseInt(strs.get(0).split(":")[1]);
+		int coins = Integer.parseInt(strs.get(1).split(":")[1]);
+
+		checkpoint = cp;
+		reset();
+		getCharacter().setCoins(coins);
 	}
 }

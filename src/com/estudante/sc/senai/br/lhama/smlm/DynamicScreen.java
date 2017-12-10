@@ -23,6 +23,7 @@ public class DynamicScreen implements Screen {
 	private Bar energyBar;
 	private Bar lifeBar;
 	private ZMouse mouse;
+	private int coins;
 
 	public DynamicScreen(String levelName) throws IOException, SAXException, ParserConfigurationException {
 		level = new Level(levelName);
@@ -47,6 +48,7 @@ public class DynamicScreen implements Screen {
 		mouse = m;
 		lifeBar.set(level.getCharacter().getLife());
 		energyBar.set(level.getCharacter().getEnergy());
+		coins = level.getCharacter().getCoins();
 	}
 
 	@Override
@@ -56,6 +58,11 @@ public class DynamicScreen implements Screen {
 		tags.forEach(tag -> tag.draw(g2d));
 		energyBar.draw(g2d);
 		lifeBar.draw(g2d);
+
+		int x = Utils.getInstance().getWidth() - 70;
+		int y = 33;
+		g2d.setFont(Fonts.bit8.deriveFont(18f));
+		g2d.drawString(ZUtils.trail(coins, 3), x, y);
 
 		if(hover) {
 			hoverImage.draw(g2d, 0, Utils.getInstance().getHeight() - hoverImage.getHeight());
@@ -82,5 +89,13 @@ public class DynamicScreen implements Screen {
 
 	public int getCharacter() {
 		return level.getCharacterIndex();
+	}
+
+	public void save() {
+		level.save();
+	}
+
+	public void load() {
+		level.load();
 	}
 }

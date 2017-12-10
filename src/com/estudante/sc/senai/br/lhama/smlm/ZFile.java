@@ -1,19 +1,17 @@
 package com.estudante.sc.senai.br.lhama.smlm;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
-import java.util.Iterator;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Scanner;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /**
  * Created by Marcelo Vogt on 06/08/2017.
@@ -31,9 +29,23 @@ public class ZFile {
 	}
 
 	public static void writeFile(String path, String content) throws FileNotFoundException, UnsupportedEncodingException {
-		PrintWriter writer = new PrintWriter(path, "UTF-8");
+		/*PrintWriter writer = new PrintWriter(path, "UTF-8");
 		writer.print(content);
-		writer.close();
+		writer.close();*/
+		try {
+			Files.write(Paths.get(path), content.getBytes(), StandardOpenOption.CREATE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static List<String> readWrittenFile(String path) {
+		try {
+			return Files.readAllLines(Paths.get(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static Object readJSON(String path) {

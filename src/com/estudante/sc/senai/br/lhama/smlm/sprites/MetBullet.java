@@ -21,5 +21,6 @@ public class MetBullet extends Bullet {
 
 	public MetBullet(double x, double y, boolean facingRight) {
 		super("images/megaman_bullet#1", x, y, 16, 12, 15, facingRight);
+		add("hit", "none");
 	}
 }
